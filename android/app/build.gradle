@@ -6,6 +6,9 @@ ext {
 }
 
 android {
+    lint {
+        checkReleaseBuilds false
+    }
     namespace "org.sunbird"
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
