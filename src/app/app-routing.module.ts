@@ -139,8 +139,15 @@ const routes: Routes = [
   {
     path: RouterLinks.OTP,
     loadChildren: () => import('./signup/otp/otp.module').then(m => m.OtpPageModule)
+  },
+  {
+    path: RouterLinks.ABOUT_US,
+    loadChildren: () => import('./about-us/about-us.module').then(m => m.AboutUsPageModule)
+  },
+  {
+    path: RouterLinks.CONTACT_US,
+    loadChildren: () => import('./contact-us/contact-us.module').then(m => m.ContactUsPageModule)
   }
-
 ];
 
 @NgModule({

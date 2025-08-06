@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Contact Us</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Deloitte Info Card -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Deloitte</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p><strong>Address:</strong> 30 Rockefeller Plaza, New York, NY 10112, United States</p>
+      <p><strong>Phone:</strong> +1 212-492-4000</p>
+      <p><strong>Website:</strong> 
+        <a href="https://www2.deloitte.com" target="_blank" rel="noopener noreferrer">
+          www2.deloitte.com
+        </a>
+      </p>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Contact Form Card -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Send Us a Message</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <form (ngSubmit)="submitContactForm()" #contactForm="ngForm">
+
+        <ion-item>
+          <ion-label position="floating">Name</ion-label>
+          <ion-input type="text" name="name" ngModel required></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Email</ion-label>
+          <ion-input type="email" name="email" ngModel required></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Mobile Number</ion-label>
+          <ion-input type="tel" name="mobile" ngModel required></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Message</ion-label>
+          <ion-textarea name="message" ngModel required></ion-textarea>
+        </ion-item>
+
+        <ion-button expand="block" type="submit" [disabled]="!contactForm.form.valid" style="margin-top: 16px;">
+          Submit
+        </ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Additional Info Card -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Get in Touch</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>
+        If you have any questions or need assistance, feel free to reach out to us through the contact details above.
+        We are here to help you make an impact that matters.
+      </p>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

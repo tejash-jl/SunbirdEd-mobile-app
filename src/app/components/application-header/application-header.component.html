@@ -3,12 +3,11 @@
     <div id="talkback-live-region" aria-live="assertive" aria-atomic="true" style="position: absolute;">
     </div>
     <ion-buttons class="sb-hamburger pl-10" slot="start" *ngIf="headerConfig?.showBurgerMenu">
-      <ion-button class="sb-hamburger-menu sb-hamburger-icon" icon-only (click)="toggleMenu()"  [attr.aria-label]="isMenuOpen ? 'Expanded' : 'Collapsed'"
-      [attr.aria-live]="isMenuOpen ? 'polite' : null"
-      [attr.aria-atomic]="true"
-      [attr.aria-relevant]="isMenuOpen ? 'additions text' : null"
-      (ionFocus)="announceToTalkBack('Expanded')">
-        <ion-icon src="./assets/imgs/ic_burger_menu.svg" class="tool-icon" alt="menu"/>
+      <ion-button class="sb-hamburger-menu sb-hamburger-icon" icon-only (click)="toggleMenu()"
+        [attr.aria-label]="isMenuOpen ? 'Expanded' : 'Collapsed'" [attr.aria-live]="isMenuOpen ? 'polite' : null"
+        [attr.aria-atomic]="true" [attr.aria-relevant]="isMenuOpen ? 'additions text' : null"
+        (ionFocus)="announceToTalkBack('Expanded')">
+        <ion-icon src="./assets/imgs/ic_burger_menu.svg" class="tool-icon" alt="menu" />
       </ion-button>
     </ion-buttons>
 
@@ -17,23 +16,21 @@
         <ion-icon class="arrow-icon" name="arrow-back" aria-label="back"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title class="color f16" aria-level="1" *ngIf="headerConfig?.pageTitle?.length >0">{{headerConfig?.pageTitle}}</ion-title>
+    <ion-title class="color f16" aria-level="1"
+      *ngIf="headerConfig?.pageTitle?.length >0">{{headerConfig?.pageTitle}}</ion-title>
     <ion-buttons class="sb-header-btn-group pr-12 fontResize-container" slot="end">
-      <button type="button" [attr.aria-pressed]="false" tabindex="0" *ngIf="headerConfig?.actionButtons?.indexOf('font-accessibility') >=0"
-        attr.aria-label="{{'DECREASE_FONT' | translate }}"
-        class="fontResizeBtn fontResizeBtn_A-"
-        title="{{'DECREASE_FONT' | translate }}"
-        (click)="changeFontSize('decrease');" #decreaseFontSize>A-</button>
-      <button [attr.aria-pressed]="false" type="button" tabindex="0" *ngIf="headerConfig?.actionButtons?.indexOf('font-accessibility') >=0"
-        attr.aria-label="{{'DEFAULT_FONT' | translate }}"
-        class="fontResizeBtn fontResizeBtn_A"
-        title="{{'DEFAULT_FONT' | translate }}"
-        (click)="changeFontSize('reset');" #resetFontSize>A</button>
-      <button [attr.aria-pressed]="false" type="button" tabindex="0" *ngIf="headerConfig?.actionButtons?.indexOf('font-accessibility') >=0"
-        attr.aria-label="{{'INCREASE_FONT' | translate }}"
-        class="fontResizeBtn fontResizeBtn_A+"
-        title="{{'INCREASE_FONT' | translate }}"
-        (click)="changeFontSize('increase');" #increaseFontSize>A+</button>
+      <button type="button" [attr.aria-pressed]="false" tabindex="0"
+        *ngIf="headerConfig?.actionButtons?.indexOf('font-accessibility') >=0"
+        attr.aria-label="{{'DECREASE_FONT' | translate }}" class="fontResizeBtn fontResizeBtn_A-"
+        title="{{'DECREASE_FONT' | translate }}" (click)="changeFontSize('decrease');" #decreaseFontSize>A-</button>
+      <button [attr.aria-pressed]="false" type="button" tabindex="0"
+        *ngIf="headerConfig?.actionButtons?.indexOf('font-accessibility') >=0"
+        attr.aria-label="{{'DEFAULT_FONT' | translate }}" class="fontResizeBtn fontResizeBtn_A"
+        title="{{'DEFAULT_FONT' | translate }}" (click)="changeFontSize('reset');" #resetFontSize>A</button>
+      <button [attr.aria-pressed]="false" type="button" tabindex="0"
+        *ngIf="headerConfig?.actionButtons?.indexOf('font-accessibility') >=0"
+        attr.aria-label="{{'INCREASE_FONT' | translate }}" class="fontResizeBtn fontResizeBtn_A+"
+        title="{{'INCREASE_FONT' | translate }}" (click)="changeFontSize('increase');" #increaseFontSize>A+</button>
       <ion-button icon-only *ngIf="headerConfig?.actionButtons?.indexOf('download') >=0 && showDownloadingIcon"
         (click)="emitEvent($event, 'download');">
         <svg [ngClass]="{'downloading': showDownloadingIcon}" class="active-downloads-icon" height="25"
@@ -62,22 +59,24 @@
           </g>
         </svg>
       </ion-button>
-      <ion-button aria-label="settings" icon-only *ngIf="headerConfig?.actionButtons?.indexOf('settings') >=0 && !isDownloadingActive"
+      <ion-button aria-label="settings" icon-only
+        *ngIf="headerConfig?.actionButtons?.indexOf('settings') >=0 && !isDownloadingActive"
         (click)="emitEvent($event, 'settings');">
         <ion-icon name="settings"></ion-icon>
       </ion-button>
       <ion-button aria-label="notifications" icon-only *ngIf="headerConfig?.actionButtons?.indexOf('notification') >=0"
         (click)="emitEvent($event, 'notification');" class="active-download-icon">
-        <ion-icon src="assets/imgs/notification.svg" class="tool-icon" alt="notification"/>
-        <ion-badge class="badge-container" *ngIf="notificationCount.unreadCount">{{notificationCount.unreadCount}}</ion-badge>
+        <ion-icon src="assets/imgs/notification.svg" class="tool-icon" alt="notification" />
+        <ion-badge class="badge-container"
+          *ngIf="notificationCount.unreadCount">{{notificationCount.unreadCount}}</ion-badge>
       </ion-button>
       <ion-button aria-label="search" icon-only *ngIf="headerConfig?.actionButtons?.indexOf('search') >=0"
         (click)="emitEvent($event, 'search');">
-        <ion-icon src="./assets/imgs/ic_search.png" class="tool-icon" alt="search"/>
+        <ion-icon src="./assets/imgs/ic_search.png" class="tool-icon" alt="search" />
       </ion-button>
       <ion-button aria-label="information" icon-only *ngIf="headerConfig?.actionButtons?.indexOf('information') >=0"
         (click)="emitEvent($event, 'information');">
-        <ion-icon src="./assets/imgs/ic_info_circle.svg" class="tool-icon" alt="information"/>
+        <ion-icon src="./assets/imgs/ic_info_circle.svg" class="tool-icon" alt="information" />
       </ion-button>
       <ion-button aria-label="person" icon-only *ngIf="headerConfig?.actionButtons?.indexOf('person') >=0"
         (click)="emitEvent($event, 'person');">
@@ -85,20 +84,21 @@
       </ion-button>
       <ion-button aria-label="filter" icon-only *ngIf="headerConfig?.actionButtons?.indexOf('filter') >=0"
         (click)="emitEvent($event, 'filter');">
-        <ion-icon src="./assets/imgs/ic_action_filter.svg" class="tool-icon" alt="filter"/>
+        <ion-icon src="./assets/imgs/ic_action_filter.svg" class="tool-icon" alt="filter" />
       </ion-button>
-      <ion-button aria-label="filter applied" icon-only *ngIf="headerConfig?.actionButtons?.indexOf('filter-applied') >=0"
-        (click)="emitEvent($event, 'filter');">
-        <ion-icon src="./assets/imgs/ic_action_filter_applied.png" class="tool-icon" alt="filter applied"/>
+      <ion-button aria-label="filter applied" icon-only
+        *ngIf="headerConfig?.actionButtons?.indexOf('filter-applied') >=0" (click)="emitEvent($event, 'filter');">
+        <ion-icon src="./assets/imgs/ic_action_filter_applied.png" class="tool-icon" alt="filter applied" />
       </ion-button>
       <ion-button aria-label="share" icon-only *ngIf="headerConfig?.actionButtons?.indexOf('share') >=0"
         (click)="emitEvent($event, 'share');">
         <ion-icon name="share" aria-label="share" class="ion-float-right"></ion-icon>
       </ion-button>
-      <ion-buttons aria-label="sync done" icon-only *ngIf="headerConfig?.actionButtons?.indexOf('sync-done') >=0" style="font-size: 1.8rem;">
+      <ion-buttons aria-label="sync done" icon-only *ngIf="headerConfig?.actionButtons?.indexOf('sync-done') >=0"
+        style="font-size: 1.8rem;">
         <ion-icon name="cloud-done" class="ion-float-right" aria-label="sync done" style="color: green;"></ion-icon>
       </ion-buttons>
-      <ion-buttons aria-label="sync offline"  icon-only *ngIf="headerConfig?.actionButtons?.indexOf('sync-offline') >=0"
+      <ion-buttons aria-label="sync offline" icon-only *ngIf="headerConfig?.actionButtons?.indexOf('sync-offline') >=0"
         (click)="emitEvent($event, 'sync');" style="font-size: 1.8rem;">
         <ion-icon name="cloud-upload" aria-label="sync offline" class="ion-float-right"></ion-icon>
       </ion-buttons>
@@ -129,14 +129,14 @@
     <ion-toolbar>
       <ion-title>
         <img class="img-container" src="{{appLogo}}" alt="app logo">
-        <span class="app-name">{{appName}}</span>
+        <span class="app-name">{{'APP_NAME' | translate}}</span>
       </ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content>
-    <div class="menu-section"> 
+    <div class="menu-section">
       <section *ngIf="isLoggedIn" class="menu-container">
-        
+
         <ng-container *ngIf="(managedProfileList$ | async); let managedProfileList">
           <section class="user-container">
 
@@ -194,10 +194,10 @@
           <span class="sb-menu-icon">
             <img src="./assets/imgs/Help.png" class="tool-icon sb-menu-item-switch" aria-hidden="true" alt="help">
           </span>
-          <span *ngIf="appTheme === 'DEFAULT'" class="sb-menu-item"
-            menuClose>{{'SWITCH_TO_JOYFUL_THEME' | translate}}</span>
-          <span *ngIf="appTheme === 'JOYFUL'" class="sb-menu-item"
-            menuClose>{{'SWITCH_TO_CLASSIC_THEME' | translate}}</span>
+          <span *ngIf="appTheme === 'DEFAULT'" class="sb-menu-item" menuClose>{{'SWITCH_TO_JOYFUL_THEME' |
+            translate}}</span>
+          <span *ngIf="appTheme === 'JOYFUL'" class="sb-menu-item" menuClose>{{'SWITCH_TO_CLASSIC_THEME' |
+            translate}}</span>
           <div class="new-feature-badge">
             <div class="square-badge">New</div>
             <div class="circle-badge"></div>
@@ -269,18 +269,18 @@
   <ion-footer class="side-menu-footer">
     {{'VERSION'| translate}} {{versionName}}.{{versionCode}}
   </ion-footer>
-</ion-menu> 
+</ion-menu>
 <ion-menu contentId="mainContent" class="sb-side-menu" *ngIf="!isRtl" side="start" persistent="true"
   [swipeGesture]="headerConfig?.showBurgerMenu || false">
   <ion-header *ngIf="!isLoggedIn">
     <ion-toolbar>
       <ion-title>
         <img class="img-container" src="{{appLogo}}" alt="app logo">
-        <span class="app-name">{{appName}}</span>
+        <span class="app-name">{{'APP_NAME' | translate}}</span>
       </ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-content> 
+  <ion-content>
     <div class="menu-section">
       <section *ngIf="isLoggedIn" class="menu-container">
         <ng-container *ngIf="(managedProfileList$ | async); let managedProfileList">
@@ -325,7 +325,7 @@
       </section>
 
       <ion-list class="sb-menu-list" lines="none">
-       
+
 
         <ion-item (click)="emitSideMenuItemEvent($event, 'MY_GROUPS')">
           <span class="sb-menu-icon">
@@ -335,48 +335,52 @@
         </ion-item>
 
         <ion-item (click)="emitSideMenuItemEvent($event, 'MLREPORTS')" *ngIf="showReports">
-            <span class="sb-menu-icon">
-              <img src="./assets/imgs/Reports.png" aria-hidden="true" class="tool-icon" alt="reports">
-            </span>
-            <span class="sb-menu-item" menuClose>{{'FRMELEMNTS_LBL_MY_REPORTS' | translate}}</span>
-             <div class="new-feature-badge">
-              <div class="square-badge">New</div>
-              <div class="circle-badge"></div>
-            </div>
+          <span class="sb-menu-icon">
+            <img src="./assets/imgs/Reports.png" aria-hidden="true" class="tool-icon" alt="reports">
+          </span>
+          <span class="sb-menu-item" menuClose>{{'FRMELEMNTS_LBL_MY_REPORTS' | translate}}</span>
+          <div class="new-feature-badge">
+            <div class="square-badge">New</div>
+            <div class="circle-badge"></div>
+          </div>
         </ion-item>
 
         <ion-item (click)="switchTabs()">
           <div class="beta-info">
             <span class="sb-menu-icon">
-              <img src="./assets/imgs/ic_switch.svg" aria-hidden="true" class="tool-icon sb-menu-item-switch" alt="help">
+              <img src="./assets/imgs/ic_switch.svg" aria-hidden="true" class="tool-icon sb-menu-item-switch"
+                alt="help">
             </span>
             <div><span *ngIf="currentSelectedTabs === 'HOME_DISCOVER_TABS_CONFIG'" class="sb-menu-item"
                 menuClose>{{'FRMELEMNTS_LBL_SWITCH_TO_LIBRARY' | translate: {'appName': appName} }}</span>
               <span *ngIf="!currentSelectedTabs || currentSelectedTabs === 'RESOURCE_COURSE_TABS_CONFIG'"
-                class="sb-menu-item"
-                menuClose>{{'FRMELEMNTS_LBL_SWITCH_TO_HOME' | translate: {'appName': appName} }}</span>
+                class="sb-menu-item" menuClose>{{'FRMELEMNTS_LBL_SWITCH_TO_HOME' | translate: {'appName': appName}
+                }}</span>
               <span class="new-feature-badge"
                 *ngIf="!currentSelectedTabs || currentSelectedTabs === 'RESOURCE_COURSE_TABS_CONFIG'">
                 <div class="square-badge" *ngIf="!platform?.is('ios')">Beta</div>
                 <div class="circle-badge"></div>
-              </span></div>
+              </span>
+            </div>
           </div>
         </ion-item>
 
         <ion-item (click)="switchMode()">
           <span class="sb-menu-icon dark-mode-icon">
-            <img src="./assets/imgs/darkmode.svg" aria-hidden="true"  class="tool-icon sb-menu-item-switch" alt="darkmode">
+            <img src="./assets/imgs/darkmode.svg" aria-hidden="true" class="tool-icon sb-menu-item-switch"
+              alt="darkmode">
           </span>
           <span *ngIf="!isDarkMode" class="sb-menu-item" menuClose>{{'SWITCH_TO_DARK_MODE' | translate}}</span>
-            <span *ngIf="isDarkMode" class="sb-menu-item" menuClose>{{'SWITCH_TO_DEFAULT' | translate}}</span>
-            <div class="onoffswitch">
-                <input type="checkbox" (click)="switchMode()" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" [(ngModel)]="isDarkMode">
-                <ion-label class="onoffswitch-label" for="myonoffswitch">
-                    <div class="onoffswitch-inner"></div>
-                    <div class="onoffswitch-switch"></div>
-                </ion-label>
-            </div>
-      </ion-item>
+          <span *ngIf="isDarkMode" class="sb-menu-item" menuClose>{{'SWITCH_TO_DEFAULT' | translate}}</span>
+          <div class="onoffswitch">
+            <input type="checkbox" (click)="switchMode()" name="onoffswitch" class="onoffswitch-checkbox"
+              id="myonoffswitch" [(ngModel)]="isDarkMode">
+            <ion-label class="onoffswitch-label" for="myonoffswitch">
+              <div class="onoffswitch-inner"></div>
+              <div class="onoffswitch-switch"></div>
+            </ion-label>
+          </div>
+        </ion-item>
 
         <ion-item (click)="emitSideMenuItemEvent($event, 'IMPORT')" *ngIf="!platform?.is('ios')">
           <span class="sb-menu-icon">
@@ -417,6 +421,12 @@
           </span>
           <span class="sb-menu-item" menuClose>{{'HELP' | translate}}</span>
         </ion-item>
+        <ion-item (click)="emitSideMenuItemEvent($event, 'CONTACT_US')">
+          <span class="sb-menu-icon">
+            <img src="./assets/imgs/contact_us.svg" aria-hidden="true" class="tool-icon" alt="app settings">
+          </span>
+          <span class="sb-menu-item" menuClose>{{'CONTACT_US' | translate}}</span>
+        </ion-item>
 
         <ion-item (click)="emitSideMenuItemEvent($event, 'LOGIN')" *ngIf="!isLoggedIn">
           <span class="sb-menu-icon">
@@ -424,17 +434,23 @@
           </span>
           <span class="sb-menu-item" menuClose>{{'SIGN_IN' | translate}}</span>
         </ion-item>
-      
+
         <ion-item (click)="emitSideMenuItemEvent($event, 'LOGOUT')" *ngIf="isLoggedIn">
           <span class="sb-menu-icon">
             <img src="./assets/imgs/Sign_out.png" aria-hidden="true" class="tool-icon" alt="logout">
           </span>
           <span class="sb-menu-item" menuClose>{{'LOGOUT' | translate}}</span>
         </ion-item>
-
+        <ion-item (click)="emitSideMenuItemEvent($event, 'ABOUT_US')">
+          <span class="sb-menu-icon">
+            <img src="./assets/imgs/about_us.svg" aria-hidden="true" class="tool-icon" alt="app settings">
+          </span>
+          <span class="sb-menu-item" menuClose>{{'ABOUT_US' | translate}}</span>
+        </ion-item>
       </ion-list>
     </div>
   </ion-content>
+
   <ion-footer class="side-menu-footer" style="height: 6.063rem; padding: 26px">
     <div *ngIf="!isUpdateAvailable">
       {{'VERSION'| translate}} {{versionName}}.{{versionCode}}

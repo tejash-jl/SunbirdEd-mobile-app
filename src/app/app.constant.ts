@@ -566,6 +566,7 @@ export class RouterLinks {
     public static readonly CHAPTER_DETAILS = 'chapter-details';
 
     //Manage learn router
+    public static readonly CONTACT_US = 'contact-us';
     public static readonly PROGRAM = 'program';
     public static readonly SURVEY = 'survey';
     public static readonly PROJECT = 'project';
