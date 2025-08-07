@@ -934,6 +934,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         break;
 
       case 'LOGOUT':
+        console.log("Inside logout case ###")
         await this.logoutHandlerService.onLogout();
         break;
 

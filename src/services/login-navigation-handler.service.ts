@@ -81,6 +81,8 @@ export class LoginNavigationHandlerService {
     private async setProfileDetailsAndRefresh(skipNavigation, subType) {
         try {
             const isOnboardingCompleted = (await this.preferences.getString(PreferenceKey.IS_ONBOARDING_COMPLETED).toPromise() === 'true');
+
+            // const isOnboardingCompleted = true;
             if (!isOnboardingCompleted) {
                 await this.setDefaultProfileDetails();
 

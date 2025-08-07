@@ -16,7 +16,7 @@ import { SegmentationTagService } from '../segmentation-tag/segmentation-tag.ser
 import {
   Environment, InteractSubtype, InteractType, PageId
 } from '../telemetry-constants';
-import {GooglePlus} from '@awesome-cordova-plugins/google-plus/ngx';
+import { GooglePlus } from '@awesome-cordova-plugins/google-plus/ngx';
 
 @Injectable({
   providedIn: 'root'
@@ -46,11 +46,11 @@ export class LogoutHandlerService {
 
     await this.logoutGoogle();
 
-    if(this.platform.is('ios')){
+    if (this.platform.is('ios')) {
       this.profileService.getActiveProfileSession().toPromise()
-      .then((profile) => {
-        this.profileService.deleteProfile(profile.uid).subscribe()
-      }).catch((e) => console.log(e));
+        .then((profile) => {
+          this.profileService.deleteProfile(profile.uid).subscribe()
+        }).catch((e) => console.log(e));
     }
 
     this.segmentationTagService.persistSegmentation();
@@ -72,7 +72,7 @@ export class LogoutHandlerService {
           const availableLocationData = await this.preferences.getString(PreferenceKey.GUEST_USER_LOCATION).toPromise();
           await this.preferences.putString(PreferenceKey.DEVICE_LOCATION, availableLocationData).toPromise();
         }
-        if(window.splashscreen && splashscreen){
+        if (window.splashscreen && splashscreen) {
           splashscreen.clearPrefs();
         }
       }),
@@ -91,12 +91,12 @@ export class LogoutHandlerService {
     ).subscribe();
   }
 
-  private async logoutGoogle(){
+  private async logoutGoogle() {
     if (await this.preferences.getBoolean(PreferenceKey.IS_GOOGLE_LOGIN).toPromise()) {
       try {
         await this.googlePlusLogin.disconnect();
       } catch (e) {
-        const clientId = await this.systemSettingsService.getSystemSettings({id: SystemSettingsIds.GOOGLE_CLIENT_ID}).toPromise();
+        const clientId = await this.systemSettingsService.getSystemSettings({ id: SystemSettingsIds.GOOGLE_CLIENT_ID }).toPromise();
         await this.googlePlusLogin.trySilentLogin({
           webClientId: clientId.value
         }).then(async () => {
@@ -116,6 +116,8 @@ export class LogoutHandlerService {
 
     const isOnboardingCompleted = (await this.preferences.getString(PreferenceKey.IS_ONBOARDING_COMPLETED).toPromise() === 'true') ?
       true : false;
+
+    // const isOnboardingCompleted = true;
     if (selectedUserType === ProfileType.ADMIN && !isOnboardingCompleted) {
       await this.router.navigate([RouterLinks.USER_TYPE_SELECTION]);
     } else {

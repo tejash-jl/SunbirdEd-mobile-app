@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Router, RouterModule, Routes } from '@angular/router';
 import { RouterLinks } from './app.constant';
 import { HasNotBeenOnboardedGuard } from '../guards/has-not-been-onboarded.guard';
 import { HasNotSelectedFrameworkGuard } from '../guards/has-not-selected-framework.guard';
@@ -10,11 +10,11 @@ import { IsGuestUserGuard } from '../guards/is-guest-user.guard';
 // import { MlGuard } from './manage-learn/core/guards/ml.guard';
 
 const routes: Routes = [
-  {
-    path: '',
-    redirectTo: `${RouterLinks.LANGUAGE_SETTING}`,
-    pathMatch: 'full'
-  },
+  // {
+  //   path: '',
+  //   redirectTo: `${RouterLinks.LANGUAGE_SETTING}`,
+  //   pathMatch: 'full'
+  // },
   {
     path: `${RouterLinks.LANGUAGE_SETTING}/:isFromSettings`,
     loadChildren: () => import('./language-settings/language-settings.module').then(m => m.LanguageSettingsModule)
@@ -25,16 +25,16 @@ const routes: Routes = [
     canLoad: [HasNotBeenOnboardedGuard],
     resolve: { message: HasNotSelectedLanguageGuard }
   },
-  {
-    path: `${RouterLinks.USER_TYPE_SELECTION}`,
-    loadChildren: () => import('./user-type-selection/user-type-selection.module').then(m => m.UserTypeSelectionPageModule),
-    canLoad: [HasNotBeenOnboardedGuard],
-    resolve: { message: HasNotSelectedUserTypeGuard }
-  },
-  {
-    path: `${RouterLinks.USER_TYPE_SELECTION_LOGGEDIN}`,
-    loadChildren: () => import('./user-type-selection/user-type-selection.module').then(m => m.UserTypeSelectionPageModule)
-  },
+  // {
+  //   path: `${RouterLinks.USER_TYPE_SELECTION}`,
+  //   loadChildren: () => import('./user-type-selection/user-type-selection.module').then(m => m.UserTypeSelectionPageModule),
+  //   canLoad: [HasNotBeenOnboardedGuard],
+  //   resolve: { message: HasNotSelectedUserTypeGuard }
+  // },
+  // {
+  //   path: `${RouterLinks.USER_TYPE_SELECTION_LOGGEDIN}`,
+  //   loadChildren: () => import('./user-type-selection/user-type-selection.module').then(m => m.UserTypeSelectionPageModule)
+  // },
   {
     path: RouterLinks.PROFILE_SETTINGS,
     loadChildren: () => import('./profile-settings/profile-settings.module').then(m => m.ProfileSettingsPageModule),
@@ -50,7 +50,7 @@ const routes: Routes = [
     loadChildren: () => import('./resources/resources.module').then(m => m.ResourcesModule),
   },
   {
-    path: RouterLinks.HOME,
+    path: '',
     loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
   },
   { path: RouterLinks.VIEW_MORE_ACTIVITY, loadChildren: () => import('./view-more-activity/view-more-activity.module').then(m => m.ViewMoreActivityModule) },
@@ -128,18 +128,18 @@ const routes: Routes = [
   //   loadChildren:  () => import('./manage-learn/imp-suggestions/imp-suggestions.module').then(m => m.ImpSuggestionsPageModule)
   // },
   { path: RouterLinks.SIGN_IN, loadChildren: () => import('./sign-in/sign-in.module').then(m => m.SignInPageModule)},
-  {
-    path: RouterLinks.SIGNUP_BASIC,
-    loadChildren: () => import('./signup/signup-basic-info/signup-basic-info.module').then(m => m.SignupBasicInfoPageModule)
-  },
-  {
-    path: RouterLinks.SIGNUP_EMAIL,
-    loadChildren: () => import('./signup/signup-email-password/signup-email-password.module').then(m => m.SignupEmailPasswordPageModule)
-  },
-  {
-    path: RouterLinks.OTP,
-    loadChildren: () => import('./signup/otp/otp.module').then(m => m.OtpPageModule)
-  }
+  // {
+  //   path: RouterLinks.SIGNUP_BASIC,
+  //   loadChildren: () => import('./signup/signup-basic-info/signup-basic-info.module').then(m => m.SignupBasicInfoPageModule)
+  // },
+  // {
+  //   path: RouterLinks.SIGNUP_EMAIL,
+  //   loadChildren: () => import('./signup/signup-email-password/signup-email-password.module').then(m => m.SignupEmailPasswordPageModule)
+  // },
+  // {
+  //   path: RouterLinks.OTP,
+  //   loadChildren: () => import('./signup/otp/otp.module').then(m => m.OtpPageModule)
+  // }
 
 ];
 

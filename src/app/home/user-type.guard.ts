@@ -13,12 +13,12 @@ export class UserTypeGuard implements CanActivate {
     ) {
     }
     async canActivate(): Promise<boolean> {
-        const isAdminUser = (await this.sharedPreferences.getString(PreferenceKey.SELECTED_USER_TYPE).toPromise() === ProfileType.ADMIN);
-        if (isAdminUser && this.appGlobalService.isUserLoggedIn()) {
-            await this.router.navigate([`/${RouterLinks.HOME_TAB}/admin`]);
-        } else {
+        if (this.appGlobalService.isUserLoggedIn()) {
             await this.router.navigate([`/${RouterLinks.HOME_TAB}/user`]);
+            return true;
+        } else {
+            await this.router.navigate([`/${RouterLinks.SIGN_IN}`]);
+            return false;
         }
-        return false;
     }
 }

@@ -61,8 +61,8 @@ import { ContentInfo } from '../content/content-info';
 import { ContentPlayerHandler } from '../content/player/content-player-handler';
 import { FormAndFrameworkUtilService } from '../formandframeworkutil.service';
 import { FormConstants } from '../../app/form.constants';
-import {UpdateProfileService} from '../../services/update-profile-service';
-import {LoginNavigationHandlerService} from '../../services/login-navigation-handler.service';
+import { UpdateProfileService } from '../../services/update-profile-service';
+import { LoginNavigationHandlerService } from '../../services/login-navigation-handler.service';
 import { Platform } from '@ionic/angular';
 import { FilePathService } from '../../services/file-path/file.service';
 import { FilePaths } from '../../services/file-path/file';
@@ -72,6 +72,7 @@ export class SplaschreenDeeplinkActionHandlerDelegate implements SplashscreenAct
   private savedPayloadUrl: any;
 
   private isOnboardingCompleted = false;
+  // private isOnboardingCompleted = true;
   private currentAppVersionCode: number;
   private progressLoaderId: string;
   private childContent;
@@ -156,8 +157,8 @@ export class SplaschreenDeeplinkActionHandlerDelegate implements SplashscreenAct
     // Assumptions priority cannot have value as 0 and two simiar urls should not have same priority level;
 
     const deepLinkUrlConfig: { name: string, code: string, pattern: string, route: string, priority?: number, params?: {} }[] =
-        await this.formnFrameworkUtilService.getFormFields(FormConstants.DEEPLINK_CONFIG);
-  
+      await this.formnFrameworkUtilService.getFormFields(FormConstants.DEEPLINK_CONFIG);
+
     let matchedDeeplinkConfig: { name: string, code: string, pattern: string, route: string, priority?: number } = null;
     let urlMatch;
 
@@ -194,6 +195,8 @@ export class SplaschreenDeeplinkActionHandlerDelegate implements SplashscreenAct
     } else {
       this.isOnboardingCompleted =
         (await this.preferences.getString(PreferenceKey.IS_ONBOARDING_COMPLETED).toPromise() === 'true') ? true : false;
+
+      // this.isOnboardingCompleted = true;
 
 
       // If onboarding not completed
@@ -335,20 +338,20 @@ export class SplaschreenDeeplinkActionHandlerDelegate implements SplashscreenAct
       urlAttributeList.push(key);
     });
 
-    attributeList = attributeList.filter((attribute) =>  urlAttributeList.indexOf(attribute.code) >= 0
-          || urlAttributeList.indexOf(attribute.proxyCode) >= 0);
+    attributeList = attributeList.filter((attribute) => urlAttributeList.indexOf(attribute.code) >= 0
+      || urlAttributeList.indexOf(attribute.proxyCode) >= 0);
     attributeList.forEach((attribute) => {
-      let values ;
+      let values;
       if (attribute.type === 'Array') {
-         values = url.searchParams.getAll(attribute.proxyCode ? attribute.proxyCode : attribute.code);
+        values = url.searchParams.getAll(attribute.proxyCode ? attribute.proxyCode : attribute.code);
       } else if (attribute.type === 'String') {
-         values = url.searchParams.get(attribute.proxyCode ? attribute.proxyCode : attribute.code);
+        values = url.searchParams.get(attribute.proxyCode ? attribute.proxyCode : attribute.code);
       }
 
       if (values && values.length) {
         if (attribute.filter === 'custom') {
           queryParamFilters[attribute.code] =
-                  this.getCustomFilterValues(matchedDeeplinkConfig.params, values, attribute);
+            this.getCustomFilterValues(matchedDeeplinkConfig.params, values, attribute);
         } else {
           queryParamFilters[attribute.code] = values;
         }
@@ -359,7 +362,7 @@ export class SplaschreenDeeplinkActionHandlerDelegate implements SplashscreenAct
   }
 
   private getDefaultFilter(deeplinkParams) {
-    if (!deeplinkParams || !deeplinkParams.data ||  !deeplinkParams.data.length) {
+    if (!deeplinkParams || !deeplinkParams.data || !deeplinkParams.data.length) {
       return {};
     }
     const defaultFilter = deeplinkParams.data.filter((param) => param.type === 'default');
@@ -381,14 +384,14 @@ export class SplaschreenDeeplinkActionHandlerDelegate implements SplashscreenAct
     let customFilterOptions = [];
     if (customFilterData && customFilterData.values) {
       values.forEach((v) => {
-          const customFilterValues = customFilterData.values.find(m => m.name === v);
-          customFilterOptions = customFilterOptions.concat(customFilterValues ? customFilterValues.options : []);
+        const customFilterValues = customFilterData.values.find(m => m.name === v);
+        customFilterOptions = customFilterOptions.concat(customFilterValues ? customFilterValues.options : []);
       });
     }
     return customFilterOptions;
-    }
+  }
 
-private async upgradeAppPopover(requiredVersionCode) {
+  private async upgradeAppPopover(requiredVersionCode) {
     const packageName = await (await App.getInfo()).id;
     const playStoreLink = `https://play.google.com/store/apps/details?id=${packageName}`;
     const result: any = {
@@ -583,11 +586,11 @@ private async upgradeAppPopover(requiredVersionCode) {
         };
       } else if (matchedDeeplinkConfig &&
         matchedDeeplinkConfig.pattern && matchedDeeplinkConfig.pattern.includes('manage-learn')) {
-          extras = {
-            state: {
-              data: urlMatchGroup
-            }
-          };
+        extras = {
+          state: {
+            data: urlMatchGroup
+          }
+        };
       }
       this.setTabsRoot();
       await this.router.navigate([route], extras);
@@ -853,7 +856,7 @@ private async upgradeAppPopover(requiredVersionCode) {
                 isChildContent: true,
                 corRelation: this.getCorrelationList(payloadUrl, corRelationList),
                 isCourse: (content.primaryCategory.toLowerCase() === CsPrimaryCategory.COURSE.toLowerCase()) ||
-                    (content.primaryCategory.toLowerCase() === CsPrimaryCategory.COURSE_UNIT.toLowerCase()),
+                  (content.primaryCategory.toLowerCase() === CsPrimaryCategory.COURSE_UNIT.toLowerCase()),
                 isOnboardingSkipped
               });
               await this.sbProgressLoader.hide({ id: content.identifier });
@@ -941,8 +944,8 @@ private async upgradeAppPopover(requiredVersionCode) {
   private async getImportContentRequestBody(identifiers: Array<string>, isChild: boolean): Promise<Array<ContentImport>> {
     const rollUpMap: { [key: string]: Rollup } = {};
     const requestParams: ContentImport[] = [];
-    const filePath = this.platform.is('ios')? FilePaths.DOCUMENTS : FilePaths.EXTERNAL_DATA;
-    const folderPath = await this.filePathService.getFilePath(filePath);  
+    const filePath = this.platform.is('ios') ? FilePaths.DOCUMENTS : FilePaths.EXTERNAL_DATA;
+    const folderPath = await this.filePathService.getFilePath(filePath);
     identifiers.forEach((value) => {
       requestParams.push({
         isChildContent: isChild,
@@ -988,7 +991,7 @@ private async upgradeAppPopover(requiredVersionCode) {
     }
   }
 
-   async handleVendorAppAction(payload, banner?) {
+  async handleVendorAppAction(payload, banner?) {
     this.progressLoaderId = 'DEFAULT';
     if (banner) {
       await this.sbProgressLoader.show();
@@ -1020,7 +1023,7 @@ private async upgradeAppPopover(requiredVersionCode) {
         await this.handleDeeplink(payload.data.request.url);
         break;
       default:
-        return of (undefined);
+        return of(undefined);
     }
   }
 
@@ -1040,36 +1043,36 @@ private async upgradeAppPopover(requiredVersionCode) {
             };
             this.frameworkService.getFrameworkDetails(frameworkDetailsRequest).toPromise()
               .then((framework: Framework) => {
-                  const user = this.appGlobalServices.getCurrentUser();
-                  let medium = content.medium || content.se_mediums;
-                  let grade = content.gradeLevel || content.se_gradeLevels;
-                  let subject = content.subject || content.se_subjects
-                  const req: Profile = {
-                    board: [board.toLowerCase().replace(/[^a-zA-Z0-9]/g, '')],
-                    grade: grade.map((ele) => ele.toLowerCase().replace(/[^a-zA-Z0-9]/g, '')),
-                    medium: Array.isArray(medium) ? medium.map((ele) => ele.toLowerCase().replace(/[^a-zA-Z0-9]/g, '')) :
+                const user = this.appGlobalServices.getCurrentUser();
+                let medium = content.medium || content.se_mediums;
+                let grade = content.gradeLevel || content.se_gradeLevels;
+                let subject = content.subject || content.se_subjects
+                const req: Profile = {
+                  board: [board.toLowerCase().replace(/[^a-zA-Z0-9]/g, '')],
+                  grade: grade.map((ele) => ele.toLowerCase().replace(/[^a-zA-Z0-9]/g, '')),
+                  medium: Array.isArray(medium) ? medium.map((ele) => ele.toLowerCase().replace(/[^a-zA-Z0-9]/g, '')) :
                     [medium.toLowerCase().replace(/[^a-zA-Z0-9]/g, '')],
-                    subject: Array.isArray(subject) ? subject : [subject],
-                    uid: user.uid,
-                    handle: user.handle,
-                    profileType: user.profileType,
-                    source: user.source,
-                    createdAt: user.createdAt,
-                    syllabus: [framework.identifier]
-                  };
+                  subject: Array.isArray(subject) ? subject : [subject],
+                  uid: user.uid,
+                  handle: user.handle,
+                  profileType: user.profileType,
+                  source: user.source,
+                  createdAt: user.createdAt,
+                  syllabus: [framework.identifier]
+                };
 
-                  this.profileService.updateProfile(req).toPromise()
-                    .then(async (res: any) => {
-                      if (res.syllabus && res.syllabus.length && res.board && res.board.length
-                        && res.grade && res.grade.length && res.medium && res.medium.length) {
-                        this.events.publish(AppGlobalService.USER_INFO_UPDATED);
-                        this.events.publish('refresh:profile');
-                        await this.appGlobalServices.setOnBoardingCompleted();
-                      }
-                      this.commonUtilService.handleToTopicBasedNotification();
-                      this.appGlobalServices.guestUserProfile = res;
-                    })
-                    .catch(e => console.error(e));
+                this.profileService.updateProfile(req).toPromise()
+                  .then(async (res: any) => {
+                    if (res.syllabus && res.syllabus.length && res.board && res.board.length
+                      && res.grade && res.grade.length && res.medium && res.medium.length) {
+                      this.events.publish(AppGlobalService.USER_INFO_UPDATED);
+                      this.events.publish('refresh:profile');
+                      await this.appGlobalServices.setOnBoardingCompleted();
+                    }
+                    this.commonUtilService.handleToTopicBasedNotification();
+                    this.appGlobalServices.guestUserProfile = res;
+                  })
+                  .catch(e => console.error(e));
               }).catch(e => console.error(e));
           }
         });

@@ -69,7 +69,7 @@ export class AppGlobalService implements OnDestroy {
     isGuestUser = false;
     guestProfileType: ProfileType;
     isProfileSettingsCompleted: boolean;
-    isOnBoardingCompleted = false;
+    isOnBoardingCompleted = true;
     selectedUser;
     selectedBoardMediumGrade: string;
     isPermissionAsked: PermissionAsked = {
@@ -324,6 +324,7 @@ export class AppGlobalService implements OnDestroy {
 
     private async initValues(eventParams?: EventParams) {
         this.readConfig();
+        await this.preferences.putString(PreferenceKey.IS_ONBOARDING_COMPLETED, 'true').toPromise().then();
         /* to make sure there are no duplicate calls to getSession and profile setting
          * from login flow only eventParams are received via events
          */
@@ -341,7 +342,7 @@ export class AppGlobalService implements OnDestroy {
             this.getCurrentUserProfile(eventParams);
         }
         this.preferences.getString(PreferenceKey.IS_ONBOARDING_COMPLETED).toPromise().then((result) => {
-            this.isOnBoardingCompleted = (result === 'true') ? true : false;
+            this.isOnBoardingCompleted = true;
         }).catch(e => console.log(e))
     }
 

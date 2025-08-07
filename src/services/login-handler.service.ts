@@ -31,7 +31,7 @@ export class LoginHandlerService {
 
     async signIn(skipNavigation?) {
         this.appGlobalService.resetSavedQuizContent();
-
+        console.log("Inside signIn method of LoginHandlerService");
         if (!this.commonUtilService.networkInfo.isNetworkAvailable) {
         } else {
             this.generateLoginInteractTelemetry(InteractType.LOGIN_INITIATE, InteractSubtype.KEYCLOAK, '');
