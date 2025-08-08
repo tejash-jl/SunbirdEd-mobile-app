@@ -39,6 +39,57 @@ export class LogoutHandlerService {
   ) {
   }
 
+  // public async onLogout() {
+  //   if (!this.commonUtilService.networkInfo.isNetworkAvailable) {
+  //     return this.commonUtilService.showToast('NEED_INTERNET_TO_CHANGE');
+  //   }
+
+  //   await this.logoutGoogle();
+
+  //   if (this.platform.is('ios')) {
+  //     this.profileService.getActiveProfileSession().toPromise()
+  //       .then((profile) => {
+  //         this.profileService.deleteProfile(profile.uid).subscribe()
+  //       }).catch((e) => console.log(e));
+  //   }
+
+  //   this.segmentationTagService.persistSegmentation();
+
+  //   this.generateLogoutInteractTelemetry(InteractType.TOUCH,
+  //     InteractSubtype.LOGOUT_INITIATE, '');
+
+  //   this.preferences.getString(PreferenceKey.GUEST_USER_ID_BEFORE_LOGIN).pipe(
+  //     tap(async (guestUserId: string) => {
+  //       if (!guestUserId) {
+  //         await this.preferences.putString(PreferenceKey.SELECTED_USER_TYPE, ProfileType.TEACHER).toPromise();
+  //       } else {
+  //         const allProfileDetais = await this.profileService.getAllProfiles().toPromise();
+  //         const currentProfile = allProfileDetais.find(ele => ele.uid === guestUserId);
+  //         const guestProfileType = (currentProfile && currentProfile.profileType) ? currentProfile.profileType : ProfileType.NONE;
+  //         await this.preferences.putString(PreferenceKey.SELECTED_USER_TYPE, guestProfileType).toPromise();
+  //       }
+  //       if (await this.commonUtilService.isDeviceLocationAvailable()) {
+  //         const availableLocationData = await this.preferences.getString(PreferenceKey.GUEST_USER_LOCATION).toPromise();
+  //         await this.preferences.putString(PreferenceKey.DEVICE_LOCATION, availableLocationData).toPromise();
+  //       }
+  //       if (window.splashscreen && splashscreen) {
+  //         splashscreen.clearPrefs();
+  //       }
+  //     }),
+  //     mergeMap((guestUserId: string) => {
+  //       return this.profileService.setActiveSessionForProfile(guestUserId);
+  //     }),
+  //     mergeMap(() => {
+  //       return this.authService.resignSession();
+  //     }),
+  //     tap(async () => {
+  //       await this.navigateToAptPage();
+  //       this.events.publish(AppGlobalService.USER_INFO_UPDATED);
+  //       this.appGlobalService.setEnrolledCourseList([]);
+  //       this.segmentationTagService.getPersistedSegmentaion();
+  //     })
+  //   ).subscribe();
+  // }
   public async onLogout() {
     if (!this.commonUtilService.networkInfo.isNetworkAvailable) {
       return this.commonUtilService.showToast('NEED_INTERNET_TO_CHANGE');
@@ -46,51 +97,15 @@ export class LogoutHandlerService {
 
     await this.logoutGoogle();
 
-    if (this.platform.is('ios')) {
-      this.profileService.getActiveProfileSession().toPromise()
-        .then((profile) => {
-          this.profileService.deleteProfile(profile.uid).subscribe()
-        }).catch((e) => console.log(e));
+    try {
+      await this.authService.resignSession().toPromise();
+      this.generateLogoutInteractTelemetry(InteractType.TOUCH, InteractSubtype.LOGOUT_SUCCESS, '');
+      await this.router.navigate([RouterLinks.SIGN_IN]);
+    } catch (err) {
+      console.error('Logout failed:', err);
+      this.commonUtilService.showToast('LOGOUT_FAILED');
     }
-
-    this.segmentationTagService.persistSegmentation();
-
-    this.generateLogoutInteractTelemetry(InteractType.TOUCH,
-      InteractSubtype.LOGOUT_INITIATE, '');
-
-    this.preferences.getString(PreferenceKey.GUEST_USER_ID_BEFORE_LOGIN).pipe(
-      tap(async (guestUserId: string) => {
-        if (!guestUserId) {
-          await this.preferences.putString(PreferenceKey.SELECTED_USER_TYPE, ProfileType.TEACHER).toPromise();
-        } else {
-          const allProfileDetais = await this.profileService.getAllProfiles().toPromise();
-          const currentProfile = allProfileDetais.find(ele => ele.uid === guestUserId);
-          const guestProfileType = (currentProfile && currentProfile.profileType) ? currentProfile.profileType : ProfileType.NONE;
-          await this.preferences.putString(PreferenceKey.SELECTED_USER_TYPE, guestProfileType).toPromise();
-        }
-        if (await this.commonUtilService.isDeviceLocationAvailable()) {
-          const availableLocationData = await this.preferences.getString(PreferenceKey.GUEST_USER_LOCATION).toPromise();
-          await this.preferences.putString(PreferenceKey.DEVICE_LOCATION, availableLocationData).toPromise();
-        }
-        if (window.splashscreen && splashscreen) {
-          splashscreen.clearPrefs();
-        }
-      }),
-      mergeMap((guestUserId: string) => {
-        return this.profileService.setActiveSessionForProfile(guestUserId);
-      }),
-      mergeMap(() => {
-        return this.authService.resignSession();
-      }),
-      tap(async () => {
-        await this.navigateToAptPage();
-        this.events.publish(AppGlobalService.USER_INFO_UPDATED);
-        this.appGlobalService.setEnrolledCourseList([]);
-        this.segmentationTagService.getPersistedSegmentaion();
-      })
-    ).subscribe();
   }
-
   private async logoutGoogle() {
     if (await this.preferences.getBoolean(PreferenceKey.IS_GOOGLE_LOGIN).toPromise()) {
       try {
