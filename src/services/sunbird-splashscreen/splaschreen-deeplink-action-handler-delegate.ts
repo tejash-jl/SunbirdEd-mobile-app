@@ -196,7 +196,6 @@ export class SplaschreenDeeplinkActionHandlerDelegate implements SplashscreenAct
       this.isOnboardingCompleted =
         (await this.preferences.getString(PreferenceKey.IS_ONBOARDING_COMPLETED).toPromise() === 'true') ? true : false;
 
-      // this.isOnboardingCompleted = true;
 
 
       // If onboarding not completed
