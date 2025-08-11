@@ -132,7 +132,7 @@ export class LogoutHandlerService {
     const isOnboardingCompleted = (await this.preferences.getString(PreferenceKey.IS_ONBOARDING_COMPLETED).toPromise() === 'true') ?
       true : false;
 
-    // const isOnboardingCompleted = true;
+    
     if (selectedUserType === ProfileType.ADMIN && !isOnboardingCompleted) {
       await this.router.navigate([RouterLinks.USER_TYPE_SELECTION]);
     } else {

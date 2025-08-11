@@ -72,7 +72,7 @@ export class SplaschreenDeeplinkActionHandlerDelegate implements SplashscreenAct
   private savedPayloadUrl: any;
 
   private isOnboardingCompleted = false;
-  // private isOnboardingCompleted = true;
+  
   private currentAppVersionCode: number;
   private progressLoaderId: string;
   private childContent;

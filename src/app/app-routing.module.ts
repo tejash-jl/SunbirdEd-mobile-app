@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { Router, RouterModule, Routes } from '@angular/router';
+import {  RouterModule, Routes } from '@angular/router';
 import { RouterLinks } from './app.constant';
 import { HasNotBeenOnboardedGuard } from '../guards/has-not-been-onboarded.guard';
 import { HasNotSelectedFrameworkGuard } from '../guards/has-not-selected-framework.guard';
