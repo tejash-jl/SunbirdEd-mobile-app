@@ -20,7 +20,12 @@
                     "isApplied": false,
                     "name": "English"
                 },
-               
+                {
+                    "label": "Français",
+                    "code": "fr",
+                    "isApplied": false,
+                    "name": "French"
+                },
                 {
                     "label": "اردو",
                     "code": "ar",
