@@ -39,23 +39,68 @@ export class LogoutHandlerService {
   ) {
   }
 
+  private async cleanupIOSProfile() {
+    if (this.platform.is('ios')) {
+      try {
+        const profile = await this.profileService.getActiveProfileSession().toPromise();
+        await this.profileService.deleteProfile(profile.uid).toPromise();
+      } catch (e) {
+        console.log('iOS profile cleanup failed:', e);
+      }
+    }
+  }
+
+  private async restoreGuestPreferences() {
+    const guestUserId = await this.preferences.getString(PreferenceKey.GUEST_USER_ID_BEFORE_LOGIN).toPromise();
+
+    if (!guestUserId) {
+      await this.preferences.putString(PreferenceKey.SELECTED_USER_TYPE, ProfileType.TEACHER).toPromise();
+    } else {
+      const allProfiles = await this.profileService.getAllProfiles().toPromise();
+      const currentProfile = allProfiles.find(p => p.uid === guestUserId);
+      const guestProfileType = currentProfile?.profileType || ProfileType.NONE;
+      await this.preferences.putString(PreferenceKey.SELECTED_USER_TYPE, guestProfileType).toPromise();
+      await this.profileService.setActiveSessionForProfile(guestUserId).toPromise();
+    }
+
+    if (await this.commonUtilService.isDeviceLocationAvailable()) {
+      const locationData = await this.preferences.getString(PreferenceKey.GUEST_USER_LOCATION).toPromise();
+      await this.preferences.putString(PreferenceKey.DEVICE_LOCATION, locationData).toPromise();
+    }
+
+    await this.preferences.putString(PreferenceKey.GUEST_USER_ID_BEFORE_LOGIN, '').toPromise();
+  }
+
+  private async handleSegmentation() {
+    this.segmentationTagService.persistSegmentation();
+    this.segmentationTagService.getPersistedSegmentaion();
+  }
+
+  private clearSplashPrefs() {
+    if (window.splashscreen && splashscreen) {
+      splashscreen.clearPrefs();
+    }
+  }
+
   public async onLogout() {
     if (!this.commonUtilService.networkInfo.isNetworkAvailable) {
       return this.commonUtilService.showToast('NEED_INTERNET_TO_CHANGE');
     }
 
     try {
+      this.generateLogoutInteractTelemetry(InteractType.TOUCH, InteractSubtype.LOGOUT_INITIATE, '');
+
       await this.logoutGoogle();
-
+      await this.cleanupIOSProfile();
       await this.authService.resignSession().toPromise();
-
-      await this.preferences.putString(PreferenceKey.GUEST_USER_ID_BEFORE_LOGIN, '').toPromise();
-      await this.preferences.putString(PreferenceKey.SELECTED_USER_TYPE, ProfileType.TEACHER).toPromise(); // or default guest type
-      await this.preferences.putBoolean(PreferenceKey.IS_GOOGLE_LOGIN, false).toPromise();
+      await this.restoreGuestPreferences();
+      await this.handleSegmentation();
+      this.clearSplashPrefs();
 
       this.appGlobalService.setEnrolledCourseList([]);
       this.events.publish(AppGlobalService.USER_INFO_UPDATED);
       initTabs(this.containerService, GUEST_TEACHER_TABS); // or GUEST_STUDENT_TABS based on logic
+
       this.generateLogoutInteractTelemetry(InteractType.TOUCH, InteractSubtype.LOGOUT_SUCCESS, '');
       await this.router.navigate([RouterLinks.SIGN_IN], { replaceUrl: true });
 
@@ -64,7 +109,6 @@ export class LogoutHandlerService {
       this.commonUtilService.showToast('LOGOUT_FAILED');
     }
   }
-
 
   private async logoutGoogle() {
     if (await this.preferences.getBoolean(PreferenceKey.IS_GOOGLE_LOGIN).toPromise()) {

@@ -933,8 +933,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         await this.router.navigate([`/${RouterLinks.FAQ_HELP}`]);
         break;
 
-      case 'LOGOUT':
-        
+      case 'LOGOUT':        
         await this.logoutHandlerService.onLogout();
         break;
 
