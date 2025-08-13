@@ -16,7 +16,7 @@ import { SegmentationTagService } from '../segmentation-tag/segmentation-tag.ser
 import {
   Environment, InteractSubtype, InteractType, PageId
 } from '../telemetry-constants';
-import { GooglePlus } from '@awesome-cordova-plugins/google-plus/ngx';
+import {GooglePlus} from '@awesome-cordova-plugins/google-plus/ngx';
 
 @Injectable({
   providedIn: 'root'
@@ -99,7 +99,7 @@ export class LogoutHandlerService {
 
       this.appGlobalService.setEnrolledCourseList([]);
       this.events.publish(AppGlobalService.USER_INFO_UPDATED);
-      initTabs(this.containerService, GUEST_TEACHER_TABS); // or GUEST_STUDENT_TABS based on logic
+      initTabs(this.containerService, GUEST_TEACHER_TABS);
 
       this.generateLogoutInteractTelemetry(InteractType.TOUCH, InteractSubtype.LOGOUT_SUCCESS, '');
       await this.router.navigate([RouterLinks.SIGN_IN], { replaceUrl: true });
@@ -110,12 +110,12 @@ export class LogoutHandlerService {
     }
   }
 
-  private async logoutGoogle() {
+  private async logoutGoogle(){
     if (await this.preferences.getBoolean(PreferenceKey.IS_GOOGLE_LOGIN).toPromise()) {
       try {
         await this.googlePlusLogin.disconnect();
       } catch (e) {
-        const clientId = await this.systemSettingsService.getSystemSettings({ id: SystemSettingsIds.GOOGLE_CLIENT_ID }).toPromise();
+        const clientId = await this.systemSettingsService.getSystemSettings({id: SystemSettingsIds.GOOGLE_CLIENT_ID}).toPromise();
         await this.googlePlusLogin.trySilentLogin({
           webClientId: clientId.value
         }).then(async () => {
@@ -135,8 +135,6 @@ export class LogoutHandlerService {
 
     const isOnboardingCompleted = (await this.preferences.getString(PreferenceKey.IS_ONBOARDING_COMPLETED).toPromise() === 'true') ?
       true : false;
-
-
     if (selectedUserType === ProfileType.ADMIN && !isOnboardingCompleted) {
       await this.router.navigate([RouterLinks.USER_TYPE_SELECTION]);
     } else {

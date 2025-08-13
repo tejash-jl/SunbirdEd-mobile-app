@@ -342,7 +342,7 @@ export class AppGlobalService implements OnDestroy {
             this.getCurrentUserProfile(eventParams);
         }
         this.preferences.getString(PreferenceKey.IS_ONBOARDING_COMPLETED).toPromise().then((result) => {
-            this.isOnBoardingCompleted = true;
+            this.isOnBoardingCompleted = (result === 'true') ? true : false;
         }).catch(e => console.log(e))
     }
 
@@ -799,6 +799,21 @@ export class AppGlobalService implements OnDestroy {
                 await this.preferences.putBoolean(PreferenceKey.IS_JOYFUL_THEME_POPUP_DISPLAYED, true).toPromise().then();
             }
             await this.preferences.putBoolean(PreferenceKey.COACH_MARK_SEEN, true).toPromise().then();
+        }
+    }
+
+    async showNewTabsSwitchPopup() {
+        const isPopupDisplayed = await this.preferences.getString(PreferenceKey.SELECTED_SWITCHABLE_TABS_CONFIG).toPromise();
+        if (!isPopupDisplayed) {
+            const appLabel = await (await App.getInfo()).name;
+            const newThemePopover = await this.popoverCtrl.create({
+                component: NewExperiencePopupComponent,
+                componentProps: { appLabel },
+                backdropDismiss: false,
+                showBackdrop: true,
+                cssClass: 'sb-switch-new-experience-popup'
+            });
+            await newThemePopover.present();
         }
     }
 
