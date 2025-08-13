@@ -802,21 +802,6 @@ export class AppGlobalService implements OnDestroy {
         }
     }
 
-    async showNewTabsSwitchPopup() {
-        const isPopupDisplayed = await this.preferences.getString(PreferenceKey.SELECTED_SWITCHABLE_TABS_CONFIG).toPromise();
-        if (!isPopupDisplayed) {
-            const appLabel = await (await App.getInfo()).name;
-            const newThemePopover = await this.popoverCtrl.create({
-                component: NewExperiencePopupComponent,
-                componentProps: { appLabel },
-                backdropDismiss: false,
-                showBackdrop: true,
-                cssClass: 'sb-switch-new-experience-popup'
-            });
-            await newThemePopover.present();
-        }
-    }
-
     async getActiveProfileUid() {
         let userId = '';
         try {

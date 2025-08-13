@@ -1282,31 +1282,31 @@ describe('AppGlobalService', () => {
             }, 0);
         })
     })
-    describe('showNewTabsSwitchPopup', () =>{
-        it('should show new tab switch on popup display false', () => {
-            // arrange
-            mockPreferences.getString = jest.fn(() => of('false'))
-            // act
-            appGlobalService.showNewTabsSwitchPopup()
-            // assert
-            setTimeout(() => {
-                expect(mockPopoverCtrl.create).toHaveBeenCalledWith({
-                    component: NewExperiencePopupComponent,
-                    componentProps: { appLabel: "appLabel" },
-                    backdropDismiss: false,
-                    showBackdrop: true,
-                    cssClass: 'sb-switch-new-experience-popup'
-                });
-            }, 0);
-        })
-        it('should show new tab switch on popup display true', () => {
-            // arrange
-            mockPreferences.getString = jest.fn(() => of('true'))
-            // act
-            appGlobalService.showNewTabsSwitchPopup()
-            // assert
-        })
-    })
+    // describe('showNewTabsSwitchPopup', () =>{
+    //     it('should show new tab switch on popup display false', () => {
+    //         // arrange
+    //         mockPreferences.getString = jest.fn(() => of('false'))
+    //         // act
+    //         appGlobalService.showNewTabsSwitchPopup()
+    //         // assert
+    //         setTimeout(() => {
+    //             expect(mockPopoverCtrl.create).toHaveBeenCalledWith({
+    //                 component: NewExperiencePopupComponent,
+    //                 componentProps: { appLabel: "appLabel" },
+    //                 backdropDismiss: false,
+    //                 showBackdrop: true,
+    //                 cssClass: 'sb-switch-new-experience-popup'
+    //             });
+    //         }, 0);
+    //     })
+    //     it('should show new tab switch on popup display true', () => {
+    //         // arrange
+    //         mockPreferences.getString = jest.fn(() => of('true'))
+    //         // act
+    //         appGlobalService.showNewTabsSwitchPopup()
+    //         // assert
+    //     })
+    // })
 
     describe('getActiveProfileUid', () =>{
         it('should get active profile uid', () => {

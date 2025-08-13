@@ -92,7 +92,7 @@ describe('ResourcesComponent', () => {
         getGuestUserType: jest.fn(),
         getCurrentUser: jest.fn(),
         isUserLoggedIn: jest.fn(),
-        showNewTabsSwitchPopup: jest.fn()
+        // showNewTabsSwitchPopup: jest.fn()
     };
     const mockTelemetryGeneratorService: Partial<TelemetryGeneratorService> = {
         generateExtraInfoTelemetry: jest.fn()
@@ -1637,7 +1637,7 @@ describe('ResourcesComponent', () => {
         resourcesComponent.refresher = { disabled: false };
         mockFormAndFrameworkUtilService.getFormFields = jest.fn(() => Promise.resolve([{code: 'experienceSwitchPopupConfig', config:{isEnabled: true}}]))
         resourcesComponent.coachTimeout = jest.fn((fn) => fn(
-            mockAppGlobalService.showNewTabsSwitchPopup = jest.fn()
+            // mockAppGlobalService.showNewTabsSwitchPopup = jest.fn()
         ));
         // act
         resourcesComponent.ionViewDidEnter();
