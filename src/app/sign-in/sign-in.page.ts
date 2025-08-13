@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { AppGlobalService } from '../../services/app-global-service.service';
 import { FormAndFrameworkUtilService } from '../../services/formandframeworkutil.service';
 import {
@@ -20,12 +20,12 @@ import {
     NativeAppleSessionProvider,
     NativeKeycloakSessionProvider
 } from '@project-sunbird/sunbird-sdk';
-import {Router} from '@angular/router';
-import {SbProgressLoader} from '../../services/sb-progress-loader.service';
-import {LoginNavigationHandlerService} from '../../services/login-navigation-handler.service';
-import {GooglePlus} from '@awesome-cordova-plugins/google-plus/ngx';
-import {PreferenceKey, SystemSettingsIds} from '../../app/app.constant';
-import {Location} from '@angular/common';
+import { Router } from '@angular/router';
+import { SbProgressLoader } from '../../services/sb-progress-loader.service';
+import { LoginNavigationHandlerService } from '../../services/login-navigation-handler.service';
+import { GooglePlus } from '@awesome-cordova-plugins/google-plus/ngx';
+import { PreferenceKey, SystemSettingsIds } from '../../app/app.constant';
+import { Location } from '@angular/common';
 // TODO: Capacitor temp fix - need to verify
 import {
     SignInWithApple,
@@ -70,14 +70,14 @@ export class SignInPage implements OnInit {
         this.skipNavigation = extrasData;
         if (this.platform.is('ios')) {
             // this one is to make sure keyboard has done button on top to close the keyboard
-            Keyboard.setAccessoryBarVisible({isVisible: false});
+            Keyboard.setAccessoryBarVisible({ isVisible: false });
         }
     }
-            
+
     async ionViewWillEnter() {
         this.appHeaderService.hideStatusBar();
-        await StatusBar.setBackgroundColor({color: '#000000'})
-        await StatusBar.setStyle({style: Style.Dark})
+        await StatusBar.setBackgroundColor({ color: '#000000' })
+        await StatusBar.setStyle({ style: Style.Dark })
         await this.appHeaderService.hideHeader()
     }
 
@@ -89,6 +89,10 @@ export class SignInPage implements OnInit {
     async ngOnInit() {
         this.appName = await this.commonUtilService.getAppName();
         await this.login();
+        this.platform.backButton.subscribeWithPriority(10, () => {
+            navigator['app'].exitApp(); // or do nothing
+        });
+
     }
 
     async login() {
@@ -126,10 +130,10 @@ export class SignInPage implements OnInit {
     }
 
     onFormLoginChange(event) {
-        this.loginDet = {username: event.Email, password: event.Password };
+        this.loginDet = { username: event.Email, password: event.Password };
         this.loginButtonValidation = Object.values(event).every(x => (x !== null && x !== ''));
     }
-                
+
     async onLabelClickEvent() {
         const webviewSessionProviderConfigLoader = await this.commonUtilService.getLoader();
         let webviewForgotPasswordSessionProviderConfig: WebviewSessionProviderConfig;
@@ -141,7 +145,7 @@ export class SignInPage implements OnInit {
             webviewMigrateSessionProviderConfig = await this.formAndFrameworkUtilService.getWebviewSessionProviderConfig('migrate');
             await webviewSessionProviderConfigLoader.dismiss();
         } catch (e) {
-            await this.sbProgressLoader.hide({id: 'login'});
+            await this.sbProgressLoader.hide({ id: 'login' });
             await webviewSessionProviderConfigLoader.dismiss();
             this.commonUtilService.showToast('ERROR_WHILE_LOGIN');
             return;
@@ -151,9 +155,9 @@ export class SignInPage implements OnInit {
             webviewMigrateSessionProviderConfig
         );
         await this.loginNavigationHandlerService.setSession(webViewForgotPasswordSession, this.skipNavigation, InteractSubtype.KEYCLOAK)
-        .then(() => {
-            this.navigateBack(this.skipNavigation);
-        });
+            .then(() => {
+                this.navigateBack(this.skipNavigation);
+            });
     }
 
     async loginWithKeyCloak() {
@@ -162,33 +166,33 @@ export class SignInPage implements OnInit {
         } else {
             this.loginNavigationHandlerService.generateLoginInteractTelemetry(InteractType.LOGIN_INITIATE, InteractSubtype.KEYCLOAK, '');
             const loginSessionProviderConfigloader = await this.commonUtilService.getLoader();
-            
+
             let keycloakLoginSessionProviderConfig: WebviewSessionProviderConfig;
             let keycloakMigrateSessionProviderConfig: WebviewSessionProviderConfig;
-            
+
             await loginSessionProviderConfigloader.present();
             try {
                 keycloakLoginSessionProviderConfig = await this.formAndFrameworkUtilService.getWebviewSessionProviderConfig('login');
                 keycloakMigrateSessionProviderConfig = await this.formAndFrameworkUtilService.getWebviewSessionProviderConfig('migrate');
                 await loginSessionProviderConfigloader.dismiss();
             } catch (e) {
-                await this.sbProgressLoader.hide({id: 'login'});
+                await this.sbProgressLoader.hide({ id: 'login' });
                 await loginSessionProviderConfigloader.dismiss();
                 this.commonUtilService.showToast('ERROR_WHILE_LOGIN');
                 return;
             }
-            let config = {WebviewSessionProviderConfig: keycloakLoginSessionProviderConfig, NativeKeycloakTokens: this.loginDet}
+            let config = { WebviewSessionProviderConfig: keycloakLoginSessionProviderConfig, NativeKeycloakTokens: this.loginDet }
             const nativeSessionKeycloakProvider = new NativeKeycloakSessionProvider(keycloakLoginSessionProviderConfig, this.loginDet)
             await this.loginNavigationHandlerService.setSession(nativeSessionKeycloakProvider, this.skipNavigation, InteractSubtype.KEYCLOAK)
-            .then(() => {
-                this.navigateBack(this.skipNavigation);
-            })
+                .then(() => {
+                    this.navigateBack(this.skipNavigation);
+                })
         }
     }
 
     async loginWithStateSystem() {
         this.loginNavigationHandlerService.generateLoginInteractTelemetry
-        (InteractType.LOGIN_INITIATE, InteractSubtype.STATE, '');
+            (InteractType.LOGIN_INITIATE, InteractSubtype.STATE, '');
         const webviewSessionProviderConfigLoader = await this.commonUtilService.getLoader();
         let webviewStateSessionProviderConfig: WebviewStateSessionProviderConfig;
         let webviewMigrateSessionProviderConfig: WebviewSessionProviderConfig;
@@ -198,7 +202,7 @@ export class SignInPage implements OnInit {
             webviewMigrateSessionProviderConfig = await this.formAndFrameworkUtilService.getWebviewSessionProviderConfig('migrate');
             await webviewSessionProviderConfigLoader.dismiss();
         } catch (e) {
-            await this.sbProgressLoader.hide({id: 'login'});
+            await this.sbProgressLoader.hide({ id: 'login' });
             await webviewSessionProviderConfigLoader.dismiss();
             this.commonUtilService.showToast('ERROR_WHILE_LOGIN');
             return;
@@ -214,20 +218,20 @@ export class SignInPage implements OnInit {
 
     async signInWithGoogle() {
         this.loginNavigationHandlerService.generateLoginInteractTelemetry
-        (InteractType.LOGIN_INITIATE, InteractSubtype.GOOGLE, '');
-        const clientId = await this.systemSettingsService.getSystemSettings({id: SystemSettingsIds.GOOGLE_CLIENT_ID}).toPromise();
+            (InteractType.LOGIN_INITIATE, InteractSubtype.GOOGLE, '');
+        const clientId = await this.systemSettingsService.getSystemSettings({ id: SystemSettingsIds.GOOGLE_CLIENT_ID }).toPromise();
         this.googlePlusLogin.login({
             webClientId: clientId.value
         }).then(async (result) => {
-            await this.sbProgressLoader.show({id: 'login'});
+            await this.sbProgressLoader.show({ id: 'login' });
             const nativeSessionGoogleProvider = new NativeGoogleSessionProvider(() => result);
             await this.preferences.putBoolean(PreferenceKey.IS_GOOGLE_LOGIN, true).toPromise();
             await this.loginNavigationHandlerService.setSession(nativeSessionGoogleProvider, this.skipNavigation, InteractSubtype.GOOGLE)
-            .then(() => {
-                this.navigateBack(this.skipNavigation);
-            });
+                .then(() => {
+                    this.navigateBack(this.skipNavigation);
+                });
         }).catch(async (err) => {
-            await this.sbProgressLoader.hide({id: 'login'});
+            await this.sbProgressLoader.hide({ id: 'login' });
             if (err instanceof SignInError) {
                 this.commonUtilService.showToast(err.message);
             } else {
@@ -246,7 +250,7 @@ export class SignInPage implements OnInit {
             webviewMigrateSessionProviderConfig = await this.formAndFrameworkUtilService.getWebviewSessionProviderConfig('migrate');
             await webviewSessionProviderConfigLoader.dismiss();
         } catch (e) {
-            await this.sbProgressLoader.hide({id: 'login'});
+            await this.sbProgressLoader.hide({ id: 'login' });
             await webviewSessionProviderConfigLoader.dismiss();
             this.commonUtilService.showToast('ERROR_WHILE_LOGIN');
             return;
@@ -256,9 +260,9 @@ export class SignInPage implements OnInit {
             webviewMigrateSessionProviderConfig
         );
         await this.loginNavigationHandlerService.setSession(webViewRegisterSession, this.skipNavigation, InteractSubtype.KEYCLOAK)
-        .then(() => {
-            this.navigateBack(this.skipNavigation);
-        });
+            .then(() => {
+                this.navigateBack(this.skipNavigation);
+            });
     }
 
     private navigateBack(skipNavigation) {
@@ -271,30 +275,30 @@ export class SignInPage implements OnInit {
 
     async appleSignIn() {
         this.loginNavigationHandlerService.generateLoginInteractTelemetry
-        (InteractType.TOUCH, InteractSubtype.LOGIN_INITIATE, '');
-        const clientId = await this.systemSettingsService.getSystemSettings({id: SystemSettingsIds.GOOGLE_CLIENT_ID}).toPromise();
-        
+            (InteractType.TOUCH, InteractSubtype.LOGIN_INITIATE, '');
+        const clientId = await this.systemSettingsService.getSystemSettings({ id: SystemSettingsIds.GOOGLE_CLIENT_ID }).toPromise();
+
         SignInWithApple.authorize({
             clientId: clientId.value,
             redirectURI: "string",
             // requestedScopes: [
             //   ASAuthorizationAppleIDRequest.ASAuthorizationScopeEmail
             // ]
-          })
-          .then(async (res: SignInWithAppleResponse) => {
-            // https://developer.apple.com/documentation/signinwithapplerestapi/verifying_a_user
-            await this.sbProgressLoader.show({id: 'login'});
-            const nativeSessionAppleProvider = new NativeAppleSessionProvider(() => res.response as any);
-            await this.preferences.putBoolean(PreferenceKey.IS_APPLE_LOGIN, true).toPromise();
-            await this.loginNavigationHandlerService.setSession(nativeSessionAppleProvider, this.skipNavigation,
-                 InteractSubtype.APPLE).then(() => {
-                this.navigateBack(this.skipNavigation);
-            }).catch(err => {
+        })
+            .then(async (res: SignInWithAppleResponse) => {
+                // https://developer.apple.com/documentation/signinwithapplerestapi/verifying_a_user
+                await this.sbProgressLoader.show({ id: 'login' });
+                const nativeSessionAppleProvider = new NativeAppleSessionProvider(() => res.response as any);
+                await this.preferences.putBoolean(PreferenceKey.IS_APPLE_LOGIN, true).toPromise();
+                await this.loginNavigationHandlerService.setSession(nativeSessionAppleProvider, this.skipNavigation,
+                    InteractSubtype.APPLE).then(() => {
+                        this.navigateBack(this.skipNavigation);
+                    }).catch(err => {
+                        this.commonUtilService.showToast('ERROR_WHILE_LOGIN');
+                    });
+            })
+            .catch((error: any) => {
                 this.commonUtilService.showToast('ERROR_WHILE_LOGIN');
             });
-          })
-          .catch((error: any) => {
-            this.commonUtilService.showToast('ERROR_WHILE_LOGIN');
-          });
     }
 }

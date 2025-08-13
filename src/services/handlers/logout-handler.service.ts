@@ -44,17 +44,28 @@ export class LogoutHandlerService {
       return this.commonUtilService.showToast('NEED_INTERNET_TO_CHANGE');
     }
 
-    await this.logoutGoogle();
-
     try {
+      await this.logoutGoogle();
+
       await this.authService.resignSession().toPromise();
+
+      await this.preferences.putString(PreferenceKey.GUEST_USER_ID_BEFORE_LOGIN, '').toPromise();
+      await this.preferences.putString(PreferenceKey.SELECTED_USER_TYPE, ProfileType.TEACHER).toPromise(); // or default guest type
+      await this.preferences.putBoolean(PreferenceKey.IS_GOOGLE_LOGIN, false).toPromise();
+
+      this.appGlobalService.setEnrolledCourseList([]);
+      this.events.publish(AppGlobalService.USER_INFO_UPDATED);
+      initTabs(this.containerService, GUEST_TEACHER_TABS); // or GUEST_STUDENT_TABS based on logic
       this.generateLogoutInteractTelemetry(InteractType.TOUCH, InteractSubtype.LOGOUT_SUCCESS, '');
-      await this.router.navigate([RouterLinks.SIGN_IN]);
+      await this.router.navigate([RouterLinks.SIGN_IN], { replaceUrl: true });
+
     } catch (err) {
       console.error('Logout failed:', err);
       this.commonUtilService.showToast('LOGOUT_FAILED');
     }
   }
+
+
   private async logoutGoogle() {
     if (await this.preferences.getBoolean(PreferenceKey.IS_GOOGLE_LOGIN).toPromise()) {
       try {
@@ -81,7 +92,7 @@ export class LogoutHandlerService {
     const isOnboardingCompleted = (await this.preferences.getString(PreferenceKey.IS_ONBOARDING_COMPLETED).toPromise() === 'true') ?
       true : false;
 
-    
+
     if (selectedUserType === ProfileType.ADMIN && !isOnboardingCompleted) {
       await this.router.navigate([RouterLinks.USER_TYPE_SELECTION]);
     } else {
