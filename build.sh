@@ -4,18 +4,18 @@ file='android/gradle.properties'
 if [[ -f $file ]]; then 
     echo "File exists"
     # Simple script to clean install
-#    rm -rf node_modules
+    rm -rf node_modules
     rm -rf www
     rm package-lock.json
 
-#    npm i --python=/usr/bin/python3.6 --legacy-peer-deps
+    npm i --python=/usr/bin/python3.6
 
     # Read properties from config.properties
     while read -r line; do
         if [[ "$line" == *"app_name"* ]]; then
-            APP_NAME=$(echo "$line" | sed 's/app_name//g' | sed 's/[^a-zA-Z0-9]//g')
+        APP_NAME=$(echo "$line" | sed 's/app_name//g' | sed 's/[^a-zA-Z0-9]//g')
         elif [[ "$line" == *"app_id"* ]]; then
-            APP_ID=$(echo "$line" | sed 's/app_id//g' | sed 's/[^a-zA-Z0-9._]//g')
+        APP_ID=$(echo "$line" | sed 's/app_id//g' | sed 's/[^a-zA-Z0-9._]//g')
         fi
     done <$file
 
@@ -28,42 +28,12 @@ if [[ -f $file ]]; then
     # Build your Ionic app, add android, generate icons and build
     # npx cap add android
     # appIcon
-    echo "Running: node scripts/uploadAppIcon.js"
     node scripts/uploadAppIcon.js
-    echo "Running: npx @capacitor/assets generate"
     npx @capacitor/assets generate --iconBackgroundColor '#ffffff' --iconBackgroundColorDark '#222222' --splashBackgroundColor '#ffffff' --splashBackgroundColorDark '#111111'
     
     # Build your Ionic app
-    echo "Running: rm -rf .angular"
-    rm -rf .angular
-    echo "Running: ionic build --prod"
-    ionic build --prod
-
-    # Sync Capacitor files
-    echo "Running: npx cap sync android"
-    npx cap sync android
-
-    # Ensure web assets are copied correctly
-    echo "Running: npx cap copy android && npx cap update android"
+    ionic build --prod && npx cap sync
     npx cap copy android && npx cap update android
-
-
- # Define source and target directories
-    SOURCE_DIR="www/content-player/"
-    TARGET_DIR="android/app/src/main/assets/public/content-player/"
-
- # Ensure the target directory exists
-    echo "Running: mkdir -p $TARGET_DIR"
-    mkdir -p "$TARGET_DIR"
-
-# Copying entire contents of content-player to the target directory
-    echo "Copying content from $SOURCE_DIR to $TARGET_DIR"
-    cp -r "$SOURCE_DIR"* "$TARGET_DIR"
-
-    echo "Copying completed!"
-
-    # Build the Android project
-    echo "Running: cd android && ./gradlew assembleDebug && cd .."
     cd android && ./gradlew assembleDebug && cd ..
 
 else
