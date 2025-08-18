@@ -7,6 +7,7 @@ import { TelemetryGeneratorService } from '../../services/telemetry-generator.se
 import { Events } from '../../util/events';
 import { Platform } from '@ionic/angular';
 import { mergeMap, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
 import {
   AuthService, ProfileService, ProfileType, SharedPreferences, SystemSettingsService
 } from '@project-sunbird/sunbird-sdk';
@@ -40,57 +41,58 @@ export class LogoutHandlerService {
   }
 
   public async onLogout() {
-  if (!this.commonUtilService.networkInfo.isNetworkAvailable) {
-    return this.commonUtilService.showToast('NEED_INTERNET_TO_CHANGE');
-  }
-
-  await this.logoutGoogle();
-
-  if (this.platform.is('ios')) {
-    try {
-      const profile = await this.profileService.getActiveProfileSession().toPromise();
-      await this.profileService.deleteProfile(profile.uid).toPromise();
-    } catch (e) {
-      console.log('iOS profile cleanup failed:', e);
-    }
-  }
-
-  this.segmentationTagService.persistSegmentation();
-
-  this.generateLogoutInteractTelemetry(
-    InteractType.TOUCH,
-    InteractSubtype.LOGOUT_INITIATE,
-    ''
-  );
-
-  try {
-    if (window.splashscreen && splashscreen) {
-      splashscreen.clearPrefs();
+    if (!this.commonUtilService.networkInfo.isNetworkAvailable) {
+      return this.commonUtilService.showToast('NEED_INTERNET_TO_CHANGE');
     }
 
-    await this.authService.resignSession().toPromise();
-    await this.preferences.putString(PreferenceKey.SELECTED_USER_TYPE, ProfileType.NONE).toPromise();
+    await this.logoutGoogle();
 
-    this.events.publish(AppGlobalService.USER_INFO_UPDATED);
-    this.appGlobalService.setEnrolledCourseList([]);
-    this.segmentationTagService.getPersistedSegmentaion();
+    if(this.platform.is('ios')){
+      this.profileService.getActiveProfileSession().toPromise()
+      .then((profile) => {
+        this.profileService.deleteProfile(profile.uid).subscribe()
+      }).catch((e) => console.log(e));
+    }
 
-    this.generateLogoutInteractTelemetry(
-      InteractType.TOUCH,
-      InteractSubtype.LOGOUT_SUCCESS,
-      ''
-    );
+    this.segmentationTagService.persistSegmentation();
 
-    // Delay navigation slightly to ensure session is cleared
-    setTimeout(() => {
-      this.router.navigate([RouterLinks.SIGN_IN], { replaceUrl: true });
-    }, 100);
-
-  } catch (err) {
-    console.error('Logout failed:', err);
-    this.commonUtilService.showToast('LOGOUT_FAILED');
+    this.generateLogoutInteractTelemetry(InteractType.TOUCH,
+      InteractSubtype.LOGOUT_INITIATE, '');
+    this.preferences.getString(PreferenceKey.GUEST_USER_ID_BEFORE_LOGIN).pipe(
+      tap(async (guestUserId: string) => {
+        if (!guestUserId) {
+          await this.preferences.putString(PreferenceKey.SELECTED_USER_TYPE, ProfileType.TEACHER).toPromise();
+        } else {
+          const allProfileDetais = await this.profileService.getAllProfiles().toPromise();
+          const currentProfile = allProfileDetais.find(ele => ele.uid === guestUserId);
+          const guestProfileType = (currentProfile && currentProfile.profileType) ? currentProfile.profileType : ProfileType.NONE;
+          await this.preferences.putString(PreferenceKey.SELECTED_USER_TYPE, guestProfileType).toPromise();
+        }
+        if (await this.commonUtilService.isDeviceLocationAvailable()) {
+          const availableLocationData = await this.preferences.getString(PreferenceKey.GUEST_USER_LOCATION).toPromise();
+          await this.preferences.putString(PreferenceKey.DEVICE_LOCATION, availableLocationData).toPromise();
+        }
+        if(window.splashscreen && splashscreen){
+          splashscreen.clearPrefs();
+        }
+      }),
+      mergeMap((guestUserId: string) => {
+        if (guestUserId) {
+          return this.profileService.setActiveSessionForProfile(guestUserId);
+        }
+        return of(null);
+      }),
+      mergeMap(() => {
+        return this.authService.resignSession();
+      }),
+      tap(async () => {
+        await this.navigateToAptPage();
+        this.events.publish(AppGlobalService.USER_INFO_UPDATED);
+        this.appGlobalService.setEnrolledCourseList([]);
+        this.segmentationTagService.getPersistedSegmentaion();
+      })
+    ).subscribe();
   }
-}
 
   private async logoutGoogle(){
     if (await this.preferences.getBoolean(PreferenceKey.IS_GOOGLE_LOGIN).toPromise()) {
@@ -120,18 +122,18 @@ export class LogoutHandlerService {
     if (selectedUserType === ProfileType.ADMIN && !isOnboardingCompleted) {
       await this.router.navigate([RouterLinks.USER_TYPE_SELECTION]);
     } else {
-      this.events.publish('UPDATE_TABS');
+      // this.events.publish('UPDATE_TABS');
     }
 
     if (selectedUserType === ProfileType.STUDENT) {
       initTabs(this.containerService, GUEST_STUDENT_TABS);
     } else if (this.commonUtilService.isAccessibleForNonStudentRole(selectedUserType) && selectedUserType !== ProfileType.ADMIN) {
-      initTabs(this.containerService, GUEST_TEACHER_TABS);
+      // initTabs(this.containerService, GUEST_TEACHER_TABS);
     }
 
     if (isOnboardingCompleted) {
       const navigationExtras: NavigationExtras = { state: { loginMode: 'guest' } };
-      await this.router.navigate([`/${RouterLinks.TABS}`], navigationExtras);
+      await this.router.navigate([`/${RouterLinks.SIGN_IN}`], navigationExtras);
     } else if (selectedUserType !== ProfileType.ADMIN) {
       const navigationExtras: NavigationExtras = { queryParams: { reOnboard: true } };
       await this.router.navigate([`/${RouterLinks.PROFILE_SETTINGS}`], navigationExtras);
