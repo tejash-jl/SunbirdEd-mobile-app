@@ -25,16 +25,16 @@ const routes: Routes = [
     canLoad: [HasNotBeenOnboardedGuard],
     resolve: { message: HasNotSelectedLanguageGuard }
   },
-  // {
-  //   path: `${RouterLinks.USER_TYPE_SELECTION}`,
-  //   loadChildren: () => import('./user-type-selection/user-type-selection.module').then(m => m.UserTypeSelectionPageModule),
-  //   canLoad: [HasNotBeenOnboardedGuard],
-  //   resolve: { message: HasNotSelectedUserTypeGuard }
-  // },
-  // {
-  //   path: `${RouterLinks.USER_TYPE_SELECTION_LOGGEDIN}`,
-  //   loadChildren: () => import('./user-type-selection/user-type-selection.module').then(m => m.UserTypeSelectionPageModule)
-  // },
+  {
+    path: `${RouterLinks.USER_TYPE_SELECTION}`,
+    loadChildren: () => import('./user-type-selection/user-type-selection.module').then(m => m.UserTypeSelectionPageModule),
+    canLoad: [HasNotBeenOnboardedGuard],
+    resolve: { message: HasNotSelectedUserTypeGuard }
+  },
+  {
+    path: `${RouterLinks.USER_TYPE_SELECTION_LOGGEDIN}`,
+    loadChildren: () => import('./user-type-selection/user-type-selection.module').then(m => m.UserTypeSelectionPageModule)
+  },
   {
     path: RouterLinks.PROFILE_SETTINGS,
     loadChildren: () => import('./profile-settings/profile-settings.module').then(m => m.ProfileSettingsPageModule),
@@ -128,18 +128,18 @@ const routes: Routes = [
   //   loadChildren:  () => import('./manage-learn/imp-suggestions/imp-suggestions.module').then(m => m.ImpSuggestionsPageModule)
   // },
   { path: RouterLinks.SIGN_IN, loadChildren: () => import('./sign-in/sign-in.module').then(m => m.SignInPageModule)},
-  // {
-  //   path: RouterLinks.SIGNUP_BASIC,
-  //   loadChildren: () => import('./signup/signup-basic-info/signup-basic-info.module').then(m => m.SignupBasicInfoPageModule)
-  // },
-  // {
-  //   path: RouterLinks.SIGNUP_EMAIL,
-  //   loadChildren: () => import('./signup/signup-email-password/signup-email-password.module').then(m => m.SignupEmailPasswordPageModule)
-  // },
-  // {
-  //   path: RouterLinks.OTP,
-  //   loadChildren: () => import('./signup/otp/otp.module').then(m => m.OtpPageModule)
-  // }
+  {
+    path: RouterLinks.SIGNUP_BASIC,
+    loadChildren: () => import('./signup/signup-basic-info/signup-basic-info.module').then(m => m.SignupBasicInfoPageModule)
+  },
+  {
+    path: RouterLinks.SIGNUP_EMAIL,
+    loadChildren: () => import('./signup/signup-email-password/signup-email-password.module').then(m => m.SignupEmailPasswordPageModule)
+  },
+  {
+    path: RouterLinks.OTP,
+    loadChildren: () => import('./signup/otp/otp.module').then(m => m.OtpPageModule)
+  }
 
 ];
 
