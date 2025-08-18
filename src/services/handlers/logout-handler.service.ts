@@ -128,7 +128,7 @@ export class LogoutHandlerService {
     if (selectedUserType === ProfileType.STUDENT) {
       initTabs(this.containerService, GUEST_STUDENT_TABS);
     } else if (this.commonUtilService.isAccessibleForNonStudentRole(selectedUserType) && selectedUserType !== ProfileType.ADMIN) {
-      // initTabs(this.containerService, GUEST_TEACHER_TABS);
+      initTabs(this.containerService, GUEST_TEACHER_TABS);
     }
 
     if (isOnboardingCompleted) {
