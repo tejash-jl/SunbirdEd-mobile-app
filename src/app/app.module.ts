@@ -567,6 +567,6 @@ export class AppModule {
   }
 
   private setDefaultLanguage() {
-    this.translate.setDefaultLang('en');
+    this.translate.setDefaultLang('ar');
   }
 }

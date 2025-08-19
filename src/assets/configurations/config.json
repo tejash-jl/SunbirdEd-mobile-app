@@ -9,16 +9,11 @@
             "name": "language-setting",
             "skip": false,
             "default": {
-                "code": "en",
-                "label": "English"
+                "code": "ar",
+                "label": "Arabic"
             },
             "data": [
-                {
-                    "label": "हिंदी",
-                    "code": "hi",
-                    "isApplied": false,
-                    "name": "Hindi"
-                },
+                
                 {
                     "label": "English",
                     "code": "en",
@@ -26,64 +21,16 @@
                     "name": "English"
                 },
                 {
-                    "label": "অসমীয়া",
-                    "code": "as",
+                    "label": "Français",
+                    "code": "fr",
                     "isApplied": false,
-                    "name": "Assamese"
-                },
-                {
-                    "label": "বাংলা",
-                    "code": "bn",
-                    "isApplied": false,
-                    "name": "Bengali"
-                },
-                {
-                    "label": "ગુજરાતી",
-                    "code": "gu",
-                    "isApplied": false,
-                    "name": "Gujarati"
-                },
-                {
-                    "label": "ಕನ್ನಡ",
-                    "code": "kn",
-                    "isApplied": false,
-                    "name": "Kannada"
-                },
-                {
-                    "label": "मराठी",
-                    "code": "mr",
-                    "isApplied": false,
-                    "name": "Marathi"
-                },
-                {
-                    "label": "ଓଡ଼ିଆ",
-                    "code": "or",
-                    "isApplied": false,
-                    "name": "Oriya"
-                },
-                {
-                    "label": "ਪੰਜਾਬੀ",
-                    "code": "pa",
-                    "isApplied": false,
-                    "name": "Punjabi"
-                },
-                {
-                    "label": "தமிழ்",
-                    "code": "ta",
-                    "isApplied": false,
-                    "name": "Tamil"
-                },
-                {
-                    "label": "తెలుగు",
-                    "code": "te",
-                    "isApplied": false,
-                    "name": "Telugu"
+                    "name": "French"
                 },
                 {
                     "label": "اردو",
-                    "code": "ur",
+                    "code": "ar",
                     "isApplied": false,
-                    "name": "Urdu"
+                    "name": "Arabic"
                 }
             ]
         },

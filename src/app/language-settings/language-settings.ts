@@ -134,7 +134,7 @@ export class LanguageSettingsPage {
         if (this.previousLanguage) {
           this.translateService.use(this.previousLanguage);
         } else {
-          this.translateService.use('en');
+          this.translateService.use('ar');
         }
       }
     }
