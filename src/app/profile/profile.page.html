@@ -28,11 +28,11 @@
         </p>
     </div>
     <div class="roles-container ion-text-center ion-padding-horizontal">
-        <div class="MB5 ion-text-center" *ngFor="let role of roles | slice : startLimit:rolesLimit;">
+        <!-- <div class="MB5 ion-text-center" *ngFor="let role of roles | slice : startLimit:rolesLimit;">
             <div class="roles">
                 {{role}}
             </div>
-        </div>
+        </div> -->
         <div class="ion-text-center">
             <ion-button fill="clear" *ngIf="rolesLimit < roles?.length" (click)="showMoreItems()"
                 class="txt-capitalize">
@@ -61,12 +61,12 @@
             <span>{{profile?.subPersona.join(', ')}}</span>
         </div>
     </div>
-    <div *ngIf="userLocation?.state && userLocation?.state?.name && userLocation?.state?.name?.length">
+    <!-- <div *ngIf="userLocation?.state && userLocation?.state?.name && userLocation?.state?.name?.length">
         <span class="bolder">{{'STATE' | translate}}: </span>
         <span>{{userLocation.state.name}}</span>
         <span *ngIf="!(userLocation?.state && userLocation?.state?.name && userLocation?.state?.name?.length)"
             class="lighter">{{'ADD_STATE' | translate}}</span>
-    </div>
+    </div> -->
     <div *ngIf="userLocation?.district && userLocation?.district?.name && userLocation?.district?.name?.length">
         <span class="bolder">{{'DISTRICT' | translate}}: </span>
         <span>{{userLocation.district.name}}</span>

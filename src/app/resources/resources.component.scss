@@ -178,3 +178,36 @@
   padding-left: 0 1rem !important;
   font-size: 1rem !important;
 }
+// .enrolled-courses-section {
+//   margin: 16px;
+// }
+
+// .section-title {
+//   font-size: 18px;
+//   font-weight: bold;
+//   margin-bottom: 12px;
+// }
+
+// .course-grid {
+//   display: flex;
+//   flex-wrap: wrap;
+//   gap: 16px;
+// }
+
+// .course-card {
+//   flex: 0 0 calc(50% - 8px); // Two cards per row with spacing
+// }
+.course-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.section-title{
+  padding: 20px;
+}
+.full-width-card {
+  width: 100% !important;   /* stretch edge to edge */
+  margin: 0 !important;     /* remove Ionic default margin */
+  --padding-start: 16px;    /* optional inner padding */
+  --padding-end: 16px;
+}

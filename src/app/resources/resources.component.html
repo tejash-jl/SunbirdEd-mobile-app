@@ -78,7 +78,7 @@
         </ion-label>
       </ion-item>
     </ion-list>
-    <div class="sb-explore-container" *ngIf="storyAndWorksheets && storyAndWorksheets.length !== 0">
+    <!-- <div class="sb-explore-container" *ngIf="storyAndWorksheets && storyAndWorksheets.length !== 0">
       <div class="text-center" *ngIf="commonUtilService?.networkInfo?.isNetworkAvailable">
         <p class="information">{{'FRMELEMNTS_LBL_COULD_NOT_FIND_CONTENT' | translate }}</p>
         <ion-button class="explore-more-books" expand="block" (click)="requestMoreContent()">
@@ -100,8 +100,54 @@
             {{'SEE_MORE_BOOKS' | translate}} </ion-button>
         </div>
       </div>
-    </div>
+    </div> -->
+<!-- <div *ngIf="enrolledCourseList?.length">
+  <h3 class="section-title">{{ 'MY_COURSES' | translate }}</h3>
 
+  <div class="course-grid">
+    <ion-card *ngFor="let course of enrolledCourseList; trackBy: trackByCourseId"
+              (click)="openEnrolledCourse(course)">
+      <ion-card-header>
+        <ion-card-title>{{ course.courseName }}</ion-card-title>
+        <ion-card-subtitle>{{ course.contentId }}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p>{{ course.description }}</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</div> -->
+<div *ngIf="enrolledCourseList?.length">
+  <h3 class="section-title">{{ 'MY_COURSES' | translate }}</h3>
+
+  <div class="course-grid">
+    <ion-card *ngFor="let course of enrolledCourseList; trackBy: trackByCourseId"
+              class="full-width-card"
+              (click)="openEnrolledCourse(course)">
+      <ion-card-header>
+        <ion-card-title>{{ course.courseName }}</ion-card-title>
+        <ion-card-subtitle>{{ course.contentId }}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p>{{ course.description }}</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+    <div *ngIf="mappedTrainingCertificates.length" class="enrolled-courses-section">
+      <h3 class="section-title">{{ 'MY_COURSES' | translate }}</h3>
+      <div class="course-grid">
+        <div class="course-card" *ngFor="let course of mappedTrainingCertificates | slice:0:myLearningLimit">
+          <app-course-card [course]="course" (click)="openEnrolledCourse(course)">
+          </app-course-card>
+        </div>
+      </div>
+      <button *ngIf="mappedTrainingCertificates.length > myLearningLimit"
+        (click)="myLearningLimit = mappedTrainingCertificates.length" class="view-more-btn">
+        {{ 'VIEW_MORE' | translate }}
+      </button>
+    </div>
     <div *ngIf="pageApiLoader && storyAndWorksheets && storyAndWorksheets.length === 0">
       <ion-list class="m-n" *ngIf="searchApiLoader && storyAndWorksheets && storyAndWorksheets.length === 0">
         <app-skeleton-item height="16px" width="40%" style="padding: 16px;"></app-skeleton-item>

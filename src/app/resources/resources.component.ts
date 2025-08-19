@@ -55,6 +55,8 @@ import {
   ContentService,
   CorrelationData,
   EventsBusEvent,
+  Course,
+  CourseService,
   EventsBusService,
   FrameworkCategoryCode,
   FrameworkCategoryCodesGroup,
@@ -143,7 +145,9 @@ export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, Fra
   private networkSubscription?: Subscription;
   networkFlag: boolean;
   public imageSrcMap = new Map();
-
+enrolledCourseList = [];
+  mappedTrainingCertificates = [];
+  myLearningLimit = 3;
   /**
    * Flag to show latest and popular course loader
    */
@@ -248,8 +252,10 @@ export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, Fra
     @Inject('FRAMEWORK_SERVICE') private frameworkService: FrameworkService,
     @Inject('CONTENT_SERVICE') private contentService: ContentService,
     @Inject('SHARED_PREFERENCES') private preferences: SharedPreferences,
+    @Inject('COURSE_SERVICE') private courseService: CourseService,
     private splaschreenDeeplinkActionHandlerDelegate: SplaschreenDeeplinkActionHandlerDelegate,
     private ngZone: NgZone,
+    
     private qrScanner: SunbirdQRScanner,
     private events: Events,
     private appGlobalService: AppGlobalService,
@@ -333,7 +339,7 @@ export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, Fra
     this.initNetworkDetection();
     this.appGlobalService.generateConfigInteractEvent(PageId.LIBRARY, this.isOnBoardingCardCompleted);
     await this.appNotificationService.handleNotification();
-
+await this.getEnrolledCourses();
     this.events.subscribe(EventTopics.TAB_CHANGE, async (data: string) => {
       await this.scrollToTop();
       if (data === '') {
@@ -404,7 +410,50 @@ export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, Fra
     await this.getFrameworkCategoriesLabel();
     await this.getLocalContent();
   }
+async getEnrolledCourses() {
+    const option = {
+      userId: this.profile?.uid,
+      returnFreshCourses: true
+    };
+    this.mappedTrainingCertificates = [];
+    try {
+      const res = await this.courseService.getEnrolledCourses(option).toPromise();
+      console.log("resss---->>>>>>>",res[0])
+      if (res.length) {
+        console.log("inside res.length if")
+        this.enrolledCourseList = res.sort((a, b) => (a.enrolledDate > b.enrolledDate ? -1 : 1));
+        this.mappedTrainingCertificates = this.mapTrainingsToCertificates(res);
+        console.log("this.mappedTrainingCertificates", this.mappedTrainingCertificates)
+      }
+    } catch (error) {
+      console.error('Error loading enrolled courses', error);
+    }
+  }
 
+  mapTrainingsToCertificates(trainings: Course[]) {
+    return trainings.map(course => ({
+      courseName: course.courseName,
+      batch: course.batch,
+      dateTime: course.dateTime,
+      courseId: course.courseId,
+      certificate: course.certificates?.[0],
+      issuedCertificate: course.issuedCertificates?.[0],
+      status: course.status,
+      style: course.status === 0 || course.status === 1 ? 'ongoing-status-text' : 'completed-status-text',
+      label: course.status === 0 || course.status === 1 ? 'ONGOING' : 'COMPLETED'
+    }));
+  }
+
+  async openEnrolledCourse(course) {
+    try {
+      const content = this.enrolledCourseList.find(c =>
+        c.courseId === course.courseId && c.batch.batchId === course.batch.batchId
+      );
+      await this.navService.navigateToTrackableCollection({ content });
+    } catch (err) {
+      console.error(err);
+    }
+  }
   /**
    * Get popular content
    */
