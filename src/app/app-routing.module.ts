@@ -10,11 +10,11 @@ import { IsGuestUserGuard } from '../guards/is-guest-user.guard';
 // import { MlGuard } from './manage-learn/core/guards/ml.guard';
 
 const routes: Routes = [
-  {
-    path: '',
-    redirectTo: `${RouterLinks.LANGUAGE_SETTING}`,
-    pathMatch: 'full'
-  },
+  // {
+  //   path: '',
+  //   redirectTo: `${RouterLinks.LANGUAGE_SETTING}`,
+  //   pathMatch: 'full'
+  // },
   {
     path: `${RouterLinks.LANGUAGE_SETTING}/:isFromSettings`,
     loadChildren: () => import('./language-settings/language-settings.module').then(m => m.LanguageSettingsModule)
@@ -50,7 +50,7 @@ const routes: Routes = [
     loadChildren: () => import('./resources/resources.module').then(m => m.ResourcesModule),
   },
   {
-    path: RouterLinks.HOME,
+    path: '',
     loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
   },
   { path: RouterLinks.VIEW_MORE_ACTIVITY, loadChildren: () => import('./view-more-activity/view-more-activity.module').then(m => m.ViewMoreActivityModule) },
