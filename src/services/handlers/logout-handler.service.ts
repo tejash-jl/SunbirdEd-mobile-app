@@ -7,6 +7,7 @@ import { TelemetryGeneratorService } from '../../services/telemetry-generator.se
 import { Events } from '../../util/events';
 import { Platform } from '@ionic/angular';
 import { mergeMap, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
 import {
   AuthService, ProfileService, ProfileType, SharedPreferences, SystemSettingsService
 } from '@project-sunbird/sunbird-sdk';
@@ -57,7 +58,6 @@ export class LogoutHandlerService {
 
     this.generateLogoutInteractTelemetry(InteractType.TOUCH,
       InteractSubtype.LOGOUT_INITIATE, '');
-
     this.preferences.getString(PreferenceKey.GUEST_USER_ID_BEFORE_LOGIN).pipe(
       tap(async (guestUserId: string) => {
         if (!guestUserId) {
@@ -77,7 +77,10 @@ export class LogoutHandlerService {
         }
       }),
       mergeMap((guestUserId: string) => {
-        return this.profileService.setActiveSessionForProfile(guestUserId);
+        if (guestUserId) {
+          return this.profileService.setActiveSessionForProfile(guestUserId);
+        }
+        return of(null);
       }),
       mergeMap(() => {
         return this.authService.resignSession();
@@ -119,7 +122,7 @@ export class LogoutHandlerService {
     if (selectedUserType === ProfileType.ADMIN && !isOnboardingCompleted) {
       await this.router.navigate([RouterLinks.USER_TYPE_SELECTION]);
     } else {
-      this.events.publish('UPDATE_TABS');
+      // this.events.publish('UPDATE_TABS');
     }
 
     if (selectedUserType === ProfileType.STUDENT) {
@@ -130,7 +133,7 @@ export class LogoutHandlerService {
 
     if (isOnboardingCompleted) {
       const navigationExtras: NavigationExtras = { state: { loginMode: 'guest' } };
-      await this.router.navigate([`/${RouterLinks.TABS}`], navigationExtras);
+      await this.router.navigate([`/${RouterLinks.SIGN_IN}`], navigationExtras);
     } else if (selectedUserType !== ProfileType.ADMIN) {
       const navigationExtras: NavigationExtras = { queryParams: { reOnboard: true } };
       await this.router.navigate([`/${RouterLinks.PROFILE_SETTINGS}`], navigationExtras);

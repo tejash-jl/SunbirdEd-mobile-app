@@ -453,7 +453,7 @@ private async upgradeAppPopover(requiredVersionCode) {
     if (!selctedLangCode && !selectedLangLabel) {
       let languageDetail;
       if (!langCode) {
-        // Set the default to english if not available.
+        // Set the default to arabic if not available.
         langCode = 'ar';
       }
       const LangList = appLanguages;

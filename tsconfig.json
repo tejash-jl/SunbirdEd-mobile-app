@@ -20,8 +20,6 @@
     "importHelpers": true,
     "target": "es2022",
     "skipLibCheck": true,
-    "noEmitOnError": false,
-    "strict": false,
     "types": [
       "node",
       "jest"
