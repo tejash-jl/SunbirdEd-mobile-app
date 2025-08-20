@@ -106,22 +106,6 @@
             "status": "ALL"
         },
         {
-            "root": "",
-            "name": "scan-qr-code",
-            "icon": {
-                "active": "assets/imgs/ic_qr_scanner.svg",
-                "inactive": "assets/imgs/ic_qr_scanner.svg",
-                "disabled": ""
-            },
-            "label": "",
-            "index": 3,
-            "is_visable": true,
-            "disabled": false,
-            "theme": "ALL",
-            "status": "ALL",
-            "userTypeAdmin": true
-        },
-        {
             "root": "download-manager",
             "name": "download",
             "icon": {
