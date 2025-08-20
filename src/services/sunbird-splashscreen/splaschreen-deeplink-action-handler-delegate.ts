@@ -453,8 +453,8 @@ private async upgradeAppPopover(requiredVersionCode) {
     if (!selctedLangCode && !selectedLangLabel) {
       let languageDetail;
       if (!langCode) {
-        // Set the default to english if not available.
-        langCode = 'en';
+        // Set the default to arabic if not available.
+        langCode = 'ar';
       }
       const LangList = appLanguages;
       languageDetail = LangList.find(i => i.code === langCode);

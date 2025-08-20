@@ -89,6 +89,10 @@ export class SignInPage implements OnInit {
     async ngOnInit() {
         this.appName = await this.commonUtilService.getAppName();
         await this.login();
+        this.platform.backButton.subscribeWithPriority(10, () => {
+            navigator['app'].exitApp();
+        });
+
     }
 
     async login() {

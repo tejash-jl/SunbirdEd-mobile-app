@@ -624,7 +624,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
 
     this.translate.onLangChange.subscribe((params) => {
-      if (params.lang === 'ur') {
+      if (params.lang === 'ar') {
         document.documentElement.dir = 'rtl';
       } else {
         document.documentElement.dir = 'ltr';

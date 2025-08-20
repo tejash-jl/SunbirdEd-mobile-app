@@ -36,7 +36,7 @@ export class PageFilterPage {
   backupFilters;
 
   backButtonFunc = undefined;
-  selectedLanguage = 'en';
+  selectedLanguage = 'ar';
   categories: Array<FrameworkCategoryCode> = FrameworkCategoryCodesGroup.DEFAULT_FRAMEWORK_CATEGORIES;
 
   constructor(

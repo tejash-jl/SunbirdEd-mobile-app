@@ -17,8 +17,13 @@ export class UserTypeGuard implements CanActivate {
         if (isAdminUser && this.appGlobalService.isUserLoggedIn()) {
             await this.router.navigate([`/${RouterLinks.HOME_TAB}/admin`]);
         } else {
-            await this.router.navigate([`/${RouterLinks.HOME_TAB}/user`]);
+            if (this.appGlobalService.isUserLoggedIn()) {
+                await this.router.navigate([`/${RouterLinks.HOME_TAB}/user`]);
+            } else {
+                await this.router.navigate([`/${RouterLinks.SIGN_IN}`]);
+            }
         }
         return false;
     }
 }
+

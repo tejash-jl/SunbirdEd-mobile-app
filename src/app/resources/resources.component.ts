@@ -613,7 +613,6 @@ export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, Fra
     const utilityConfigFields = await this.formAndFrameworkUtilService.getFormFields(FormConstants.UTILITY_CONFIG);
     if (utilityConfigFields.find(field => field.code === 'experienceSwitchPopupConfig').config.isEnabled) {
       this.coachTimeout = setTimeout(async () => {
-        await this.appGlobalService.showNewTabsSwitchPopup();
        }, 2000);
     }
   }
