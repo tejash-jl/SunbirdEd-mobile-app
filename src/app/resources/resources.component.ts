@@ -146,7 +146,6 @@ export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, Fra
   networkFlag: boolean;
   public imageSrcMap = new Map();
   enrolledCourseList = [];
-  mappedTrainingCertificates = [];
   myLearningLimit = 3;
 
   /**
@@ -414,37 +413,18 @@ export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, Fra
 
   async getEnrolledCourses() {
     const option = {
-      userId: this.profile?.uid,
-      returnFreshCourses: true
+      userId: this.profile.uid,
     };
-    this.mappedTrainingCertificates = [];
-    try {
-      const res = await this.courseService.getEnrolledCourses(option).toPromise();
-      console.log("resss---->>>>>>>", res[0])
-      if (res.length) {
-        console.log("inside res.length if")
-        this.enrolledCourseList = res.sort((a, b) => (a.enrolledDate > b.enrolledDate ? -1 : 1));
-        this.mappedTrainingCertificates = this.mapTrainingsToCertificates(res);
-        console.log("this.mappedTrainingCertificates", this.mappedTrainingCertificates)
-        this.injectEnrolledIntoDynamicResponse();
-      }
-    } catch (error) {
-      console.error('Error loading enrolled courses', error);
-    }
-  }
-
-  mapTrainingsToCertificates(trainings: Course[]) {
-    return trainings.map(course => ({
-      courseName: course.courseName,
-      batch: course.batch,
-      dateTime: course.dateTime,
-      courseId: course.courseId,
-      certificate: course.certificates?.[0],
-      issuedCertificate: course.issuedCertificates?.[0],
-      status: course.status,
-      style: course.status === 0 || course.status === 1 ? 'ongoing-status-text' : 'completed-status-text',
-      label: course.status === 0 || course.status === 1 ? 'ONGOING' : 'COMPLETED'
-    }));
+    this.courseService.getEnrolledCourses(option).toPromise()
+      .then(async (res: Course[]) => {
+        if (res.length) {
+          this.enrolledCourseList = res.sort((a, b) => (a.enrolledDate > b.enrolledDate ? -1 : 1));
+          console.log("this.enrolledCourseList", this.enrolledCourseList);
+        }
+      })
+      .catch((error: any) => {
+        console.error('error while loading enrolled courses', error);
+      });
   }
 
   async openEnrolledCourse(course) {
