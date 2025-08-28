@@ -115,7 +115,6 @@ export class TabsPage implements OnInit, AfterViewInit {
       (this.tabRef.outlet.component as unknown as OnTabViewWillEnter).tabViewWillEnter();
     }
     this.tabs = this.container.getAllTabs();
-    console.log("this.tabs ->>>>>", this.tabs);
     this.events.publish('update_header');
     this.events.subscribe('return_course', () => {
       setTimeout(async () => {
@@ -177,7 +176,6 @@ export class TabsPage implements OnInit, AfterViewInit {
 
   private async getInitialTabs(session): Promise<any[]> {
     const defaultSwitchableTabsConfig = SwitchableTabsConfig.RESOURCE_COURSE_TABS_CONFIG;
-    console.log("defaultSwitchableTabsConfig: ", defaultSwitchableTabsConfig)
     const selectedSwitchableTabsConfig = (await this.preferences.getString(PreferenceKey.SELECTED_SWITCHABLE_TABS_CONFIG).toPromise()) ||
       defaultSwitchableTabsConfig;
     const selectedUserType = await this.preferences.getString(PreferenceKey.SELECTED_USER_TYPE).toPromise();
@@ -200,8 +198,6 @@ export class TabsPage implements OnInit, AfterViewInit {
         [SwitchableTabsConfig.HOME_DISCOVER_TABS_CONFIG]: this.tabList
       }
     };
-
-    console.log("this.tabList: ", this.tabList);
 
     if (!session) {
       const profileType = this.appGlobalService.guestProfileType;
