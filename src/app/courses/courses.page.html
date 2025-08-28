@@ -5,50 +5,63 @@
   <ion-refresher #courseRefresher slot="fixed" (ionRefresh)="getCourseTabData($event)">
     <ion-refresher-content refreshingSpinner="circles"></ion-refresher-content>
   </ion-refresher>
-
   <div *ngIf="showSignInCard" class="enrolled-course-bg">
     <app-sign-in-card [source]="'courses'" (valueChange)="showOfflineWarning()"></app-sign-in-card>
   </div>
   <div *ngIf="!guestUser" class="pt-8 enrolled-course-bg">
-    <ng-container *ngIf="showLoader && enrolledCourses && enrolledCourses.length === 0">
+    <ng-container *ngIf="showLoader && enrolledCourseList && enrolledCourseList.length === 0">
       <sb-course-cards-hlist [type]="courseCardType.MY_COURSE_RECENTLY_VIEWED_CARD_GRID" [isLoading]="showLoader">
       </sb-course-cards-hlist>
     </ng-container>
   </div>
-  <div *ngFor="let section of dynamicCourses">
-    <div *ngIf="!guestUser && section?.theme?.component === 'sb-course-cards-hlist'" class="pt-8 enrolled-course-bg">
-      <ng-container *ngIf="section?.theme?.component === 'sb-course-cards-hlist'">
-        <ng-container *ngFor="let subSection of section?.data?.sections">
-          <ng-container *ngIf="subSection?.contents?.length">
-            <sb-course-cards-hlist
-              [title]="(section?.title) | translateJson"
-              [type]="section?.theme?.inputs?.type || courseCardType.MY_COURSE_RECENTLY_VIEWED_CARD_GRID"
-              [contentList]="subSection.contents"
-              [hideProgress]="section?.theme?.inputs?.hideProgress || true"
-              [viewMoreButtonText]="(section?.theme?.inputs?.viewMoreButtonText | translateJson) || ('VIEW_ALL' | translate)"
-              [maxCardCount]="section?.theme?.inputs?.maxCardCount || 10"
-              (viewMoreClick)="navigateToViewMoreContentsPage(true)"
-              (cardClick)="openEnrolledCourseDetails($event)">
-            </sb-course-cards-hlist>
-          </ng-container>
-        </ng-container>
-      </ng-container>
-    </div>
-    <div *ngIf="section.theme.component === 'sb-library-cards-stack'">
-      <div class="section-header-style" aria-level="2" *ngIf="section?.data.sections.length">{{section?.title | translateJson}}</div>
-      <div *ngFor="let section of section?.data.sections; let i=index">
-        <div *ngIf="section?.contents?.length" class="sb-textbook-container">
-          <sb-library-cards-stack [title]="section?.name" [contentList]="section?.contents"
-            [isOffline]="!commonUtilService.networkInfo.isNetworkAvailable"
-            [viewMoreButtonText]="'VIEW_MORE' | translate" [maxCardCount]="3"
-            (viewMoreClick)="navigateToTextbookPage(section?.contents, section.name)"
-            (cardClick)="openCourseDetails($event, section, i)" [isLoading]="showLoader">
-          </sb-library-cards-stack>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Filter Courses</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div *ngFor="let filter of dynamicFilters">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>{{ filter.label }}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-item *ngFor="let option of filter.options">
+                <ion-checkbox slot="start" [checked]="filter.selected?.includes(option.code)"
+                  (ionChange)="onOptionToggle(filter, option.code, $event)">
+                </ion-checkbox>
+                <ion-label>{{ option.name }}</ion-label>
+              </ion-item>
+            </ion-card-content>
+          </ion-card>
         </div>
+        
+        <ion-button expand="block" (click)="applyDynamicFilters()">
+          Apply Filters
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <div *ngIf="enrolledCourseList?.length">
+      <h3 class="section-title">Enrolled Courses</h3>
+      <div class="course-grid">
+        <ng-container *ngFor="let course of enrolledCourseList; trackBy: trackByCourseId">
+            <div class="course-card-header">
+              <div class="course-label">COURSE</div>
+
+              <img [src]="course.courseLogoUrl || defaultAppIcon" alt="course logo" class="course-logo" />
+
+              <div class="course-info">
+                <h2 class="course-title">{{ course.courseName }}</h2>
+                <p class="course-id">{{ course.contentId }}</p>
+              </div>
+            </div>
+
+            <ion-card-content>
+              <p>{{ course.description }}</p>
+            </ion-card-content>
+        </ng-container>
       </div>
     </div>
-  </div>
-
   <ion-list class="m-n" *ngIf="showLoader && popularAndLatestCourses && popularAndLatestCourses.length === 0">
     <app-skeleton-item height="16px" width="40%" style="padding: 16px;"></app-skeleton-item>
     <ion-item *ngFor="let i of [0,1,2,3,4,5,6,7,8]" class="animation-background">
@@ -71,7 +84,7 @@
         <p class="sub-heading">{{'FRMELEMNTS_LBL_CONTENT_TO_BE_ADDED' | translate }}</p>
         <ion-button class="explore-more-content" expand="block" fill="outline" (click)="exploreOtherContents()">
           {{'FRMELEMENTS_LBL_SEE_MORE_COURSES' | translate}} </ion-button>
-      </div>  
+      </div>
     </div>
   </div>
 
@@ -98,7 +111,6 @@
     </span>
     <ion-label *ngIf="downloadPercentage === 100">{{ 'LOADING_CONTENT' | translate }}</ion-label>
   </div>
-
   <div class="backdrop-footer" *ngIf="downloadPercentage !== 100">
     <ion-button size="small" (click)="cancelDownload()">{{'CANCEL' | translate}}</ion-button>
   </div>

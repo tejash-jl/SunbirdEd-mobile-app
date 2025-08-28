@@ -438,59 +438,59 @@ export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, Fra
     }
   }
 
-  // ADD THIS METHOD
-  private injectEnrolledIntoDynamicResponse() {
-    if (this.guestUser) { return; }
-    if (!this.enrolledCourseList || !this.enrolledCourseList.length) { return; }
+  // // ADD THIS METHOD
+  // private injectEnrolledIntoDynamicResponse() {
+  //   if (this.guestUser) { return; }
+  //   if (!this.enrolledCourseList || !this.enrolledCourseList.length) { return; }
 
-    // Map enrolments into card-friendly objects
-    const enrolledCards = this.enrolledCourseList.map((c: any) => ({
-      ...c,
-      // Many card components expect "name" and an identifier-like field
-      name: c.courseName ?? c.name,
-      identifier: c.courseId,         // used by some components
-      contentId: c.courseId,          // used in telemetry helper
-      // Prefer courseLogoUrl, fall back to appIcon/default
-      cardImg: this.commonUtilService.convertFileSrc(c.courseLogoUrl)
-        || this.commonUtilService.convertFileSrc(c.appIcon)
-        || this.defaultAppIcon
-    }));
+  //   // Map enrolments into card-friendly objects
+  //   const enrolledCards = this.enrolledCourseList.map((c: any) => ({
+  //     ...c,
+  //     // Many card components expect "name" and an identifier-like field
+  //     name: c.courseName ?? c.name,
+  //     identifier: c.courseId,         // used by some components
+  //     contentId: c.courseId,          // used in telemetry helper
+  //     // Prefer courseLogoUrl, fall back to appIcon/default
+  //     cardImg: this.commonUtilService.convertFileSrc(c.courseLogoUrl)
+  //       || this.commonUtilService.convertFileSrc(c.appIcon)
+  //       || this.defaultAppIcon
+  //   }));
 
-    // Our synthetic "TRACKABLE_COLLECTIONS" group, horizontal layout
-    const myLearningTrackable = {
-      name: this.commonUtilService.translateMessage('MY_LEARNING') || 'My Learning',
-      theme: { orientation: 'horizontal' },
-      dataSrc: { type: 'TRACKABLE_COLLECTIONS' },
-      title: 'MY_LEARNING',
-      data: {
-        sections: [
-          {
-            name: 'Enrolled',
-            contents: enrolledCards
-          }
-        ]
-      },
-      // internal marker to avoid duplicates during re-injection
-      __injected: 'enrolments'
-    };
+  //   // Our synthetic "TRACKABLE_COLLECTIONS" group, horizontal layout
+  //   const myLearningTrackable = {
+  //     name: this.commonUtilService.translateMessage('MY_LEARNING') || 'My Learning',
+  //     theme: { orientation: 'horizontal' },
+  //     dataSrc: { type: 'TRACKABLE_COLLECTIONS' },
+  //     title: 'MY_LEARNING',
+  //     data: {
+  //       sections: [
+  //         {
+  //           name: 'Enrolled',
+  //           contents: enrolledCards
+  //         }
+  //       ]
+  //     },
+  //     // internal marker to avoid duplicates during re-injection
+  //     __injected: 'enrolments'
+  //   };
 
-    // Insert at the top and ensure we don't duplicate on subsequent refreshes
-    const rest = Array.isArray(this.dynamicResponse)
-      ? this.dynamicResponse.filter(r => r?.__injected !== 'enrolments')
-      : [];
-    this.dynamicResponse = [myLearningTrackable, ...rest];
-  }
+  //   // Insert at the top and ensure we don't duplicate on subsequent refreshes
+  //   const rest = Array.isArray(this.dynamicResponse)
+  //     ? this.dynamicResponse.filter(r => r?.__injected !== 'enrolments')
+  //     : [];
+  //   this.dynamicResponse = [myLearningTrackable, ...rest];
+  // }
 
-  // ADD THIS METHOD
-  onCardClick(result: any, event: any) {
-    const data = event?.data?.content ?? event?.data ?? event;
-    if (result?.dataSrc?.type === 'TRACKABLE_COLLECTIONS') {
-      // Your method uses courseId + batch to open the collection
-      this.openEnrolledCourse(data);
-    } else {
-      this.navigateToDetailPage(event, result?.name);
-    }
-  }
+  // // ADD THIS METHOD
+  // onCardClick(result: any, event: any) {
+  //   const data = event?.data?.content ?? event?.data ?? event;
+  //   if (result?.dataSrc?.type === 'TRACKABLE_COLLECTIONS') {
+  //     // Your method uses courseId + batch to open the collection
+  //     this.openEnrolledCourse(data);
+  //   } else {
+  //     this.navigateToDetailPage(event, result?.name);
+  //   }
+  // }
 
   /**
    * Get popular content
@@ -595,7 +595,6 @@ export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, Fra
       this.refresh = false;
       this.searchApiLoader = false;
       this.generateExtraInfoTelemetry(newSections.length);
-      this.injectEnrolledIntoDynamicResponse();
     } catch (error) {
       this.ngZone.run(() => {
         this.refresh = false;
@@ -683,7 +682,6 @@ export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, Fra
 
     if (!this.pageLoadedSuccess) {
       await this.getPopularContent();
-this.injectEnrolledIntoDynamicResponse();
     }
     this.subscribeSdkEvent();
 

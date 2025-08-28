@@ -22,8 +22,11 @@ import {
   CourseBatchStatus,
   CourseEnrollmentType,
   CourseService, DownloadEventType, DownloadProgress, EventsBusEvent, EventsBusService,
+  Framework,
+  FrameworkCategory,
   FrameworkCategoryCode,
   FrameworkCategoryCodesGroup,
+  FrameworkDetailsRequest,
   FrameworkService, FrameworkUtilService, GetFrameworkCategoryTermsRequest, NetworkError, PageAssembleCriteria, PageName,
   Profile, ProfileService, SharedPreferences,
   SortOrder, TelemetryObject
@@ -53,6 +56,9 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './courses.page.html',
   styleUrls: ['./courses.page.scss'],
 })
+
+
+
 export class CoursesPage implements OnInit, OnDestroy {
 
   @ViewChild('courseRefresher', { static: false }) refresher: IonRefresher;
@@ -64,13 +70,13 @@ export class CoursesPage implements OnInit, OnDestroy {
 
   /**
    * Contains popular and latest courses ist
-   */
-  popularAndLatestCourses: Array<any>;
+  */
+ popularAndLatestCourses: Array<any>;
 
-  /**
-   * Contains user id
-   */
-  userId: string;
+ /**
+  * Contains user id
+ */
+userId: string;
 
   /**
    * Flag to show/hide loader
@@ -82,7 +88,7 @@ export class CoursesPage implements OnInit, OnDestroy {
 
   /**
    * Flag to show latest and popular course loader
-   */
+  */
   pageApiLoader = true;
   guestUser = false;
   showSignInCard = false;
@@ -97,6 +103,7 @@ export class CoursesPage implements OnInit, OnDestroy {
   profile: Profile;
   isVisible = false;
   inProgressSection = 'My Courses';
+  dynamicFilters: Array<any> = [];
 
   /**
    * To queue downloaded identifier
@@ -123,6 +130,8 @@ export class CoursesPage implements OnInit, OnDestroy {
   resetCourseFilter: boolean;
   filter: ContentSearchCriteria;
   isCourseListEmpty: boolean;
+  enrolledCourseList: Course[];
+  categories: any;
 
   constructor(
     @Inject('EVENTS_BUS_SERVICE') private eventBusService: EventsBusService,
@@ -171,12 +180,16 @@ export class CoursesPage implements OnInit, OnDestroy {
   /**
    * Angular life cycle hooks
    */
-  ngOnInit() {
-    this.getCourseTabData();
+  async ngOnInit() {
+    await this.initializeDynamicFilters();
+    // this.getCourseTabData();
+    await this.getEnrolledCourses();
+    this.getFrameworkDetails();
+    console.log("inside tabs/courses");
 
-    this.events.subscribe('event:update_course_data', async () => {
-      await this.getAggregatorResult();
-    });
+    // this.events.subscribe('event:update_course_data', async () => {
+    //   await this.getAggregatorResult();
+    // });
   }
 
   ngOnDestroy() {
@@ -211,27 +224,29 @@ export class CoursesPage implements OnInit, OnDestroy {
   }
 
   async ionViewWillEnter() {
-    this.refresher.disabled = false;
-    this.isVisible = true;
-    this.events.subscribe('update_header', async () => {
-      await this.headerService.showHeaderWithHomeButton(['search', 'download']);
-    });
-    this.headerObservable = this.headerService.headerEventEmitted$.subscribe(async eventName => {
-      await this.handleHeaderEvents(eventName);
-    });
-    await this.headerService.showHeaderWithHomeButton(['search', 'download']);
+    // this.refresher.disabled = false;
+    // this.isVisible = true;
+    // this.events.subscribe('update_header', async () => {
+    //   await this.headerService.showHeaderWithHomeButton(['search', 'download']);
+    // });
+    // this.headerObservable = this.headerService.headerEventEmitted$.subscribe(async eventName => {
+    //   await this.handleHeaderEvents(eventName);
+    // });
+    // await this.headerService.showHeaderWithHomeButton(['search', 'download']);
+    console.log("inside ionViewWillEnter");
   }
 
   async ionViewDidEnter() {
-    await this.sbProgressLoader.hide({ id: ProgressPopupContext.DEEPLINK });
-    this.appGlobalService.generateConfigInteractEvent(PageId.COURSES, this.isOnBoardingCardCompleted);
+    // await this.sbProgressLoader.hide({ id: ProgressPopupContext.DEEPLINK });
+    // this.appGlobalService.generateConfigInteractEvent(PageId.COURSES, this.isOnBoardingCardCompleted);
 
-    this.events.subscribe('event:showScanner', async (data) => {
-      if (data.pageName === PageId.COURSES) {
-        await this.qrScanner.startScanner(PageId.COURSES, false);
-      }
-    });
-    await this.sbProgressLoader.hide({ id: 'login' });
+    // this.events.subscribe('event:showScanner', async (data) => {
+    //   if (data.pageName === PageId.COURSES) {
+    //     await this.qrScanner.startScanner(PageId.COURSES, false);
+    //   }
+    // });
+    // await this.sbProgressLoader.hide({ id: 'login' });
+    console.log("inside ionViewDidEnter");
   }
 
   ionViewWillLeave() {
@@ -248,6 +263,7 @@ export class CoursesPage implements OnInit, OnDestroy {
       this.showOverlay = false;
       this.downloadPercentage = 0;
     });
+    console.log("inside ionViewWillLeave");
   }
 
   generateNetworkType() {
@@ -403,6 +419,100 @@ export class CoursesPage implements OnInit, OnDestroy {
     const profileType = this.appGlobalService.getGuestUserType();
     this.showSignInCard = this.commonUtilService.isAccessibleForNonStudentRole(profileType);
   }
+
+  async getEnrolledCourses() {
+    this.profile = await this.profileService.getActiveSessionProfile({ requiredFields: ProfileConstants.REQUIRED_FIELDS }).toPromise();
+    const option = {
+      userId: this.profile.uid,
+    };
+    this.courseService.getEnrolledCourses(option).toPromise()
+      .then(async (res: Course[]) => {
+        if (res.length) {
+          this.enrolledCourseList = res.sort((a, b) => (a.enrolledDate > b.enrolledDate ? -1 : 1));
+          console.log("this.enrolledCourseList", this.enrolledCourseList);
+        }
+      })
+      .catch((error: any) => {
+        console.error('error while loading enrolled courses', error);
+      });
+  }
+
+  async openEnrolledCourse(course) {
+    try {
+      const content = this.enrolledCourseList.find(c =>
+        c.courseId === course.courseId && c.batch.batchId === course.batch.batchId
+      );
+      await this.navService.navigateToTrackableCollection({ content });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  getFrameworkDetails(): void {
+    const frameworkDetailsRequest: FrameworkDetailsRequest = {
+      frameworkId: this.profile && this.profile.syllabus && this.profile.syllabus[0] ? this.profile.syllabus[0] : '',
+      requiredCategories: FrameworkCategoryCodesGroup.DEFAULT_FRAMEWORK_CATEGORIES,
+    };
+    this.frameworkService
+      .getFrameworkDetails(frameworkDetailsRequest)
+      .toPromise()
+      .then(async (framework: any) => {
+        console.log("framework", framework);
+        // console.log("this.catagories --------->>", this.categories)
+      }).catch(e => console.error(e));
+    this.frameworkService
+      .getFrameworkConfig(frameworkDetailsRequest.frameworkId)
+      .toPromise()
+      .then(async (frameworkConfig: any) => {
+        this.dynamicFilters = frameworkConfig;
+        console.log("frameworkConfig", frameworkConfig);
+        // console.log("this.catagories --------->>", this.categories)
+      }).catch(e => console.error(e));
+  }
+
+  async initializeDynamicFilters() {
+
+    for (const filter of this.dynamicFilters) {
+      const req: GetFrameworkCategoryTermsRequest = {
+        currentCategoryCode: filter.code,
+        language: this.translate.currentLang,
+        requiredCategories: FrameworkCategoryCodesGroup.DEFAULT_FRAMEWORK_CATEGORIES,
+        frameworkId: this.profile?.syllabus?.[0] || ''
+      };
+      await this.frameworkUtilService.getFrameworkCategoryTerms(req).toPromise().then((terms) => {
+        filter.options = terms;
+      });
+    }
+  }
+
+  applyDynamicFilters() {
+    const appliedFilters = {};
+    this.dynamicFilters.forEach(filter => {
+      if (filter.selected.length > 0) {
+        appliedFilters[filter.code] = filter.selected;
+      }
+    });
+    this.filter = appliedFilters;
+    this.getAggregatorResult();
+  }
+
+
+  onOptionToggle(filter, code, event) {
+    if (!filter.selected) {
+      filter.selected = [];
+    }
+    if (event.detail.checked) {
+      if (!filter.selected.includes(code)) {
+        filter.selected.push(code);
+      }
+    } else {
+      const index = filter.selected.indexOf(code);
+      if (index > -1) {
+        filter.selected.splice(index, 1);
+      }
+    }
+  }
+
 
   async search() {
     this.telemetryGeneratorService.generateInteractTelemetry(InteractType.TOUCH,

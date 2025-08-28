@@ -1,5 +1,4 @@
 <ion-content>
-  <h1>#2</h1>
   <div class="spinner-div" *ngIf="refresh">
       <ion-spinner icon="spiral" class="refreshspinner"></ion-spinner>
   </div>
@@ -12,7 +11,6 @@
     </div> 
     
     <div class="preference-container" *ngIf="preferenceList && preferenceList.length">
-      <p>#15</p>
       <div class="user-preference">
         <div class="preference-data" (click)="viewPreferenceInfo()">
           <div>
@@ -35,7 +33,6 @@
   </div>
 
   <ion-list class="m-n" *ngIf="!displaySections">
-    <p>#38</p>
     <app-skeleton-item height="16px" width="40%" style="padding: 16px;"></app-skeleton-item>
     <ion-item *ngFor="let i of [0,1,2,3,4,5,6,7,8]" class="animation-background">
       <ion-avatar item-start>
@@ -49,7 +46,6 @@
   </ion-list>
 
   <div class="form-api-components" *ngIf="displaySections && displaySections.length && (homeDataAvailable || displayBanner)">
-<p>#52</p>
     <ng-container *ngFor="let section of displaySections">
 
       <ng-container *ngIf="section?.theme?.component === 'sb-course-cards-hlist'">
@@ -170,9 +166,7 @@
   </div>
 
   <div *ngIf="!homeDataAvailable" class="p-16 pt-32">
-    <p>#173</p>
     <div class="sb-nodownloads-container" *ngIf="commonUtilService?.networkInfo?.isNetworkAvailable">
-      <p>#175</p>
       <div class="text-center">
         <img style="width: 30%;" src="./assets/imgs/group.svg" alt="">
       </div>
@@ -187,7 +181,6 @@
 
     <div class="ion-padding ion-text-center mt-32 mb-32" style="padding-top: 34px;"
       *ngIf="!commonUtilService?.networkInfo?.isNetworkAvailable">
-      <p>#190</p>
       <img src="assets/imgs/outline-cloud_off.svg" alt="" />
       <ion-text>
         <h6 class="offline-header">

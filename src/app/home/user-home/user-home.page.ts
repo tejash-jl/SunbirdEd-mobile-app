@@ -160,7 +160,6 @@ export class UserHomePage implements OnInit, OnDestroy, OnTabViewWillEnter {
     this.events.subscribe('refresh:loggedInProfile', async () => {
       await this.getUserProfileDetails();
     });
-    this.getEnrolledCourses();
 
     this.events.subscribe(EventTopics.TAB_CHANGE, async (data: string) => {
       if (data === '') {
@@ -267,7 +266,6 @@ export class UserHomePage implements OnInit, OnDestroy, OnTabViewWillEnter {
       .toPromise()
       .then(async (framework: Framework) => {
         this.categories = framework.categories;
-        console.log("this.catagories --------->>", this.categories)
       }).catch(e => console.error(e));
   }
 
@@ -291,41 +289,12 @@ export class UserHomePage implements OnInit, OnDestroy, OnTabViewWillEnter {
     return displayValues;
   }
 
-    async getEnrolledCourses() {
-    const option = {
-      userId: this.profile?.uid,
-      returnFreshCourses: true
-    };
-    try {
-      const res = await this.courseService.getEnrolledCourses(option).toPromise();
-      console.log("resss---->>>>>>>", res)
-      if (res.length) {
-        console.log("inside res.length if")
-        this.enrolledCourseList = res.sort((a, b) => (a.enrolledDate > b.enrolledDate ? -1 : 1));
-      }
-    } catch (error) {
-      console.error('Error loading enrolled courses', error);
-    }
-  }
-
-  async openEnrolledCourse(course) {
-    try {
-      const content = this.enrolledCourseList.find(c =>
-        c.courseId === course.courseId && c.batch.batchId === course.batch.batchId
-      );
-      await this.navService.navigateToDetailPage(course, { content: course });
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
   private async fetchDisplayElements(refresher?) {
     this.displaySections = undefined;
     const request: ContentAggregatorRequest = {
       userPreferences: this.userFrameworkCategories,
       interceptSearchCriteria: (contentSearchCriteria) => {
         contentSearchCriteria = {...contentSearchCriteria, ...this.userFrameworkCategories};
-        console.log('contentSearchCriteria', contentSearchCriteria)
         return contentSearchCriteria;
       }, from: refresher ? CachedItemRequestSourceFrom.SERVER : CachedItemRequestSourceFrom.CACHE
     };
