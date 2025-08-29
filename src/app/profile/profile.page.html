@@ -61,7 +61,7 @@
     </div>
     <div class="framework-block" *ngIf="profile?.framework && isCategoryLoaded">
         <div *ngFor="let category of categories">
-            <div class="container" *ngIf="profile?.framework[category.code]">
+            <div class="container" *ngIf="profile?.framework[category.code] && category.label != 'Category'">
                 <span>{{category.label | translateJson}}: </span>
                 <span class="bolder">{{profile?.framework[category.code].join(', ') | aliased}} &lrm;</span>
             </div>
@@ -73,28 +73,7 @@
         </div>
     </div>
    </div>
-    <div class="self-declare-btn text-center" *ngIf="!profile?.declarations?.length && !profile?.isMinor && isCustodianOrgId">
-        <ion-button shape="round" (click)="openSelfDeclareTeacherForm('add')">
-            {{'SUBMIT_MY_DETAILS' | translate}}
-        </ion-button>
-    </div>
     <div class="contacts" *ngIf="!profile?.managedBy && (profile?.phone || profile?.email)">
-        <div *ngIf="profile?.phone">
-            <div class="phone" (click)="editMobileNumber();">
-                <span class="icon MR10 align-middle">
-                    <ion-icon aria-hidden="true" name="call"></ion-icon>
-                </span>
-                <span class="value align-middle">+91 {{ profile?.phone }}</span>
-            </div>
-        </div>
-        <div *ngIf="!profile?.phone">
-            <div class="phone light" (click)="editMobileNumber();" tabindex="0">
-                <span class="icon MR10 align-middle">
-                    <ion-icon aria-hidden="true" name="call"></ion-icon>
-                </span>
-                <span class="value align-middle">{{'ADD_PHONE' | translate}}</span>
-            </div>
-        </div>
         <div *ngIf="profile?.email">
             <div class="email " (click)="editEmail();" tabindex="0">
                 <span class="icon MR10 align-middle">
@@ -132,10 +111,6 @@
                 <span class="value align-middle">{{'ADD_RECOVERY_ID' | translate}}</span>
             </div>
         </div>
-        <button type="submit" (click)="verifyUser()"
-        class="delete_button">
-        {{'DELETE_YOUR_ACCOUNT' | translate}}
-     </button>
     </div>
 
     <div class="self-declare-teacher-details" *ngIf="isCustodianOrgId &&  profile?.declarations?.length">
