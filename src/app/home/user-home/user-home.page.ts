@@ -31,6 +31,7 @@ import {
   ContentSearchCriteria,
   ContentService,
   CorrelationData,
+  CourseService,
   Framework,
   FrameworkCategoryCode,
   FrameworkCategoryCodesGroup,
@@ -121,12 +122,15 @@ export class UserHomePage implements OnInit, OnDestroy, OnTabViewWillEnter {
   userFrameworkCategories: any;
   frameworkCategoriesValue = {}
   categoriesLabel = [];
+  enrolledCourseList = []
+  categories: FrameworkCategory[];
 
   constructor(
     @Inject('FRAMEWORK_SERVICE') private frameworkService: FrameworkService,
     @Inject('FRAMEWORK_UTIL_SERVICE') private frameworkUtilService: FrameworkUtilService,
     @Inject('PROFILE_SERVICE') private profileService: ProfileService,
     @Inject('CONTENT_SERVICE') private contentService: ContentService,
+    @Inject('COURSE_SERVICE') private courseService: CourseService,
     public commonUtilService: CommonUtilService,
     private router: Router,
     private appGlobalService: AppGlobalService,
@@ -252,37 +256,17 @@ export class UserHomePage implements OnInit, OnDestroy, OnTabViewWillEnter {
     }
   }
 
-  private async getFrameworkDetails(frameworkId?: string) {
-    const guestUser = await this.commonUtilService.getGuestUserConfig();
-    let id = "";
-    if(this.profile && this.profile.syllabus && this.profile.syllabus[0]) {
-      id = this.profile.syllabus[0]
-    } else if(guestUser && guestUser.syllabus && guestUser.syllabus[0]) {
-      id = guestUser.syllabus[0];
-    }
-   // await this.getFrameworkCategoriesLabel(id);
+  getFrameworkDetails(): void {
     const frameworkDetailsRequest: FrameworkDetailsRequest = {
-      frameworkId: id,
-      requiredCategories: FrameworkCategoryCodesGroup.DEFAULT_FRAMEWORK_CATEGORIES
+      frameworkId: this.profile && this.profile.syllabus && this.profile.syllabus[0] ? this.profile.syllabus[0] : '',
+      requiredCategories: FrameworkCategoryCodesGroup.DEFAULT_FRAMEWORK_CATEGORIES,
     };
-    await this.frameworkService.getFrameworkDetails(frameworkDetailsRequest).toPromise()
+    this.frameworkService
+      .getFrameworkDetails(frameworkDetailsRequest)
+      .toPromise()
       .then(async (framework: Framework) => {
-        this.frameworkCategoriesMap = framework.categories.reduce((acc, category) => {
-          acc[category.code] = category;
-          return acc;
-        }, {});
-        // this.preferenceList = this.frameworkCategoriesValue;
-        setTimeout(() => {
-          this.boardList = this.getFieldDisplayValues(this.profile.board.length > 0 ? this.profile.board : guestUser.board, 'board');
-          this.mediumList = this.getFieldDisplayValues(this.profile.medium.length > 0 ? this.profile.medium : guestUser.medium, 'medium');
-          this.gradeLevelList = this.getFieldDisplayValues(this.profile.grade.length > 0 ?  this.profile.grade : guestUser.grade, 'gradeLevel');
-          this.subjectList = this.getFieldDisplayValues(this.profile.subject.length > 0 ? this.profile.subject : guestUser.subject, 'subject');
-
-          // this.preferenceList.push(this.boardList);
-          // this.preferenceList.push(this.mediumList);
-          // this.preferenceList.push(this.gradeLevelList);
-        }, 0);
-      });
+        this.categories = framework.categories;
+      }).catch(e => console.error(e));
   }
 
   getFieldDisplayValues(field: Array<any>, categoryCode: string, lowerCase?: boolean): any[] {
@@ -311,7 +295,6 @@ export class UserHomePage implements OnInit, OnDestroy, OnTabViewWillEnter {
       userPreferences: this.userFrameworkCategories,
       interceptSearchCriteria: (contentSearchCriteria) => {
         contentSearchCriteria = {...contentSearchCriteria, ...this.userFrameworkCategories};
-        console.log('contentSearchCriteria', contentSearchCriteria)
         return contentSearchCriteria;
       }, from: refresher ? CachedItemRequestSourceFrom.SERVER : CachedItemRequestSourceFrom.CACHE
     };

@@ -54,6 +54,8 @@ import {
   ContentSearchCriteria,
   ContentService,
   CorrelationData,
+  Course,
+  CourseService,
   EventsBusEvent,
   EventsBusService,
   FrameworkCategoryCode,
@@ -143,6 +145,8 @@ export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, Fra
   private networkSubscription?: Subscription;
   networkFlag: boolean;
   public imageSrcMap = new Map();
+  enrolledCourseList = [];
+  myLearningLimit = 3;
 
   /**
    * Flag to show latest and popular course loader
@@ -248,6 +252,7 @@ export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, Fra
     @Inject('FRAMEWORK_SERVICE') private frameworkService: FrameworkService,
     @Inject('CONTENT_SERVICE') private contentService: ContentService,
     @Inject('SHARED_PREFERENCES') private preferences: SharedPreferences,
+    @Inject('COURSE_SERVICE') private courseService: CourseService,
     private splaschreenDeeplinkActionHandlerDelegate: SplaschreenDeeplinkActionHandlerDelegate,
     private ngZone: NgZone,
     private qrScanner: SunbirdQRScanner,
@@ -333,6 +338,7 @@ export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, Fra
     this.initNetworkDetection();
     this.appGlobalService.generateConfigInteractEvent(PageId.LIBRARY, this.isOnBoardingCardCompleted);
     await this.appNotificationService.handleNotification();
+    await this.getEnrolledCourses();
 
     this.events.subscribe(EventTopics.TAB_CHANGE, async (data: string) => {
       await this.scrollToTop();
@@ -404,6 +410,87 @@ export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, Fra
     await this.getFrameworkCategoriesLabel();
     await this.getLocalContent();
   }
+
+  async getEnrolledCourses() {
+    const option = {
+      userId: this.profile.uid,
+    };
+    this.courseService.getEnrolledCourses(option).toPromise()
+      .then(async (res: Course[]) => {
+        if (res.length) {
+          this.enrolledCourseList = res.sort((a, b) => (a.enrolledDate > b.enrolledDate ? -1 : 1));
+          console.log("this.enrolledCourseList", this.enrolledCourseList);
+        }
+      })
+      .catch((error: any) => {
+        console.error('error while loading enrolled courses', error);
+      });
+  }
+
+  async openEnrolledCourse(course) {
+    try {
+      const content = this.enrolledCourseList.find(c =>
+        c.courseId === course.courseId && c.batch.batchId === course.batch.batchId
+      );
+      await this.navService.navigateToTrackableCollection({ content });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  // // ADD THIS METHOD
+  // private injectEnrolledIntoDynamicResponse() {
+  //   if (this.guestUser) { return; }
+  //   if (!this.enrolledCourseList || !this.enrolledCourseList.length) { return; }
+
+  //   // Map enrolments into card-friendly objects
+  //   const enrolledCards = this.enrolledCourseList.map((c: any) => ({
+  //     ...c,
+  //     // Many card components expect "name" and an identifier-like field
+  //     name: c.courseName ?? c.name,
+  //     identifier: c.courseId,         // used by some components
+  //     contentId: c.courseId,          // used in telemetry helper
+  //     // Prefer courseLogoUrl, fall back to appIcon/default
+  //     cardImg: this.commonUtilService.convertFileSrc(c.courseLogoUrl)
+  //       || this.commonUtilService.convertFileSrc(c.appIcon)
+  //       || this.defaultAppIcon
+  //   }));
+
+  //   // Our synthetic "TRACKABLE_COLLECTIONS" group, horizontal layout
+  //   const myLearningTrackable = {
+  //     name: this.commonUtilService.translateMessage('MY_LEARNING') || 'My Learning',
+  //     theme: { orientation: 'horizontal' },
+  //     dataSrc: { type: 'TRACKABLE_COLLECTIONS' },
+  //     title: 'MY_LEARNING',
+  //     data: {
+  //       sections: [
+  //         {
+  //           name: 'Enrolled',
+  //           contents: enrolledCards
+  //         }
+  //       ]
+  //     },
+  //     // internal marker to avoid duplicates during re-injection
+  //     __injected: 'enrolments'
+  //   };
+
+  //   // Insert at the top and ensure we don't duplicate on subsequent refreshes
+  //   const rest = Array.isArray(this.dynamicResponse)
+  //     ? this.dynamicResponse.filter(r => r?.__injected !== 'enrolments')
+  //     : [];
+  //   this.dynamicResponse = [myLearningTrackable, ...rest];
+  // }
+
+  // // ADD THIS METHOD
+  // onCardClick(result: any, event: any) {
+  //   const data = event?.data?.content ?? event?.data ?? event;
+  //   if (result?.dataSrc?.type === 'TRACKABLE_COLLECTIONS') {
+  //     // Your method uses courseId + batch to open the collection
+  //     this.openEnrolledCourse(data);
+  //   } else {
+  //     this.navigateToDetailPage(event, result?.name);
+  //   }
+  // }
 
   /**
    * Get popular content

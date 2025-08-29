@@ -46,7 +46,6 @@
   </ion-list>
 
   <div class="form-api-components" *ngIf="displaySections && displaySections.length && (homeDataAvailable || displayBanner)">
-
     <ng-container *ngFor="let section of displaySections">
 
       <ng-container *ngIf="section?.theme?.component === 'sb-course-cards-hlist'">
