@@ -237,13 +237,15 @@ export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, Fra
   };
 
   private tutorialPopover;
-  defaultAppIcon:string = '';
+  defaultAppIcon:string = 'https://dev-fmps.sunbirded.org/assets/images/book.png';
   userFrameworkCategories = {};
   listofCategory: any;
   requiredCategories = [];
   category1Code = '';
   category2Code = '';
   category3Code = '';
+  inProgressCourses: any[];
+  completedCourses: any[];
 
   constructor(
     @Inject('PROFILE_SERVICE') private profileService: ProfileService,
@@ -419,6 +421,8 @@ export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, Fra
       .then(async (res: Course[]) => {
         if (res.length) {
           this.enrolledCourseList = res.sort((a, b) => (a.enrolledDate > b.enrolledDate ? -1 : 1));
+          this.inProgressCourses = this.enrolledCourseList.filter(course => course.status === 1 && course.progress >= 0);
+          this.completedCourses = this.enrolledCourseList.filter(course => course.status === 2 && course.progress > 0);
           console.log("this.enrolledCourseList", this.enrolledCourseList);
         }
       })
