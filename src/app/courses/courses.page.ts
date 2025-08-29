@@ -181,10 +181,10 @@ userId: string;
    * Angular life cycle hooks
    */
   async ngOnInit() {
+    this.getFrameworkDetails();
     await this.initializeDynamicFilters();
     // this.getCourseTabData();
     await this.getEnrolledCourses();
-    this.getFrameworkDetails();
     console.log("inside tabs/courses");
 
     // this.events.subscribe('event:update_course_data', async () => {
