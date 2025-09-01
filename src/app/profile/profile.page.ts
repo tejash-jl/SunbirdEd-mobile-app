@@ -375,7 +375,18 @@ export class ProfilePage implements OnInit {
                     that.getOrgDetails();
                     that.isCustodianOrgId = (that.profile.rootOrg.rootOrgId === this.custodianOrgId);
                     that.isStateValidated = that.profile.stateValidated;
-                    let parsedConfig = JSON.parse(activeProfile.serverProfile.framework.profileConfig[0]);
+                    let parsedConfig: any = {};
+                  try {
+                    if (
+                      activeProfile?.serverProfile?.framework?.profileConfig?.[0]
+                    ) {
+                      parsedConfig = JSON.parse(activeProfile.serverProfile.framework.profileConfig[0]);
+                    }
+                  } catch (e) {
+                    console.error("Error parsing profileConfig:", e);
+                    parsedConfig = {};
+                  }
+                    // let parsedConfig = JSON.parse(activeProfile.serverProfile.framework.profileConfig[0]);
                     this.profileConfig = Object.entries(parsedConfig).map(([key, value]) => ({
                       key: key.charAt(0).toUpperCase() + key.slice(1),
                       value
