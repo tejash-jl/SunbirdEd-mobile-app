@@ -117,6 +117,7 @@ export class ProfilePage implements OnInit {
   mediumList = [];
   gradeLevelList = [];
   subjectList = [];
+  profileConfig: any = [];
       loader?: HTMLIonLoadingElement;
 
 
@@ -374,6 +375,22 @@ export class ProfilePage implements OnInit {
                     that.getOrgDetails();
                     that.isCustodianOrgId = (that.profile.rootOrg.rootOrgId === this.custodianOrgId);
                     that.isStateValidated = that.profile.stateValidated;
+                    let parsedConfig: any = {};
+                  try {
+                    if (
+                      activeProfile?.serverProfile?.framework?.profileConfig?.[0]
+                    ) {
+                      parsedConfig = JSON.parse(activeProfile.serverProfile.framework.profileConfig[0]);
+                    }
+                  } catch (e) {
+                    console.error("Error parsing profileConfig:", e);
+                    parsedConfig = {};
+                  }
+                    // let parsedConfig = JSON.parse(activeProfile.serverProfile.framework.profileConfig[0]);
+                    this.profileConfig = Object.entries(parsedConfig).map(([key, value]) => ({
+                      key: key.charAt(0).toUpperCase() + key.slice(1),
+                      value
+                    }));
                     resolve();
                   }).catch(e => console.error(e));
                   if(profileData && profileData.framework && Object.keys(profileData.framework).length == 0 && this.isCustodianOrgId) {
