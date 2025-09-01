@@ -236,7 +236,7 @@ export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, Fra
   };
 
   private tutorialPopover;
-  defaultAppIcon:string = 'https://dev-fmps.sunbirded.org/assets/images/book.png';
+  defaultAppIcon:string = 'assets/imgs/book.png';
   userFrameworkCategories = {};
   listofCategory: any;
   requiredCategories = [];
