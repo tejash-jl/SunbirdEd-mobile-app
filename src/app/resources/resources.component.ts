@@ -422,6 +422,7 @@ export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, Fra
           this.enrolledCourseList = res.sort((a, b) => (a.enrolledDate > b.enrolledDate ? -1 : 1));
           this.inProgressCourses = this.enrolledCourseList.filter(course => !(course.status === 2 && course.progress > 0));
           this.completedCourses = this.enrolledCourseList.filter(course => course.status === 2 && course.progress > 0);
+          console.log("this.enrolledCourseList", this.enrolledCourseList);
         }
       })
       .catch((error: any) => {

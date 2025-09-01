@@ -14,6 +14,7 @@ import { CourseCardGridTypes } from '@project-sunbird/common-consumption';
 import forEach from 'lodash/forEach';
 import { Subscription } from 'rxjs';
 import {
+  CategoryTerm,
   Content,
   ContentAggregatorRequest, ContentEventType, ContentImportRequest, ContentImportResponse, ContentImportStatus,
   ContentSearchCriteria, ContentService,
@@ -100,6 +101,7 @@ userId: string;
   courseFilter: any;
   appliedFilter: any;
   filterIcon = './assets/imgs/ic_action_filter.png';
+  defaultAppIcon:string = 'https://dev-fmps.sunbirded.org/assets/images/book.png';
   profile: Profile;
   isVisible = false;
   inProgressSection = 'My Courses';
@@ -181,11 +183,11 @@ userId: string;
    * Angular life cycle hooks
    */
   async ngOnInit() {
-    this.getFrameworkDetails();
-    await this.initializeDynamicFilters();
-    // this.getCourseTabData();
     await this.getEnrolledCourses();
+    await this.getFrameworkDetails();
+    // this.getCourseTabData();
     console.log("inside tabs/courses");
+    await this.initializeDynamicFilters();
 
     // this.events.subscribe('event:update_course_data', async () => {
     //   await this.getAggregatorResult();
@@ -422,6 +424,7 @@ userId: string;
 
   async getEnrolledCourses() {
     this.profile = await this.profileService.getActiveSessionProfile({ requiredFields: ProfileConstants.REQUIRED_FIELDS }).toPromise();
+    console.log("this.profile", this.profile)
     const option = {
       userId: this.profile.uid,
     };
@@ -448,41 +451,78 @@ userId: string;
     }
   }
 
-  getFrameworkDetails(): void {
-    const frameworkDetailsRequest: FrameworkDetailsRequest = {
-      frameworkId: this.profile && this.profile.syllabus && this.profile.syllabus[0] ? this.profile.syllabus[0] : '',
-      requiredCategories: FrameworkCategoryCodesGroup.DEFAULT_FRAMEWORK_CATEGORIES,
-    };
-    this.frameworkService
-      .getFrameworkDetails(frameworkDetailsRequest)
-      .toPromise()
-      .then(async (framework: any) => {
-        console.log("framework", framework);
-        // console.log("this.catagories --------->>", this.categories)
-      }).catch(e => console.error(e));
-    this.frameworkService
-      .getFrameworkConfig(frameworkDetailsRequest.frameworkId)
-      .toPromise()
-      .then(async (frameworkConfig: any) => {
-        this.dynamicFilters = frameworkConfig;
+  async getFrameworkDetails(): Promise<void> {
+    try {
+      if (!this.profile?.syllabus?.length) {
+        console.warn('No syllabus found in profile');
+        return;
+      }
+      const frameworkId = this.profile.syllabus[0];
+      const frameworkDetailsRequest: FrameworkDetailsRequest = {
+        frameworkId,
+        requiredCategories: FrameworkCategoryCodesGroup.DEFAULT_FRAMEWORK_CATEGORIES,
+      };
+      console.log("frameworkDetailsRequest.frameworkId ---------->", frameworkId);
+      const framework = await this.frameworkService.getFrameworkDetails(frameworkDetailsRequest).toPromise();
+      console.log("framework", framework);
+      const frameworkConfig = await this.frameworkService.getFrameworkConfig(frameworkId).toPromise();
+      if (!frameworkConfig) {
+        console.warn('Framework config is empty or undefined');
+      } else {
         console.log("frameworkConfig", frameworkConfig);
-        // console.log("this.catagories --------->>", this.categories)
-      }).catch(e => console.error(e));
+        this.dynamicFilters = frameworkConfig;
+      }
+    } catch (error) {
+      console.error('Error in getFrameworkDetails:', error);
+    }
   }
-
+  
   async initializeDynamicFilters() {
+    const frameworkId = this.profile?.syllabus?.[0] || '';
+    console.log('[initializeDynamicFilters] frameworkId:', frameworkId);
+
+    if (!frameworkId) {
+      console.warn('[initializeDynamicFilters] No frameworkId found. Skipping filter initialization.');
+      return;
+    }
+
+    if (!this.dynamicFilters || !Array.isArray(this.dynamicFilters)) {
+      console.warn('[initializeDynamicFilters] dynamicFilters is not defined or not an array:', this.dynamicFilters);
+      return;
+    }
 
     for (const filter of this.dynamicFilters) {
-      const req: GetFrameworkCategoryTermsRequest = {
-        currentCategoryCode: filter.code,
-        language: this.translate.currentLang,
-        requiredCategories: FrameworkCategoryCodesGroup.DEFAULT_FRAMEWORK_CATEGORIES,
-        frameworkId: this.profile?.syllabus?.[0] || ''
-      };
-      await this.frameworkUtilService.getFrameworkCategoryTerms(req).toPromise().then((terms) => {
-        filter.options = terms;
+      console.log(`[initializeDynamicFilters] Processing filter:`, filter);
+
+      const currentCategoryCode = filter.code;
+      const selectedCodes = filter.selected || [];
+
+      console.log(`[initializeDynamicFilters] Requesting category data for:`, {
+        frameworkId,
+        currentCategoryCode,
+        selectedCodes
       });
+
+      try {
+        const categoryData = await this.getCategoryData(frameworkId, currentCategoryCode, selectedCodes);
+
+        console.log(`[initializeDynamicFilters] Received categoryData for "${currentCategoryCode}":`, categoryData);
+
+        filter.options = categoryData.categoryList;
+        filter.selectedNames = categoryData.selectedCategory;
+
+        console.log(`[initializeDynamicFilters] Updated filter "${currentCategoryCode}" with options and selectedNames:`, {
+          options: filter.options,
+          selectedNames: filter.selectedNames
+        });
+
+      } catch (error) {
+        console.error(`[initializeDynamicFilters] Error fetching category data for "${currentCategoryCode}":`, error);
+        filter.options = [];
+      }
     }
+
+    console.log('[initializeDynamicFilters] Final dynamicFilters:', this.dynamicFilters);
   }
 
   applyDynamicFilters() {

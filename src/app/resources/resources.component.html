@@ -16,50 +16,57 @@
         </sb-course-cards-hlist>
       </ng-container>
     </div>
-      <div *ngIf="inProgressCourses?.length">
-        <h3 class="enrolled-section-title">
-          In Progress
-          <span class="number-of-courses">{{inProgressCourses.length}}</span>
-        </h3>
-        <div class="enrolled-course-grid">
-          <ng-container *ngFor="let course of inProgressCourses">
-            <ion-card *ngIf="!(course.status === 2 && course.progress > 0)" class="enrolled-full-width-card"
-              (click)="openEnrolledCourse(course)">
-              <div class="enrolled-course-card-header">
-                <div class="enrolled-course-label">COURSE</div>
-                <div class="enrolled-course-left">
-                  <img [src]="defaultAppIcon" alt="course logo" class="enrolled-course-logo" />
-                </div>
-                <div class="enrolled-course-info">
-                  <h2 class="enrolled-course-title">{{ course.courseName }}</h2>
-                </div>
-              </div>
-            </ion-card>
-          </ng-container>
+<div *ngIf="inProgressCourses?.length">
+  <h3 class="enrolled-section-title">
+    In Progress
+    <span class="number-of-courses">{{inProgressCourses.length}}</span>
+  </h3>
+  <div class="enrolled-course-grid">
+    <ng-container *ngFor="let course of inProgressCourses">
+      <ion-card *ngIf="!(course.status === 2 && course.progress > 0)"
+                class="enrolled-full-width-card"
+                (click)="openEnrolledCourse(course)">
+        <div class="enrolled-course-card-header">
+          <div class="enrolled-course-label">COURSE</div>
+          <div class="enrolled-course-left">
+            <img [src]="defaultAppIcon"
+                 alt="course logo"
+                 class="enrolled-course-logo" />
+          </div>
+          <div class="enrolled-course-info">
+            <h2 class="enrolled-course-title">{{ course.courseName }}</h2>
+          </div>
         </div>
-      </div>
-    
-      <div *ngIf="completedCourses?.length">
-        <h3 class="enrolled-section-title">Completed
-          <span class="number-of-courses">{{completedCourses.length}}</span>
-        </h3>
-        <div class="enrolled-course-grid">
-          <ng-container *ngFor="let course of completedCourses">
-            <ion-card *ngIf="course.status === 2 && course.progress > 0" class="enrolled-full-width-card"
-              (click)="openEnrolledCourse(course)">
-              <div class="enrolled-course-card-header">
-                <div class="enrolled-course-label">COURSE</div>
-                <div class="enrolled-course-left">
-                  <img [src]="defaultAppIcon" alt="course logo" class="enrolled-course-logo" />
-                </div>
-                <div class="enrolled-course-info">
-                  <h2 class="enrolled-course-title">{{ course.courseName }}</h2>
-                </div>
-              </div>
-            </ion-card>
-          </ng-container>
+      </ion-card>
+    </ng-container>
+  </div>
+</div>
+
+<div *ngIf="completedCourses?.length">
+  <h3 class="enrolled-section-title">Completed
+    <span class="number-of-courses">{{completedCourses.length}}</span>
+  </h3>
+  <div class="enrolled-course-grid">
+    <ng-container *ngFor="let course of completedCourses">
+      <ion-card *ngIf="course.status === 2 && course.progress > 0"
+                class="enrolled-full-width-card"
+                (click)="openEnrolledCourse(course)">
+        <div class="enrolled-course-card-header">
+          <div class="enrolled-course-label">COURSE</div>
+          <div class="enrolled-course-left">
+            <img [src]="defaultAppIcon"
+                 alt="course logo"
+                 class="enrolled-course-logo" />
+          </div>
+          <div class="enrolled-course-info">
+            <h2 class="enrolled-course-title">{{ course.courseName }}</h2>
+          </div>
         </div>
-      </div>
+      </ion-card>
+    </ng-container>
+  </div>
+</div>
+
     <div class="ion-padding ion-text-center mt-32 mb-32" style="padding-top: 34px;"
       *ngIf="!commonUtilService?.networkInfo?.isNetworkAvailable">
       <img src="assets/imgs/outline-cloud_off.svg" alt="" />
