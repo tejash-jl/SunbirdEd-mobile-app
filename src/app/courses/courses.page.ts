@@ -26,9 +26,11 @@ import {
   Framework,
   FrameworkCategory,
   FrameworkCategoryCode,
+  FrameworkCategoryCodeForFilter,
   FrameworkCategoryCodesGroup,
   FrameworkDetailsRequest,
-  FrameworkService, FrameworkUtilService, GetFrameworkCategoryTermsRequest, NetworkError, PageAssembleCriteria, PageName,
+  FrameworkDetailsRequestForFilter,
+  FrameworkService, FrameworkUtilService, GetFrameworkCategoryTermsRequest, GetFrameworkCategoryTermsRequestForFilter, NetworkError, PageAssembleCriteria, PageName,
   Profile, ProfileService, SharedPreferences,
   SortOrder, TelemetryObject
 } from '@project-sunbird/sunbird-sdk';
@@ -458,12 +460,12 @@ userId: string;
         return;
       }
       const frameworkId = this.profile.syllabus[0];
-      const frameworkDetailsRequest: FrameworkDetailsRequest = {
+      const frameworkDetailsRequest: FrameworkDetailsRequestForFilter = {
         frameworkId,
-        requiredCategories: FrameworkCategoryCodesGroup.DEFAULT_FRAMEWORK_CATEGORIES,
+        requiredCategories: FrameworkCategoryCodesGroup.FILTER_FRAMEWORK_CATEGORIES,
       };
       console.log("frameworkDetailsRequest.frameworkId ---------->", frameworkId);
-      const framework = await this.frameworkService.getFrameworkDetails(frameworkDetailsRequest).toPromise();
+      const framework = await this.frameworkService.getFrameworkDetailsForFilter(frameworkDetailsRequest).toPromise();
       console.log("framework", framework);
       const frameworkConfig = await this.frameworkService.getFrameworkConfig(frameworkId).toPromise();
       if (!frameworkConfig) {
@@ -1160,9 +1162,9 @@ userId: string;
   async exploreOtherContents() {
     const syllabus: Array<string> = this.appGlobalService.getCurrentUser().syllabus;
     const frameworkId = (syllabus && syllabus.length > 0) ? syllabus[0] : undefined;
-    const gradeLevelInfo = await this.getCategoryData(frameworkId, FrameworkCategoryCode.GRADE_LEVEL, this.profile.grade);
-    const mediumInfo = await this.getCategoryData(frameworkId, FrameworkCategoryCode.MEDIUM, this.profile.medium);
-    const subjectInfo = await this.getCategoryData(frameworkId, FrameworkCategoryCode.SUBJECT, this.profile.subject);
+    const gradeLevelInfo = await this.getCategoryData(frameworkId, FrameworkCategoryCodeForFilter.ORGANISATION, this.profile.grade);
+    const mediumInfo = await this.getCategoryData(frameworkId, FrameworkCategoryCodeForFilter.LANGUAGE, this.profile.medium);
+    const subjectInfo = await this.getCategoryData(frameworkId, FrameworkCategoryCodeForFilter.CATEGORY, this.profile.subject);
     const navigationExtras = {
       state: {
         categoryGradeLevels: gradeLevelInfo['categoryList'],
@@ -1185,13 +1187,13 @@ userId: string;
   }
 
   async getCategoryData(frameworkId, categoryName, currentCategory): Promise<any> {
-    const req: GetFrameworkCategoryTermsRequest = {
+    const req: GetFrameworkCategoryTermsRequestForFilter = {
       currentCategoryCode: categoryName,
       language: this.translate.currentLang,
-      requiredCategories: FrameworkCategoryCodesGroup.DEFAULT_FRAMEWORK_CATEGORIES,
+      requiredCategories: FrameworkCategoryCodesGroup.FILTER_FRAMEWORK_CATEGORIES,
       frameworkId
     };
-    const categoryMapList = await this.frameworkUtilService.getFrameworkCategoryTerms(req).toPromise();
+    const categoryMapList = await this.frameworkUtilService.getFrameworkCategoryTermsForFilter(req).toPromise();
     const selectedCategory = ((categoryMapList || [])
                             .filter((category) => (currentCategory || []).includes(category.code)) || [])
                             .map((category) => category.name);

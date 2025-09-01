@@ -254,7 +254,7 @@ export class CategoriesEditPage implements OnInit, OnDestroy {
         this.syllabusList = frameworks.map(r => ({ name: r.name, code: r.identifier }));
         const syllabus = (this.profile.syllabus && this.profile.syllabus[0]) ||
           (this.guestUserProfile.syllabus && this.guestUserProfile.syllabus[0]);
-        this.syllabusControl.patchValue([syllabus] || []);
+        this.syllabusControl.patchValue([syllabus]);
         await this.loader.dismiss();
       });
   }
