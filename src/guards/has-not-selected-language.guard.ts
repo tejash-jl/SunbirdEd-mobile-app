@@ -4,7 +4,7 @@ import { OnboardingScreenType, PreferenceKey } from '../app/app.constant';
 import { OnboardingConfigurationService } from '../services/onboarding-configuration.service';
 // TODO: Capacitor temp fix 
 // import { SplashScreenService } from '../services/splash-screen.service';
-import { SharedPreferences } from '@project-sunbird/sunbird-sdk';
+import { SharedPreferences } from '@project-fmps/sunbird-sdk';
 
 @Injectable()
 export class HasNotSelectedLanguageGuard implements Resolve<any> {

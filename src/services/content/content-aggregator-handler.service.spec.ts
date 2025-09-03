@@ -2,7 +2,7 @@ import {
     CourseService, FormService, ProfileService, ContentService, ContentAggregatorRequest,
     ContentSearchCriteria, FormRequest,
     SharedPreferences
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { of, throwError } from 'rxjs';
 import { AppGlobalService } from '../app-global-service.service';
 import { CommonUtilService } from '../common-util.service';

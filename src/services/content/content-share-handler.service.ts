@@ -3,7 +3,7 @@ import {
   ContentService, StorageService, ContentExportRequest,
   ContentExportResponse, Content, Rollup,
   CorrelationData, TelemetryObject,
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { CommonUtilService } from '../common-util.service';
 import { InteractSubtype, InteractType, Environment } from '../telemetry-constants';
 import { Share } from '@capacitor/share';

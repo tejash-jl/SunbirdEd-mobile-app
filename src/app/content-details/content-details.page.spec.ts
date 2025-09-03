@@ -11,7 +11,7 @@ import {
     GetAllProfileRequest,
     SunbirdSdk,
     TelemetryService,
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { Platform, PopoverController } from '@ionic/angular';
 import { Events } from '../../util/events';
 import { NgZone } from '@angular/core';
@@ -47,8 +47,8 @@ import { EventTopics, ShareItemType, ContentFilterConfig } from '../app.constant
 import { FileTransfer } from '@awesome-cordova-plugins/file-transfer/ngx';
 import { SbProgressLoader } from '../../services/sb-progress-loader.service';
 import { LocalCourseService } from '../../services';
-import { ContentEventType, PlayerService } from '@project-sunbird/sunbird-sdk';
-import { CourseService } from '@project-sunbird/sunbird-sdk';
+import { ContentEventType, PlayerService } from '@project-fmps/sunbird-sdk';
+import { CourseService } from '@project-fmps/sunbird-sdk';
 import { CsContentType } from '@project-sunbird/client-services/services/content';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Network } from '@capacitor/network';

@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { PopoverController, NavParams } from '@ionic/angular';
 import { Events } from '../../../../util/events';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ProfileService, UserMigrateRequest, HttpClientError } from '@project-sunbird/sunbird-sdk';
+import { ProfileService, UserMigrateRequest, HttpClientError } from '@project-fmps/sunbird-sdk';
 import { CommonUtilService } from '../../../../services/common-util.service';
 import { TelemetryGeneratorService } from '../../../../services/telemetry-generator.service';
 import { featureIdMap } from '../../../../feature-id-map';

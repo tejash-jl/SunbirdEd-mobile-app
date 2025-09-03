@@ -18,7 +18,7 @@ import {
   EventNamespace, EventsBusService, NotificationService as PushNotificationService,
   Profile, ProfileService,
   ServerProfile, SharedPreferences, UserFeedStatus
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import {
   AppThemes, EventTopics, GenericAppConfig, PreferenceKey,
   ProfileConstants, RouterLinks, SwitchableTabsConfig,AppMode

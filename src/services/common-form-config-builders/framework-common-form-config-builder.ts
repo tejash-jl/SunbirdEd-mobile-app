@@ -13,7 +13,7 @@ import {
   GetFrameworkCategoryTermsRequest,
   GetSuggestedFrameworksRequest,
   Profile
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import {AliasBoardName} from '../../pipes/alias-board-name/alias-board-name';
 import { AppGlobalService } from '../app-global-service.service';
 

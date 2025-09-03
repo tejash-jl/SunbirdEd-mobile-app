@@ -9,7 +9,7 @@ import {
   SharedPreferences,
   ServerProfile,
   CorrelationData
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { AppGlobalService } from '../../../services/app-global-service.service';
 import { Platform, PopoverController } from '@ionic/angular';
 import { Events } from '../../../util/events';

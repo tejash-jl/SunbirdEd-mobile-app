@@ -6,7 +6,7 @@ import { AppHeaderService, AppGlobalService } from '../../../services';
 import { Platform } from '@ionic/angular';
 import { Location } from '@angular/common';
 import { of } from 'rxjs';
-import { InteractType } from '@project-sunbird/sunbird-sdk';
+import { InteractType } from '@project-fmps/sunbird-sdk';
 
 describe('ActivityTocPage', () => {
     let activityTocPage: ActivityTocPage;

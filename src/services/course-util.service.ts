@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Platform, PopoverController } from '@ionic/angular';
-import { ContentImport } from '@project-sunbird/sunbird-sdk';
+import { ContentImport } from '@project-fmps/sunbird-sdk';
 import { ViewCreditsComponent } from '../app/components/popups/view-credits/view-credits.component';
 import { FilePathService } from '../services/file-path/file.service';
 import { FilePaths } from '../services/file-path/file';

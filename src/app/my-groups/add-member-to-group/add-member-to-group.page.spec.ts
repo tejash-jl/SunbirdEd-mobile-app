@@ -1,5 +1,5 @@
 import { AddMemberToGroupPage } from './add-member-to-group.page';
-import { ProfileService, GroupService, SystemSettingsService, SharedPreferences } from '@project-sunbird/sunbird-sdk';
+import { ProfileService, GroupService, SystemSettingsService, SharedPreferences } from '@project-fmps/sunbird-sdk';
 import { Router } from '@angular/router';
 import { Platform, PopoverController } from '@ionic/angular';
 import {

@@ -15,7 +15,7 @@ import {
     SharedPreferences,
     Batch,
     EnrollCourseRequest
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import {PreferenceKey, EventTopics, RouterLinks} from '../app.constant';
 import { of, throwError } from 'rxjs';
 import { CategoryKeyTranslator } from '../../pipes/category-key-translator/category-key-translator-pipe';

@@ -14,7 +14,7 @@ import {
   StorageService,
   StorageTransferProgress,
   StorageVolume
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { SbPopoverComponent } from '../../app/components/popups/sb-popover/sb-popover.component';
 import { FileSizePipe } from '../../pipes/file-size/file-size';
 import { ImpressionType, Environment, PageId, InteractType, InteractSubtype, } from '../../services/telemetry-constants';

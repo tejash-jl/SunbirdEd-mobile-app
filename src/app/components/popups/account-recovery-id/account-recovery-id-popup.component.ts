@@ -2,7 +2,7 @@ import { Component, OnInit, Inject, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TelemetryGeneratorService } from '../../../../services/telemetry-generator.service';
 import { ImpressionType, Environment, PageId, InteractType } from '../../../../services/telemetry-constants';
-import { Profile, ProfileService, UpdateServerProfileInfoRequest } from '@project-sunbird/sunbird-sdk';
+import { Profile, ProfileService, UpdateServerProfileInfoRequest } from '@project-fmps/sunbird-sdk';
 import { AppGlobalService } from '../../../../services/app-global-service.service';
 import { CommonUtilService } from '../../../../services/common-util.service';
 import { PopoverController, Platform, MenuController } from '@ionic/angular';

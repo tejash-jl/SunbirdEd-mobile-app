@@ -16,7 +16,7 @@ import {
   FaqService,
   GetFaqRequest,
   CorrelationData,
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { PreferenceKey, appLanguages, RouterLinks } from '../app.constant';
 import { Location } from '@angular/common';
 import { App } from '@capacitor/app';

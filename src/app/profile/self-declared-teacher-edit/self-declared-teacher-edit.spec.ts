@@ -1,6 +1,6 @@
 import {of, throwError} from 'rxjs';
 import {SelfDeclaredTeacherEditPage} from './self-declared-teacher-edit.page';
-import {Consent, ProfileService, SharedPreferences, UpdateConsentResponse} from '@project-sunbird/sunbird-sdk';
+import {Consent, ProfileService, SharedPreferences, UpdateConsentResponse} from '@project-fmps/sunbird-sdk';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Platform, PopoverController} from '@ionic/angular';
 import {Events} from '../../../util/events';
@@ -14,7 +14,7 @@ import {FormConstants} from '../../form.constants';
 import { FieldConfigValidationType } from '../../components/common-forms/field-config';
 import {ConsentService} from '../../../services/consent-service';
 import {ConsentStatus} from '@project-sunbird/client-services/models';
-import { FrameworkService } from '@project-sunbird/sunbird-sdk/framework/def/framework-service';
+import { FrameworkService } from '@project-fmps/sunbird-sdk/framework/def/framework-service';
 
 describe('SelfDeclaredTeacherEditPage', () => {
     let selfDeclaredTeacherEditPage: SelfDeclaredTeacherEditPage;

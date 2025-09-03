@@ -13,7 +13,7 @@ import { Platform, PopoverController, ToastController } from '@ionic/angular';
 import { CourseCertificate } from '@project-sunbird/client-services/models';
 import { tap } from 'rxjs/operators';
 import { CertificateDownloadService } from "@project-sunbird/sb-svg2pdf";
-import { CertificateService, InteractType } from '@project-sunbird/sunbird-sdk';
+import { CertificateService, InteractType } from '@project-fmps/sunbird-sdk';
 import { Location } from '@angular/common';
 // TODO: Capacitor temp fix - not supported in capacitor
 // import { UnnatiDataService } from '../../../app/manage-learn/core/services/unnati-data.service';

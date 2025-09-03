@@ -7,7 +7,7 @@ import {
     FrameworkCategoryCodesGroup,
     GetSuggestedFrameworksRequest,
     SharedPreferences
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { TranslateService } from '@ngx-translate/core';
 import { Platform, AlertController } from '@ionic/angular';
 import { Events } from '../../util/events';

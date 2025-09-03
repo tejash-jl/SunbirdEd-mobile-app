@@ -25,7 +25,7 @@ import {
   PlayerService,
   SharedPreferences,
   ContentDetailRequest
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { FormAndFrameworkUtilService } from '../../services/formandframeworkutil.service';
 import { TelemetryGeneratorService } from '../../services/telemetry-generator.service';
 import { Environment, InteractSubtype, PageId } from '../../services/telemetry-constants';

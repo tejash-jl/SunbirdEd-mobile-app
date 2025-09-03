@@ -1,7 +1,7 @@
 import { FilteroptionComponent } from './filteroption.component'
 import { NavParams, PopoverController, Platform } from '@ionic/angular';
 import { TelemetryGeneratorService } from '../../../services/telemetry-generator.service';
-import { InteractType } from '@project-sunbird/sunbird-sdk';
+import { InteractType } from '@project-fmps/sunbird-sdk';
 import { Environment, InteractSubtype, PageId } from '../../../services/telemetry-constants';
 
 describe('FilterOptionComponent', () => {

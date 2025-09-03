@@ -35,7 +35,7 @@ import {
   CachedItemRequestSourceFrom,
   Framework,
   GetSuggestedFrameworksRequest
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { ExternalIdVerificationService } from '../../services/externalid-verification.service';
 
 @Component({

@@ -69,7 +69,7 @@ import {
   SearchType,
   SharedPreferences,
   SortOrder
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { animationGrowInTopRight } from '../animations/animation-grow-in-top-right';
 import { animationShrinkOutTopRight } from '../animations/animation-shrink-out-top-right';
 import {

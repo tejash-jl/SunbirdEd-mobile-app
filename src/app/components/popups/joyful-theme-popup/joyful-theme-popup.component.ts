@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { NavParams, PopoverController } from '@ionic/angular';
 import { AppThemes } from '../../../../app/app.constant';
-import { SharedPreferences } from '@project-sunbird/sunbird-sdk';
+import { SharedPreferences } from '@project-fmps/sunbird-sdk';
 import { AppHeaderService } from '../../../../services/app-header.service';
 
 

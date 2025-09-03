@@ -17,7 +17,7 @@ import {
   InteractType,
   PageId
 } from '../../../services/telemetry-constants';
-import { Content } from '@project-sunbird/sunbird-sdk';
+import { Content } from '@project-fmps/sunbird-sdk';
 import { EventTopics } from '../../../app/app.constant';
 import { ExploreConstants, MimeType, RouterLinks } from '../../app.constant';
 import { NavigationService } from '../../../services/navigation-handler.service';

@@ -14,7 +14,7 @@ import { AndroidPermissionsService } from '../../../services/android-permissions
 import {
   GroupService, GroupMember, Content,
   Group, MimeType, CorrelationData, TrackingEnabled
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import {
   CsGroupActivityAggregationMetric
 } from '@project-sunbird/client-services/services/group/activity';

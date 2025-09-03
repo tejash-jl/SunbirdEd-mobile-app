@@ -7,7 +7,7 @@ import {
     FormService,
     NetworkError,
     FrameworkService
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { PopoverController, ToastController, Platform } from '@ionic/angular';
@@ -30,7 +30,7 @@ import { ContentFilterConfig, RouterLinks } from '../../app/app.constant';
 import { NavigationService } from '../../services/navigation-handler.service';
 import { ProfileHandler } from '../../services/profile-handler';
 import { SegmentationTagService } from '../../services/segmentation-tag/segmentation-tag.service';
-import { CertificateService } from '@project-sunbird/sunbird-sdk';
+import { CertificateService } from '@project-fmps/sunbird-sdk';
 import { LocationHandler } from '../../services/location-handler';
 import { Share } from '@capacitor/share';
 import { FileOpener } from '@capacitor-community/file-opener';

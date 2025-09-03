@@ -34,7 +34,7 @@ import {
   ServerProfileDetailsRequest, SharedPreferences, SortOrder,
   TelemetryErrorCode, TelemetryObject,
   UnenrollCourseRequest, LogLevel, ContentAccess, ContentAccessStatus, ContentMarkerRequest, MarkerType
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { Observable, Subscription } from 'rxjs';
 import {
   AuditType,

@@ -23,7 +23,7 @@ import {
   CorrelationData,
   FilterValue,
   SearchType
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { LibraryCardTypes } from '@project-sunbird/common-consumption';
 import { AppGlobalService } from '../../../services/app-global-service.service';
 import { CommonUtilService } from '../../../services/common-util.service';

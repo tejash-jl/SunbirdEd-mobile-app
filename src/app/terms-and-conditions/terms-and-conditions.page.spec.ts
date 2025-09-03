@@ -1,6 +1,6 @@
 
 import { TermsAndConditionsPage } from './terms-and-conditions.page';
-import { ProfileService } from '@project-sunbird/sunbird-sdk';
+import { ProfileService } from '@project-fmps/sunbird-sdk';
 import { ModalController, Platform } from '@ionic/angular';
 import {
     CommonUtilService,

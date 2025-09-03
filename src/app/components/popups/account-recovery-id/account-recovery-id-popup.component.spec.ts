@@ -3,7 +3,7 @@ import { CommonUtilService, TelemetryGeneratorService, AppGlobalService } from '
 import { PopoverController, Platform, MenuController } from '@ionic/angular';
 import { ImpressionType, Environment, PageId } from '../../../../services/telemetry-constants';
 import { of, throwError } from 'rxjs';
-import { ProfileService } from '@project-sunbird/sunbird-sdk';
+import { ProfileService } from '@project-fmps/sunbird-sdk';
 
 describe('AccountRecoveryInfoComponent', () => {
     let accountRecoveryInfoComponent: AccountRecoveryInfoComponent;

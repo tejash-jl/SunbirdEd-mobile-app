@@ -25,7 +25,7 @@ import {
   Consent, CorrelationData, LocationSearchResult, ProfileService,
   ServerProfile, SharedPreferences,
   TelemetryObject, FrameworkService, OrganizationSearchCriteria
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { PreferenceKey, ProfileConstants } from '../../../app/app.constant';
 
 @Component({

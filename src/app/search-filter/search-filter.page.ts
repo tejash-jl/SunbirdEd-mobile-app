@@ -2,7 +2,7 @@ import {Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Location, TitleCasePipe} from '@angular/common';
 import {ModalController} from '@ionic/angular';
-import {ContentService, ContentSearchCriteria, ContentSearchResult, SearchType, ContentSearchFilter} from '@project-sunbird/sunbird-sdk';
+import {ContentService, ContentSearchCriteria, ContentSearchResult, SearchType, ContentSearchFilter} from '@project-fmps/sunbird-sdk';
 import {FilterFormConfigMapper} from '../../app/search-filter/filter-form-config-mapper';
 import { FormAndFrameworkUtilService } from '../../services/formandframeworkutil.service';
 import { Environment, InteractSubtype, InteractType, PageId } from '../../services/telemetry-constants';

@@ -22,7 +22,7 @@ import {
   GetSuggestedFrameworksRequest, SearchEntry,
   SearchHistoryService, SortOrder,
   GroupActivity
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { Map } from '../../app/telemetryutil';
 import {
   BatchConstants,

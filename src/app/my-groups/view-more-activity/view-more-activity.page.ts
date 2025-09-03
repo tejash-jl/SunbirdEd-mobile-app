@@ -9,7 +9,7 @@ import {
 } from '../../../services/telemetry-constants';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { GroupActivity } from '@project-sunbird/sunbird-sdk';
+import { GroupActivity } from '@project-fmps/sunbird-sdk';
 import { ActivitiesGrouped } from '@project-sunbird/client-services/models';
 import { CommonUtilService } from '../../../services/common-util.service';
 import { TelemetryGeneratorService } from '../../../services/telemetry-generator.service';

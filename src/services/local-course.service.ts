@@ -4,7 +4,7 @@ import {
   InteractType, SharedPreferences,
   FetchEnrolledCourseRequest, TelemetryObject, HttpClientError,
   NetworkError, GetContentStateRequest, ContentStateResponse
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { Observable } from 'rxjs';
 import { AppGlobalService } from './app-global-service.service';
 import { TelemetryGeneratorService } from './telemetry-generator.service';

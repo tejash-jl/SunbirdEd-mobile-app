@@ -6,7 +6,7 @@ import { TelemetryGeneratorService } from '../../../services/telemetry-generator
 import { Environment, PageId } from '../../../services/telemetry-constants';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { CachedItemRequestSourceFrom, GroupActivityDataAggregationRequest, GroupService } from '@project-sunbird/sunbird-sdk';
+import { CachedItemRequestSourceFrom, GroupActivityDataAggregationRequest, GroupService } from '@project-fmps/sunbird-sdk';
 import { CommonUtilService } from '../../../services/common-util.service';
 import { CsGroupActivityAggregationMetric, CsGroupActivityDataAggregation } from '@project-sunbird/client-services/services/group/activity';
 import { Interval } from '../../../pipes/date-ago/date-ago.pipe';

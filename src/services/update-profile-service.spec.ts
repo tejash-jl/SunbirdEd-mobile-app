@@ -1,6 +1,6 @@
 import {UpdateProfileService} from '../services/update-profile-service';
-import {ProfileService} from '@project-sunbird/sunbird-sdk';
-import {FrameworkCategoryCodesGroup, FrameworkService, FrameworkUtilService} from '@project-sunbird/sunbird-sdk';
+import {ProfileService} from '@project-fmps/sunbird-sdk';
+import {FrameworkCategoryCodesGroup, FrameworkService, FrameworkUtilService} from '@project-fmps/sunbird-sdk';
 import {TranslateService} from '@ngx-translate/core';
 import {CommonUtilService} from '../services/common-util.service';
 import {TelemetryGeneratorService} from '../services/telemetry-generator.service';

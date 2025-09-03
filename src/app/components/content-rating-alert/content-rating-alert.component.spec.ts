@@ -5,7 +5,7 @@ import { ContentFeedbackService,
     ContentFeedback,
     FormService,
     SharedPreferences
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { CommonUtilService, AppGlobalService, TelemetryGeneratorService, FormAndFrameworkUtilService } from '../../../services';
 import { PopoverController, Platform, NavParams } from '@ionic/angular';
 import { Observable, of, throwError } from 'rxjs';

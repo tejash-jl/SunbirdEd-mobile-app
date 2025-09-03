@@ -2,7 +2,7 @@ import { DownloadPdfService } from './download-pdf.service';
 import { AndroidPermissionsService } from '../android-permissions/android-permissions.service';
 import { of } from 'rxjs';
 import { content } from './download-pdf.data';
-import { Content } from '@project-sunbird/sunbird-sdk';
+import { Content } from '@project-fmps/sunbird-sdk';
 import { CommonUtilService } from '../common-util.service';
 
 describe('DownloadPdfService', () => {

@@ -1,4 +1,4 @@
-import { CorrelationData, Group, GroupActivity } from '@project-sunbird/sunbird-sdk';
+import { CorrelationData, Group, GroupActivity } from '@project-fmps/sunbird-sdk';
 
 
 export interface AddActivityToGroup {

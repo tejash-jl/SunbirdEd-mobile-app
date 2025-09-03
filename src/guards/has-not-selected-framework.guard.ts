@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { Router, Resolve, NavigationExtras } from '@angular/router';
 import { Platform } from '@ionic/angular';
 
-import { ProfileService } from '@project-sunbird/sunbird-sdk';
+import { ProfileService } from '@project-fmps/sunbird-sdk';
 import { OnboardingScreenType, ProfileConstants, RouterLinks } from '../app/app.constant';
 import { AppGlobalService } from '../services/app-global-service.service';
 import { SplashScreenService } from '../services/splash-screen.service';

@@ -41,7 +41,7 @@ import {
   Framework,
   FrameworkDetailsRequest,
   GetSuggestedFrameworksRequest
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { SplashscreenActionHandlerDelegate } from './splashscreen-action-handler-delegate';
 import { AppGlobalService } from '../app-global-service.service';
 import { TelemetryGeneratorService } from '../../services/telemetry-generator.service';

@@ -24,7 +24,7 @@ import {
     PageAssembleService,
     ProfileType,
     SharedPreferences
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { of, throwError } from 'rxjs';
 import { BatchConstants, ContentCard, PageName } from '../app.constant';
 import { SbProgressLoader } from '../../services/sb-progress-loader.service';
@@ -32,7 +32,7 @@ import { CsNetworkError } from '@project-sunbird/client-services/core/http-servi
 import { NavigationService } from '../../services/navigation-handler.service';
 import { ContentAggregatorHandler } from '../../services/content/content-aggregator-handler.service';
 import { ProfileHandler } from '../../services/profile-handler';
-import { ContentAggregatorRequest, ContentSearchCriteria, FrameworkCategoryCodesGroup, FrameworkUtilService, GetFrameworkCategoryTermsRequest, ProfileService } from '@project-sunbird/sunbird-sdk';
+import { ContentAggregatorRequest, ContentSearchCriteria, FrameworkCategoryCodesGroup, FrameworkUtilService, GetFrameworkCategoryTermsRequest, ProfileService } from '@project-fmps/sunbird-sdk';
 import { TranslateService } from '@ngx-translate/core';
 import { mockCategoryTermsResponse } from '../../services/formandframeworkutil.service.spec.data';
 import { mockFrameworkList } from '../faq-report-issue/faq-report-issue.page.spec.data';

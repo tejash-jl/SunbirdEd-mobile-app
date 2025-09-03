@@ -36,10 +36,10 @@
         "*"
       ],
       "sunbird-sdk": [
-        "../node_modules/@project-sunbird/sunbird-sdk"
+        "../node_modules/@project-fmps/sunbird-sdk"
       ],
       "sunbird-sdk/*": [
-        "../node_modules/@project-sunbird/sunbird-sdk/*"
+        "../node_modules/@project-fmps/sunbird-sdk/*"
       ],
       "@project-sunbird/common-consumption": [
         "../node_modules/@project-sunbird/common-consumption"

@@ -5,7 +5,7 @@ import {
 import { Events } from '../../../util/events';
 import {
     SharedPreferences, TelemetryObject, InteractType,
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import {
     PreferenceKey, EventTopics
 } from '../../../app/app.constant';

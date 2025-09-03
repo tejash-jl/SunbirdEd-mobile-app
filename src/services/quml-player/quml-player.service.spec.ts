@@ -1,4 +1,4 @@
-import {ContentService} from '@project-sunbird/sunbird-sdk';
+import {ContentService} from '@project-fmps/sunbird-sdk';
 
 import {QumlPlayerService} from './quml-player.service';
 import {of} from 'rxjs';

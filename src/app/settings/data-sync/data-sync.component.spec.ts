@@ -8,7 +8,7 @@ import {
     TelemetryAutoSyncModes,
     TelemetryService,
     TelemetrySyncStat
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import {ChangeDetectorRef, NgZone} from '@angular/core';
 import {
     AppHeaderService,

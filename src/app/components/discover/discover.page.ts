@@ -18,7 +18,7 @@ import {
   ContentSearchCriteria,
   CorrelationData,
   SharedPreferences
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { AggregatorPageType } from '../../../services/content/content-aggregator-namespaces';
 import { CourseCardGridTypes } from '@project-sunbird/common-consumption';
 import { NavigationService } from '../../../services/navigation-handler.service';

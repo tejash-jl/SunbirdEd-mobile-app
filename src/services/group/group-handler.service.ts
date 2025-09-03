@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Location } from '@angular/common';
 import {
   AddActivitiesRequest, GroupService
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { TelemetryGeneratorService } from '../../services/telemetry-generator.service';
 import { CommonUtilService } from '../../services/common-util.service';
 import {

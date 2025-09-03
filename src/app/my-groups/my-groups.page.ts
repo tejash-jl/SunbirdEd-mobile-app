@@ -16,7 +16,7 @@ import {
   ProfileService,
   ServerProfileDetailsRequest,
   AcceptTermsConditionRequest
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { AppGlobalService } from '../../services/app-global-service.service';
 import {
   ImpressionType,

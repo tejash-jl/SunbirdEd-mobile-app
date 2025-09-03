@@ -1,6 +1,6 @@
 import { HasNotSelectedFrameworkGuard } from './has-not-selected-framework.guard';
 import { AppGlobalService, SplashScreenService, UtilityService } from '../services';
-import { AuthService, ProfileService, SharedPreferences } from '@project-sunbird/sunbird-sdk';
+import { AuthService, ProfileService, SharedPreferences } from '@project-fmps/sunbird-sdk';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { Platform } from '@ionic/angular';

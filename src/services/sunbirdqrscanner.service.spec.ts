@@ -19,7 +19,7 @@ import {
     PageId
 } from './telemetry-constants';
 import {AndroidPermission, PermissionAskedEnum} from '../services/android-permissions/android-permission';
-import {Profile, ProfileType} from '@project-sunbird/sunbird-sdk';
+import {Profile, ProfileType} from '@project-fmps/sunbird-sdk';
 import { App } from '@capacitor/app';
 
 jest.mock('@capacitor/app', () => {

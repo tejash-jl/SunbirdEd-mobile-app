@@ -10,7 +10,7 @@ import { mergeMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import {
   AuthService, ProfileService, ProfileType, SharedPreferences, SystemSettingsService
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { PreferenceKey, RouterLinks, SystemSettingsIds } from '../../app/app.constant';
 import { ContainerService } from '../container.services';
 import { SegmentationTagService } from '../segmentation-tag/segmentation-tag.service';

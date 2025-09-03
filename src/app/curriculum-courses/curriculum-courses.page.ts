@@ -11,7 +11,7 @@ import {
   TelemetryObject,
   GetUserEnrolledCoursesRequest,
   CachedItemRequestSourceFrom
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
 import { Platform } from '@ionic/angular';

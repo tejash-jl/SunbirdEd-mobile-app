@@ -13,7 +13,7 @@ import {
   ProfileType,
   SharedPreferences,
   Profile
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { Router, NavigationExtras } from '@angular/router';
 import { AppGlobalService } from '../../../services/app-global-service.service';
 import { CommonUtilService } from '../../../services/common-util.service';

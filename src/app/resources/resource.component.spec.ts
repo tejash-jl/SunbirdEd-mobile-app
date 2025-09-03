@@ -16,9 +16,9 @@ import {
     ProfileType,
     SearchType,
     SharedPreferences,
-} from '@project-sunbird/sunbird-sdk';
-import {EventsBusServiceImpl} from '@project-sunbird/sunbird-sdk/events-bus/impl/events-bus-service-impl';
-import {ContentServiceImpl} from '@project-sunbird/sunbird-sdk/content/impl/content-service-impl';
+} from '@project-fmps/sunbird-sdk';
+import {EventsBusServiceImpl} from '@project-fmps/sunbird-sdk/events-bus/impl/events-bus-service-impl';
+import {ContentServiceImpl} from '@project-fmps/sunbird-sdk/content/impl/content-service-impl';
 import {ChangeDetectorRef, NgZone} from '@angular/core';
 import {
     AppGlobalService,
@@ -45,7 +45,7 @@ import {ContentFilterConfig, EventTopics, FrameworkCategory, PreferenceKey, Prim
 import {CorReleationDataType, ImpressionType} from '../../services/telemetry-constants';
 import {NavigationService} from '../../services/navigation-handler.service';
 import {FrameworkSelectionDelegateService} from '../profile/framework-selection/framework-selection.page';
-import { CorrelationData, FormService } from '@project-sunbird/sunbird-sdk';
+import { CorrelationData, FormService } from '@project-fmps/sunbird-sdk';
 import { ContentAggregatorHandler } from '../../services/content/content-aggregator-handler.service';
 
 jest.mock('@capacitor/app', () => {

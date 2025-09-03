@@ -2,7 +2,7 @@ import { AppGlobalService, CommonUtilService, ContainerService, OnboardingConfig
 import { TabsPage } from './tabs.page';
 import { Events } from '../../util/events';
 import { IonRouterOutlet, IonTabs, ToastController } from '@ionic/angular';
-import { ProfileService, ProfileSource, ProfileType, SharedPreferences } from '@project-sunbird/sunbird-sdk';
+import { ProfileService, ProfileSource, ProfileType, SharedPreferences } from '@project-fmps/sunbird-sdk';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { plugins } from 'chart.js';

@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { ProfileService } from '@project-sunbird/sunbird-sdk';
+import { ProfileService } from '@project-fmps/sunbird-sdk';
 import { AppGlobalService, CommonUtilService, ContainerService, FormAndFrameworkUtilService } from '../../../services';
 import { SegmentationTagService } from '../../../services/segmentation-tag/segmentation-tag.service';
 import { CategoriesEditService } from './categories-edit.service';

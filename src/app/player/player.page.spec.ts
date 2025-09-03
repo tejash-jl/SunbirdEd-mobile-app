@@ -2,7 +2,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Platform, AlertController, PopoverController } from '@ionic/angular';
 import { Events } from '../../util/events';
 import { CourseService, ProfileService, SunbirdSdk, TelemetryService , ContentService, TelemetryErrorCode,
-     ErrorType, InteractType, SharedPreferences, PlayerService, ProfileType, ProfileSource  } from '@project-sunbird/sunbird-sdk';
+     ErrorType, InteractType, SharedPreferences, PlayerService, ProfileType, ProfileSource  } from '@project-fmps/sunbird-sdk';
 import { AppGlobalService } from '../../services/app-global-service.service';
 import { DownloadPdfService } from '../../services/download-pdf/download-pdf.service';
 import { PlayerPage } from './player.page';
@@ -19,7 +19,7 @@ import { PrintPdfService } from '../../services/print-pdf/print-pdf.service';
 import { Environment, InteractSubtype } from '../../services';
 import { File } from '@awesome-cordova-plugins/file/ngx';
 import { User, HierarchyInfo } from './player-action-handler-delegate';
-import { UpdateContentStateRequest, UpdateContentStateTarget } from '@project-sunbird/sunbird-sdk';
+import { UpdateContentStateRequest, UpdateContentStateTarget } from '@project-fmps/sunbird-sdk';
 import { ElementRef } from '@angular/core';
 import { ContentUtil } from '../../util/content-util';
 import { ScreenOrientation } from '@capacitor/screen-orientation';

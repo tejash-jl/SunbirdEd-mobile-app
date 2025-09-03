@@ -16,7 +16,7 @@ import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-transla
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 // app dependencies like directive, sdk, services etc
 import { CsContentType } from '@project-sunbird/client-services/services/content';
-import { SunbirdSdk } from '@project-sunbird/sunbird-sdk';
+import { SunbirdSdk } from '@project-fmps/sunbird-sdk';
 // Services
 import { SegmentationTagService } from '../services/segmentation-tag/segmentation-tag.service';
 import { QumlPlayerService } from '../services/quml-player/quml-player.service';
