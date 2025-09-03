@@ -1,7 +1,7 @@
 import { of, throwError } from 'rxjs';
 import {
   ContentService,
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { CollectionService,  } from './collection.service';
 import { CommonUtilService } from './common-util.service';
 

@@ -5,7 +5,7 @@ import {
     ProfileType, UnenrollCourseRequest, ContentDetailRequest,
     ServerProfileDetailsRequest, ServerProfile,
     NetworkError, DownloadService
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import {
     CourseUtilService, AppGlobalService, TelemetryGeneratorService,
     CommonUtilService, UtilityService, AppHeaderService,
@@ -41,7 +41,7 @@ import {
     TncUpdateHandlerService,
 } from '../../services/handlers/tnc-update-handler.service';
 import { mockProfileData } from '../profile/profile.page.spec.data';
-import { DiscussionService } from '@project-sunbird/sunbird-sdk';
+import { DiscussionService } from '@project-fmps/sunbird-sdk';
 
 describe('EnrolledCourseDetailsPage', () => {
     let enrolledCourseDetailsPage: EnrolledCourseDetailsPage;

@@ -51,7 +51,7 @@ import {
   FrameworkCategoryCodesGroup,
   FrameworkDetailsRequest,
   OrganizationSearchCriteria
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { Environment, InteractSubtype, InteractType, PageId, ID } from '../../services/telemetry-constants';
 import { Router } from '@angular/router';
 import { EditContactVerifyPopupComponent } from '../../app/components/popups/edit-contact-verify-popup/edit-contact-verify-popup.component';
@@ -87,7 +87,7 @@ import { LocationHandler } from '../../services/location-handler';
 // import { statusType } from '../manage-learn/core';
 import { UtilityService } from '../../services/utility-service';
 import { LogoutHandlerService } from '../../services/handlers/logout-handler.service';
-import { DeleteUserRequest } from '@project-sunbird/sunbird-sdk/profile/def/delete-user-request';
+import { DeleteUserRequest } from '@project-fmps/sunbird-sdk/profile/def/delete-user-request';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',

@@ -1,11 +1,11 @@
 import { Events } from '../util/events';
-import { DeviceRegisterService, ProfileService, SharedPreferences } from '@project-sunbird/sunbird-sdk';
+import { DeviceRegisterService, ProfileService, SharedPreferences } from '@project-fmps/sunbird-sdk';
 import { AppGlobalService, CommonUtilService, ContainerService } from ".";
 import onboarding from './../assets/configurations/config.json';
 import { SegmentationTagService } from "./segmentation-tag/segmentation-tag.service";
 import { OnboardingConfigurationService } from "./onboarding-configuration.service";
 import { of } from "rxjs";
-import { ProfileType } from '@project-sunbird/sunbird-sdk';
+import { ProfileType } from '@project-fmps/sunbird-sdk';
 import { PreferenceKey, ProfileConstants } from '../app/app.constant';
 
 describe('OnboardingConfigurationService', () => {

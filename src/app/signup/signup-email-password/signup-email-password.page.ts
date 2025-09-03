@@ -3,7 +3,7 @@ import { NavigationExtras, Router } from '@angular/router';
 import { ProfileConstants, RouterLinks } from '../../../app/app.constant';
 import { CommonUtilService } from '../../../services/common-util.service';
 import { Platform, } from '@ionic/angular';
-import { IsProfileAlreadyInUseRequest, GenerateOtpRequest, ProfileService } from '@project-sunbird/sunbird-sdk';
+import { IsProfileAlreadyInUseRequest, GenerateOtpRequest, ProfileService } from '@project-fmps/sunbird-sdk';
 import { FieldConfig, FieldConfigValidationType } from 'common-form-elements';
 import { Location } from '@angular/common';
 @Component({

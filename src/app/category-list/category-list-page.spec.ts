@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { AppHeaderService } from '../../services/app-header.service';
 import { of, Subscription } from 'rxjs';
 import { NavigationService } from '../../services/navigation-handler.service';
-import { ContentService, CourseService, FormService, ProfileService } from '@project-sunbird/sunbird-sdk';
+import { ContentService, CourseService, FormService, ProfileService } from '@project-fmps/sunbird-sdk';
 import { ScrollToService } from '../../services/scroll-to.service';
 import {
     Environment, FormAndFrameworkUtilService, InteractSubtype, InteractType, PageId, SearchFilterService,

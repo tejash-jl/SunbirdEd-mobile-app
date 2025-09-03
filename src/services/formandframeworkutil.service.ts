@@ -22,7 +22,7 @@ import {
     SignInError,
     FrameworkCategoryCode,
     ProfileType,
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 
 import { ContentFilterConfig, PreferenceKey, SystemSettingsIds, PrimaryCategory } from '../app/app.constant';
 import { map } from 'rxjs/operators';

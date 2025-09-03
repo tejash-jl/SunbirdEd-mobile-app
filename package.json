@@ -12,7 +12,7 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:ci": "jest --ci --collectCoverage=true --coverageReporters=lcov --forceExit --detectOpenHandles --maxWorkers=2",
-    "updateLink": "tsc && npm rm node_modules/@project-sunbird/sunbird-sdk/ -g && npm link ../../CapacitorProj/sunbird-mobile-sdk_cap/tmp/",
+    "updateLink": "tsc && npm rm node_modules/@project-fmps/sunbird-sdk/ -g && npm link ../../CapacitorProj/sunbird-mobile-sdk_cap/tmp/",
     "capacitor:sync:after": "node scripts/copyGoogleServiceFile.js android && node scripts/configureGradleFiles.js android && node scripts/application/add_application.js android",
     "capacitor:sync:before": "node scripts/copyContentPlayer.js android",
     "capacitor:update:after": "node scripts/configureGradleFiles.js && node scripts/copyGoogleServiceFile.js android && node scripts/copyContentPlayer.js android",
@@ -85,7 +85,7 @@
     "@project-sunbird/sunbird-epub-player-web-component": "1.4.1",
     "@project-sunbird/sunbird-pdf-player-web-component": "1.1.0",
     "@project-sunbird/sunbird-quml-player-web-component": "3.0.3",
-    "@project-sunbird/sunbird-sdk": "7.0.34",
+    "@project-fmps/sunbird-sdk": "1.0.0",
     "@project-sunbird/sunbird-video-player-web-component": "^1.0.1",
     "chart.js": "4.1.1",
     "chartjs-plugin-datalabels": "2.2.0",
@@ -273,8 +273,8 @@
     ],
     "moduleNameMapper": {
       "^@app/(.*)$": "<rootDir>/src/$1",
-      "^sunbird-sdk": "<rootDir>/node_modules/@project-sunbird/sunbird-sdk",
-      "^sunbird-sdk/(.*)$": "<rootDir>/node_modules/@project-sunbird/sunbird-sdk/$1",
+      "^sunbird-sdk": "<rootDir>/node_modules/@project-fmps/sunbird-sdk",
+      "^sunbird-sdk/(.*)$": "<rootDir>/node_modules/@project-fmps/sunbird-sdk/$1",
       "common-form-elements": [
         "<rootDir>/node_modules/@project-sunbird/common-form-elements"
       ],

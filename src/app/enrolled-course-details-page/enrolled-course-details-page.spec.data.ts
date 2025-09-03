@@ -1,5 +1,5 @@
 import { Navigation } from '@angular/router';
-import { Content, ContentData } from '@project-sunbird/sunbird-sdk';
+import { Content, ContentData } from '@project-fmps/sunbird-sdk';
 import { PageId } from '../../services/telemetry-constants';
 
 export const mockEnrolledData: Partial<Navigation> = {

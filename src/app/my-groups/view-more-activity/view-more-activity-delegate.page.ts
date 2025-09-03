@@ -1,4 +1,4 @@
-import { GroupActivity } from '@project-sunbird/sunbird-sdk';
+import { GroupActivity } from '@project-fmps/sunbird-sdk';
 
 export class ViewMoreActivityDelegateService {
     delegate?: ViewMoreActivityActionsDelegate;

@@ -9,7 +9,7 @@ import {
     ProfileService, SharedPreferences, AuthService,
     CourseService, DownloadService,
     EventsBusService, ContentService, TelemetryObject, ContentImportResponse, ContentImportStatus, DownloadEventType, ContentEventType
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { PopoverController, Platform } from '@ionic/angular';
 import { Events } from '../../../util/events';
 import { NgZone } from '@angular/core';

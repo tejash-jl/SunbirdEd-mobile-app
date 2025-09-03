@@ -8,7 +8,7 @@ import { AppGlobalService, CommonUtilService, FormAndFrameworkUtilService, Onboa
 import { NavigationService } from '../../../services/navigation-handler.service';
 import { mockDiscoverPageData } from '../../../app/components/discover/discover.page.spec.data';
 import { ContentFilterConfig } from '../../../app/app.constant';
-import { ProfileType, SharedPreferences } from '@project-sunbird/sunbird-sdk';
+import { ProfileType, SharedPreferences } from '@project-fmps/sunbird-sdk';
 import { of } from 'rxjs';
 import { PrimaryCaregoryMapping } from '../../app.constant';
 import { mockOnboardingConfigData } from './discover.page.spec.data';

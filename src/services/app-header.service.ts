@@ -2,7 +2,7 @@ import {Inject, Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
 import {MenuController} from '@ionic/angular';
 import {StatusBar} from '@capacitor/status-bar';
-import {SharedPreferences} from '@project-sunbird/sunbird-sdk';
+import {SharedPreferences} from '@project-fmps/sunbird-sdk';
 import {AppThemes, StatusBarTheme,AppMode} from '../app/app.constant';
 import onboarding from './../assets/configurations/config.json';
 

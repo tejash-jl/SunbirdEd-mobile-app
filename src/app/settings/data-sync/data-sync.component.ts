@@ -15,7 +15,7 @@ import { map, tap } from 'rxjs/operators';
 import {
   ArchiveObjectType, ArchiveService,
   ObjectNotFoundError, TelemetryAutoSyncModes, TelemetryImpressionRequest, TelemetryService
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { FilePaths } from '../../../services/file-path/file';
 import { FilePathService } from '../../../services/file-path/file.service';
 

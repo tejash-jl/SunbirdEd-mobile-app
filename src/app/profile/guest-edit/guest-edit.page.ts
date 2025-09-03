@@ -19,7 +19,7 @@ import {
   FrameworkCategoryCode,
   CachedItemRequestSourceFrom,
   CorrelationData
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { CommonUtilService } from '../../../services/common-util.service';
 import { AppGlobalService } from '../../../services/app-global-service.service';
 import { TelemetryGeneratorService } from '../../../services/telemetry-generator.service';

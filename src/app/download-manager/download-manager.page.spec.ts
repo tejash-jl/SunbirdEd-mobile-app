@@ -7,7 +7,7 @@ import {
     SortOrder,
     StorageDestination,
     StorageService
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { DownloadManagerPage } from './download-manager.page';
 import {
     AppHeaderService,

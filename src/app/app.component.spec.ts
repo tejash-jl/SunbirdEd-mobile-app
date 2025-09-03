@@ -12,7 +12,7 @@ import {
     TelemetryService, NotificationService, DebuggingService,
     CodePushExperimentService, SystemSettingsService, DeviceRegisterService,
     TelemetryAutoSyncService, SunbirdSdk, CorrelationData, ProfileService
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { Platform, MenuController } from '@ionic/angular';
 import { Events } from '../util/events';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
@@ -28,7 +28,7 @@ import {PreferenceKey, EventTopics, RouterLinks, SystemSettingsIds, AppOrientati
 import { BackButtonEmitter } from '@ionic/angular/dist/providers/platform';
 import { SplaschreenDeeplinkActionHandlerDelegate } from '../services/sunbird-splashscreen/splaschreen-deeplink-action-handler-delegate';
 import { CsClientStorage } from '@project-sunbird/client-services/core';
-import { ProfileType } from '@project-sunbird/sunbird-sdk';
+import { ProfileType } from '@project-fmps/sunbird-sdk';
 import { SegmentationTagService } from '../services/segmentation-tag/segmentation-tag.service';
 import { StatusBar } from '@capacitor/status-bar';
 import { ScreenOrientation } from '@capacitor/screen-orientation';

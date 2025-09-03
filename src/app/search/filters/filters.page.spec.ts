@@ -1,7 +1,7 @@
 import { FormAndFrameworkUtilService } from '../../../services';
 
 import { FiltersPage } from './filters.page';
-import { ContentService, InteractType } from '@project-sunbird/sunbird-sdk';
+import { ContentService, InteractType } from '@project-fmps/sunbird-sdk';
 import { Platform, PopoverController } from '@ionic/angular';
 import { Events } from '../../../util/events';
 import {

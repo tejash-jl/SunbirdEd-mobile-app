@@ -17,7 +17,7 @@ import {
   SortOrder,
   StorageService,
   StorageDestination
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { AppGlobalService } from '../../services/app-global-service.service';
 import { AppHeaderService, } from '../../services/app-header.service';
 import { CommonUtilService, } from '../../services/common-util.service';

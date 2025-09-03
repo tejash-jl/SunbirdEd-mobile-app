@@ -10,7 +10,7 @@ import {
 import {Router} from '@angular/router';
 import {SbProgressLoader} from '../../services/sb-progress-loader.service';
 import {GooglePlus} from '@awesome-cordova-plugins/google-plus/ngx';
-import {SystemSettingsService, AuthService, SharedPreferences, SignInError, NativeKeycloakSessionProvider} from '@project-sunbird/sunbird-sdk';
+import {SystemSettingsService, AuthService, SharedPreferences, SignInError, NativeKeycloakSessionProvider} from '@project-fmps/sunbird-sdk';
 import {Location} from '@angular/common';
 import {of} from 'rxjs';
 import {PreferenceKey, SystemSettingsIds} from '../../app/app.constant';
@@ -48,8 +48,8 @@ jest.mock('@capacitor-community/apple-sign-in', () => {
     }
 })
 
-jest.mock('@project-sunbird/sunbird-sdk', () => {
-    const actual = jest.requireActual('@project-sunbird/sunbird-sdk');
+jest.mock('@project-fmps/sunbird-sdk', () => {
+    const actual = jest.requireActual('@project-fmps/sunbird-sdk');
     return {
         ...actual,
         WebviewStateSessionProvider() {

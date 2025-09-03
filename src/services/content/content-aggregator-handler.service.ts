@@ -3,8 +3,8 @@ import { FormConstants } from '../../app/form.constants';
 import {
     ContentAggregatorResponse, ContentService, CourseService,
     FormService, ProfileService, SharedPreferences
-} from '@project-sunbird/sunbird-sdk';
-import { DataSourceType } from '@project-sunbird/sunbird-sdk/content/handlers/content-aggregator';
+} from '@project-fmps/sunbird-sdk';
+import { DataSourceType } from '@project-fmps/sunbird-sdk/content/handlers/content-aggregator';
 import { AppGlobalService } from '../app-global-service.service';
 import { CommonUtilService } from '../common-util.service';
 import { AggregatorPageType, Orientation } from './content-aggregator-namespaces';

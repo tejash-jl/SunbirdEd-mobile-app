@@ -1,7 +1,7 @@
 import { MyGroupsPage } from './my-groups.page';
 import {
     AuthService, GroupMemberRole, SharedPreferences, GroupService, SystemSettingsService, ProfileService
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { Router } from '@angular/router';
 import { Platform, PopoverController } from '@ionic/angular';
 import { AppHeaderService } from '../../services/app-header.service';

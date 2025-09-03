@@ -6,7 +6,7 @@ import {
     AndroidPermissionsService, InteractType, InteractSubtype, AppGlobalService
 } from '../../../../services';
 import { SbSharePopupComponent } from './sb-share-popup.component';
-import { ContentService } from '@project-sunbird/sunbird-sdk';
+import { ContentService } from '@project-fmps/sunbird-sdk';
 import { PopoverController, Platform, NavParams } from '@ionic/angular';
 import {
     Environment,

@@ -5,7 +5,7 @@ import {
     DiscussionService,
     ProfileService,
     FormService
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import {
     AppHeaderService,
     AppGlobalService,

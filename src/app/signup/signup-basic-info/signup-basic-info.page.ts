@@ -4,7 +4,7 @@ import { NavigationExtras, Router } from '@angular/router';
 import { AppGlobalService } from '../../../services/app-global-service.service';
 import { CommonUtilService } from '../../../services/common-util.service';
 import { AppHeaderService } from '../../../services/app-header.service';
-import { ProfileService } from '@project-sunbird/sunbird-sdk';
+import { ProfileService } from '@project-fmps/sunbird-sdk';
 import { RouterLinks } from '../../app.constant';
 import { Location } from '@angular/common';
 

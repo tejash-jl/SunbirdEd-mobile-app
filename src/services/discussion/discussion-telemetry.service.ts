@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CorrelationData } from '@project-sunbird/sunbird-sdk';
+import { CorrelationData } from '@project-fmps/sunbird-sdk';
 import { Environment } from '../telemetry-constants';
 import { TelemetryGeneratorService } from '../telemetry-generator.service';
 

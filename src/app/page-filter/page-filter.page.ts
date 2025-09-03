@@ -12,7 +12,7 @@ import {
   GetFrameworkCategoryTermsRequest,
   PageAssembleFilter,
   CachedItemRequestSourceFrom
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 
 import { PageFilterOptionsPage } from './page-filter-options/page-filter-options.page';
 import { AppGlobalService } from 'services/app-global-service.service';

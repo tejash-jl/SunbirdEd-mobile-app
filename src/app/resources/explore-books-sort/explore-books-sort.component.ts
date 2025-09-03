@@ -2,7 +2,7 @@ import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { Component, ViewChild } from '@angular/core';
 import { NavParams, ModalController } from '@ionic/angular';
 import { CommonUtilService } from '../../../services/common-util.service';
-import { FilterValue } from '@project-sunbird/sunbird-sdk';
+import { FilterValue } from '@project-fmps/sunbird-sdk';
 
 @Component({
   selector: 'app-explore-books-sort',

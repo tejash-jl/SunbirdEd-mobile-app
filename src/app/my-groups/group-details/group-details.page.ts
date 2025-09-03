@@ -26,7 +26,7 @@ import {
   Form,
   GroupSupportedActivitiesFormField,
   CorrelationData, DiscussionService, ProfileService, FormService, ActivateAndDeactivateByIdRequest
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import {
   OverflowMenuComponent
 } from '../../../app/profile/overflow-menu/overflow-menu.component';

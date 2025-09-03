@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FilterValue } from '@project-sunbird/sunbird-sdk';
+import { FilterValue } from '@project-fmps/sunbird-sdk';
 import { IFacetFilterFieldTemplateConfig } from 'common-form-elements';
 import { SearchFilterService } from '../../services/search-filter/search-filter.service';
 import { TranslateJsonPipe } from '../../pipes/translate-json/translate-json';

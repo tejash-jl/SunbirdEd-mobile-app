@@ -24,7 +24,7 @@ import {
   SharedPreferences,
   TelemetryFeedbackRequest, TelemetryLogRequest,
   TelemetryObject, TelemetryService
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 
 @Component({
   selector: 'app-content-rating-alert',

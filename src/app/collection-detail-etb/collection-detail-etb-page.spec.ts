@@ -11,7 +11,7 @@ import {
     StorageService,
     TelemetryErrorCode,
     TelemetryObject
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import {IonContent, Platform, PopoverController} from '@ionic/angular';
 import {Events} from '../../util/events';
 import {ChangeDetectorRef, NgZone} from '@angular/core';

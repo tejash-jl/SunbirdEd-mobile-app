@@ -9,7 +9,7 @@ import {
   PageId,
   ImpressionType, Environment
 } from '../../../services/telemetry-constants';
-import { CorrelationData } from '@project-sunbird/sunbird-sdk';
+import { CorrelationData } from '@project-fmps/sunbird-sdk';
 import { FieldConfigOptionsBuilder } from '../../../app/components/common-forms/field-config';
 
 @Injectable({ providedIn: 'root' })

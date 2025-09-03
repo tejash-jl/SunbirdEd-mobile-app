@@ -8,7 +8,7 @@ import { TelemetryGeneratorService } from '../../services/telemetry-generator.se
 import { App } from '@capacitor/app';
 import { ModalController, Platform } from '@ionic/angular';
 import { Subscription } from 'rxjs';
-import { ProfileService, ServerProfile } from '@project-sunbird/sunbird-sdk';
+import { ProfileService, ServerProfile } from '@project-fmps/sunbird-sdk';
 import { Environment, ImpressionType, InteractSubtype, InteractType, PageId } from '../../services/telemetry-constants';
 import { ProfileConstants } from '../app.constant';
 

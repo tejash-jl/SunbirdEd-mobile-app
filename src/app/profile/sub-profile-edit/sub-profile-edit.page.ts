@@ -9,12 +9,12 @@ import {
   CorrelationData,
   FormService,
   CachedItemRequestSourceFrom,
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { CommonUtilService } from '../../../services/common-util.service';
 import { AppGlobalService } from '../../../services/app-global-service.service';
 import { AppHeaderService } from '../../../services/app-header.service';
 import { Location } from '@angular/common';
-import { AddManagedProfileRequest } from '@project-sunbird/sunbird-sdk/profile/def/add-managed-profile-request';
+import { AddManagedProfileRequest } from '@project-fmps/sunbird-sdk/profile/def/add-managed-profile-request';
 import { CommonFormsComponent } from '../../../app/components/common-forms/common-forms.component';
 import { TelemetryGeneratorService } from '../../../services/telemetry-generator.service';
 import { Environment, InteractType, ID, PageId, CorReleationDataType, ImpressionType } from '../../../services/telemetry-constants';

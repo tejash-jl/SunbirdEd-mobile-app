@@ -37,7 +37,7 @@ import {
   FetchEnrolledCourseRequest, LogLevel, SearchType,
   SharedPreferences,
   SortOrder
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { EnrollmentDetailsComponent } from '../components/enrollment-details/enrollment-details.component';
 
 @Component({

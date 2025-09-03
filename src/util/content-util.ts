@@ -1,4 +1,4 @@
-import { Rollup, Content, ContentData, TelemetryObject, CorrelationData, FilterValue, ContentSearchFilter } from '@project-sunbird/sunbird-sdk';
+import { Rollup, Content, ContentData, TelemetryObject, CorrelationData, FilterValue, ContentSearchFilter } from '@project-fmps/sunbird-sdk';
 import { CorReleationDataType } from '../services/telemetry-constants';
 import { TrackingEnabled } from '@project-sunbird/client-services/models';
 import { MimeType } from '../app/app.constant';

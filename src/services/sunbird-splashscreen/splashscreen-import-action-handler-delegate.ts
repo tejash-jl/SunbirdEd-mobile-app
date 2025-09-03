@@ -20,7 +20,7 @@ import {
   TelemetryErrorRequest,
   TelemetryService,
   StorageService
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { SplashscreenActionHandlerDelegate } from './splashscreen-action-handler-delegate';
 
 @Injectable()

@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 import { AppGlobalService } from '../../../services/app-global-service.service';
 import { Subscription } from 'rxjs';
 import { ContentUtil } from '../../../util/content-util';
-import { CorrelationData } from '@project-sunbird/sunbird-sdk';
+import { CorrelationData } from '@project-fmps/sunbird-sdk';
 
 @Component({
     selector: 'activity-toc',

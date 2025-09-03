@@ -8,7 +8,7 @@ import {
   CachedItemRequestSourceFrom, ProfileService,
   ServerProfileDetailsRequest,
   SharedPreferences
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { NavigationService } from '../../../../services/navigation-handler.service';
 
 @Component({

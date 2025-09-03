@@ -3,7 +3,7 @@ import { PopoverController, NavParams } from '@ionic/angular';
 import { Events } from '../../../../util/events';
 import { TelemetryGeneratorService, CommonUtilService } from '../../../../services';
 import { of, throwError } from 'rxjs';
-import { ProfileService, HttpClientError, Response, HttpServerError } from '@project-sunbird/sunbird-sdk';
+import { ProfileService, HttpClientError, Response, HttpServerError } from '@project-fmps/sunbird-sdk';
 import { featureIdMap } from '../../../../feature-id-map';
 import {
     Environment,

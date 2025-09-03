@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { Router, ActivatedRoute, Resolve, NavigationExtras, ActivatedRouteSnapshot } from '@angular/router';
-import { ProfileType, SharedPreferences } from '@project-sunbird/sunbird-sdk';
+import { ProfileType, SharedPreferences } from '@project-fmps/sunbird-sdk';
 import { OnboardingScreenType, PreferenceKey, RouterLinks } from '../app/app.constant';
 import {SplashScreenService} from '../services/splash-screen.service';
 import { OnboardingConfigurationService } from '../services/onboarding-configuration.service';

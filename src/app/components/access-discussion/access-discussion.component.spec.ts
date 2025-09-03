@@ -1,4 +1,4 @@
-import {DiscussionService,} from '@project-sunbird/sunbird-sdk';
+import {DiscussionService,} from '@project-fmps/sunbird-sdk';
 import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { DiscussionTelemetryService } from '../../../services/discussion/discussion-telemetry.service';

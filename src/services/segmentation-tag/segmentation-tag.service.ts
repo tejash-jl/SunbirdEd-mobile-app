@@ -7,7 +7,7 @@ import {
     ProfileService,
     SegmentationService,
     SharedPreferences
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import {AppGlobalService} from '../app-global-service.service';
 import {NotificationService} from '../../services/notification.service';
 import {FormAndFrameworkUtilService} from '../formandframeworkutil.service';

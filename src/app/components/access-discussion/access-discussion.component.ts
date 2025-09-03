@@ -7,7 +7,7 @@ import { CommonUtilService } from '../../../services/common-util.service';
 import { AppHeaderService } from '../../../services/app-header.service';
 import { TelemetryGeneratorService } from '../../../services/telemetry-generator.service';
 import { DiscussionTelemetryService } from '../../../services/discussion/discussion-telemetry.service';
-import { DiscussionService, InteractType } from '@project-sunbird/sunbird-sdk';
+import { DiscussionService, InteractType } from '@project-fmps/sunbird-sdk';
 
 @Component({
     selector: "accessDiscussion",

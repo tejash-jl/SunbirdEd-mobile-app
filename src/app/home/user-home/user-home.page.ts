@@ -43,7 +43,7 @@ import {
   ProfileService,
   ProfileType,
   SearchType,
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import {
   AudienceFilter,
   ColorMapping,

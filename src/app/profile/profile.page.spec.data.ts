@@ -1,4 +1,4 @@
-import {ProfileSource, ProfileType} from '@project-sunbird/sunbird-sdk';
+import {ProfileSource, ProfileType} from '@project-fmps/sunbird-sdk';
 
 export const mockProfileData = {
     uid: '123',

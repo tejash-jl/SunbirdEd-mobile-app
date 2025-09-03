@@ -1,4 +1,4 @@
-import { Content } from '@project-sunbird/sunbird-sdk';
+import { Content } from '@project-fmps/sunbird-sdk';
 import { ContentUtil } from '../util/content-util';
 import { mockSupportedUserTypeConfig } from '../services/profile-handler.spec.data';
 

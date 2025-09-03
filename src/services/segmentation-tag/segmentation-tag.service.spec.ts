@@ -1,4 +1,4 @@
-import {AuthService, Profile, ProfileService, SegmentationService, SharedPreferences} from '@project-sunbird/sunbird-sdk';
+import {AuthService, Profile, ProfileService, SegmentationService, SharedPreferences} from '@project-fmps/sunbird-sdk';
 import {of} from 'rxjs';
 import {AppGlobalService} from '../../services';
 import {FormAndFrameworkUtilService} from '../../services';
@@ -6,7 +6,7 @@ import {SegmentationTagService} from './segmentation-tag.service';
 import {NotificationService} from '../../services/notification.service';
 import {cmdList, validCmdList} from './segmentation-tag.service.spec.data';
 import {SplaschreenDeeplinkActionHandlerDelegate} from '../sunbird-splashscreen/splaschreen-deeplink-action-handler-delegate';
-import {DebuggingService} from '@project-sunbird/sunbird-sdk';
+import {DebuggingService} from '@project-fmps/sunbird-sdk';
 import {Events} from '../../util/events';
 
 

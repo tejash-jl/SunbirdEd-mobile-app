@@ -2,7 +2,7 @@ import { EditContactVerifyPopupComponent } from './edit-contact-verify-popup.com
 import { CommonUtilService } from '../../../../services';
 import { PopoverController, Platform, NavParams, MenuController } from '@ionic/angular';
 import { of, throwError } from 'rxjs';
-import { ProfileService, HttpClientError } from '@project-sunbird/sunbird-sdk';
+import { ProfileService, HttpClientError } from '@project-fmps/sunbird-sdk';
 
 describe('EditContactVerifyPopupComponent', () => {
     let editContactVerifyPopupComponent: EditContactVerifyPopupComponent;

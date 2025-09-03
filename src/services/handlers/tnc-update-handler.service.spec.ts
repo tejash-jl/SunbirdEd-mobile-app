@@ -11,7 +11,7 @@ import { ConsentService } from "../consent-service";
 import { ProfileConstants, RouterLinks } from "../../app/app.constant";
 import { FormConstants } from '../../app/form.constants';
 import { FieldConfig } from "../../app/components/common-forms/field-config";
-import { InteractType, SharedPreferences } from "@project-sunbird/sunbird-sdk";
+import { InteractType, SharedPreferences } from "@project-fmps/sunbird-sdk";
 import { FrameworkDetailsService } from "../framework-details.service";
 import { Events } from '../../util/events';
 import onboarding from '../../assets/configurations/config.json';

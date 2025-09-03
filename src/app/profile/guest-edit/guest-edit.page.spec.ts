@@ -8,7 +8,7 @@ import {
     GetSuggestedFrameworksRequest,
     SharedPreferences,
     CorrelationData
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { TranslateService } from '@ngx-translate/core';
 import { Events } from '../../../util/events';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -34,7 +34,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ProfileHandler } from '../../../services/profile-handler';
 import { SegmentationTagService } from '../../../services/segmentation-tag/segmentation-tag.service';
 import { mockOnboardingConfigData } from '../../components/discover/discover.page.spec.data';
-import { ProfileType } from '@project-sunbird/sunbird-sdk';
+import { ProfileType } from '@project-fmps/sunbird-sdk';
 import { PreferenceKey } from '../../app.constant';
 
 describe('GuestEditPage', () => {

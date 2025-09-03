@@ -19,7 +19,7 @@ import {
     SharedPreferences,
     NativeAppleSessionProvider,
     NativeKeycloakSessionProvider
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import {Router} from '@angular/router';
 import {SbProgressLoader} from '../../services/sb-progress-loader.service';
 import {LoginNavigationHandlerService} from '../../services/login-navigation-handler.service';

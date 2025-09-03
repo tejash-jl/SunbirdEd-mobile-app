@@ -12,7 +12,7 @@ import {
     FrameworkUtilService,
     TelemetryService,
     TelemetryGeneratorService
- } from '@project-sunbird/sunbird-sdk';
+ } from '@project-fmps/sunbird-sdk';
 import { AppGlobalService } from '../../services/app-global-service.service';
 import { CommonUtilService } from '../../services/common-util.service';
 import { AppHeaderService, FormAndFrameworkUtilService } from '../../services';

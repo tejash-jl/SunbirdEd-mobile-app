@@ -11,7 +11,7 @@ import { ConnectionStatus, Network } from '@capacitor/network';
 import {
     SharedPreferences, ProfileService, Profile, ProfileType,
     CorrelationData, CachedItemRequestSourceFrom, LocationSearchCriteria, TelemetryService
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import {
     PreferenceKey, ProfileConstants, RouterLinks,
     appLanguages, Location as loc, MaxAttempt, SwitchableTabsConfig

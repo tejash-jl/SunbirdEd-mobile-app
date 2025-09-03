@@ -1,4 +1,4 @@
-import { CachedItemRequestSourceFrom, FormRequest } from '@project-sunbird/sunbird-sdk';
+import { CachedItemRequestSourceFrom, FormRequest } from '@project-fmps/sunbird-sdk';
 
 export class FormConstants {
     public static  SELF_DECLARATION: FormRequest = {
