@@ -45,7 +45,7 @@
         </h3>
         <div class="enrolled-course-grid">
           <ng-container *ngFor="let course of completedCourses">
-            <ion-card *ngIf="course.status === 2 && course.progress > 0" class="enrolled-full-width-card"
+            <ion-card class="enrolled-full-width-card"
               (click)="openEnrolledCourse(course)">
               <div class="enrolled-course-card-header">
                 <div class="enrolled-course-label">COURSE</div>
