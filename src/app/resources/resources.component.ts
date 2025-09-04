@@ -54,6 +54,8 @@ import {
   ContentSearchCriteria,
   ContentService,
   CorrelationData,
+  Course,
+  CourseService,
   EventsBusEvent,
   EventsBusService,
   FrameworkCategoryCode,
@@ -143,6 +145,7 @@ export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, Fra
   private networkSubscription?: Subscription;
   networkFlag: boolean;
   public imageSrcMap = new Map();
+  enrolledCourseList = [];
 
   /**
    * Flag to show latest and popular course loader
@@ -233,13 +236,15 @@ export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, Fra
   };
 
   private tutorialPopover;
-  defaultAppIcon:string = '';
+  defaultAppIcon:string = 'assets/imgs/book.png';
   userFrameworkCategories = {};
   listofCategory: any;
   requiredCategories = [];
   category1Code = '';
   category2Code = '';
   category3Code = '';
+  inProgressCourses: any[];
+  completedCourses: any[];
 
   constructor(
     @Inject('PROFILE_SERVICE') private profileService: ProfileService,
@@ -248,6 +253,7 @@ export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, Fra
     @Inject('FRAMEWORK_SERVICE') private frameworkService: FrameworkService,
     @Inject('CONTENT_SERVICE') private contentService: ContentService,
     @Inject('SHARED_PREFERENCES') private preferences: SharedPreferences,
+    @Inject('COURSE_SERVICE') private courseService: CourseService,
     private splaschreenDeeplinkActionHandlerDelegate: SplaschreenDeeplinkActionHandlerDelegate,
     private ngZone: NgZone,
     private qrScanner: SunbirdQRScanner,
@@ -333,6 +339,7 @@ export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, Fra
     this.initNetworkDetection();
     this.appGlobalService.generateConfigInteractEvent(PageId.LIBRARY, this.isOnBoardingCardCompleted);
     await this.appNotificationService.handleNotification();
+    await this.getEnrolledCourses();
 
     this.events.subscribe(EventTopics.TAB_CHANGE, async (data: string) => {
       await this.scrollToTop();
@@ -403,6 +410,34 @@ export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, Fra
     } 
     await this.getFrameworkCategoriesLabel();
     await this.getLocalContent();
+  }
+
+  async getEnrolledCourses() {
+    const option = {
+      userId: this.profile.uid,
+    };
+    this.courseService.getEnrolledCourses(option).toPromise()
+      .then(async (res: Course[]) => {
+        if (res.length) {
+          this.enrolledCourseList = res.sort((a, b) => (a.enrolledDate > b.enrolledDate ? -1 : 1));
+          this.inProgressCourses = this.enrolledCourseList.filter(course => course.status !== 2 || course.progress === 0);
+          this.completedCourses = this.enrolledCourseList.filter(course => course.status === 2 && course.progress > 0);
+        }
+      })
+      .catch((error: any) => {
+        console.error('error while loading enrolled courses', error);
+      });
+  }
+
+  async openEnrolledCourse(course) {
+    try {
+      const content = this.enrolledCourseList.find(c =>
+        c.courseId === course.courseId && c.batch.batchId === course.batch.batchId
+      );
+      await this.navService.navigateToTrackableCollection({ content });
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   /**
