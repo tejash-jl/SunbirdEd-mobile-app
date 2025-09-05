@@ -300,5 +300,75 @@
   border-radius: 5px;
   color: #fff;
 }
+.filter-field {
+  background: #fff;
+  border-radius: 10px;
+  padding: 4px 6px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.06);
+}
+
+/* tidy the ion-item inside our field */
+.filter-field ion-item {
+  --background: #fff;
+  --inner-padding-end: 8px;
+  --padding-start: 8px;
+  --min-height: 44px;
+  border-radius: 10px;           /* visual rounding for ripple area */
+}
+
+/* Hide the selected summary in the select trigger so we only show chips below */
+.no-selected-text::part(text) {
+  display: none;
+}
+
+/* Optional: make sure placeholder stays visible and not dimmed */
+.no-selected-text::part(placeholder) {
+  opacity: 1;
+}
+
+/* Chips styling */
+.selected-chips {
+  padding: 4px 2px 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+
+  ion-chip {
+    --background: #f3f4f6;
+    ion-icon {
+      margin-left: 6px;
+      cursor: pointer;
+    }
+  }
+}
+/* Hides the selected summary text inside ion-select trigger */
+.chips-only::part(text) { 
+  display: none; 
+  border: none;
+}
+
+/* Keep the placeholder ("Select") visible */
+.chips-only::part(placeholder) { 
+  opacity: 1; 
+}
+.chips-only{
+  border: none !important;
+}
+/* Optional: basic chip layout */
+.selected-chips {
+  padding: 6px 2px 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+
+  ion-chip {
+    --background: #f3f4f6;
+    ion-icon { margin-left: 6px; cursor: pointer; }
+  }
+}
+
+/* Fallback for older Ionic builds that don't support ::part */
+.chips-only .select-text { display: none; }
 
 }

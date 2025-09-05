@@ -14,7 +14,7 @@
       </sb-course-cards-hlist>
     </ng-container>
   </div>
-    <ion-card>
+    <!-- <ion-card>
       <ion-card-header>
         <ion-card-title>Filter Courses</ion-card-title>
       </ion-card-header>
@@ -39,7 +39,54 @@
           Apply Filters
         </ion-button>
       </ion-card-content>
-    </ion-card>
+    </ion-card> -->
+<!-- Filter Courses (can keep class="filter-card" if you already made it fixed) -->
+<ion-card class="filter-card">
+  <ion-card-header>
+    <ion-card-title>Filter Courses</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+
+    <!-- One dropdown per dynamic filter -->
+    <ng-container *ngFor="let filter of dynamicFilters; let i = index; trackBy: trackByFilter">
+      <ion-item lines="full">
+        <ion-label>{{ filter.label }}</ion-label>
+
+        <!-- Multi-select dropdown -->
+        <!-- Add class="chips-only" to hide the trigger's selected text -->
+    <ion-select
+      class="chips-only"
+      interface="popover"
+      [multiple]="true"
+      [value]="filter.selected || []"
+      placeholder=""
+      (ionChange)="onFilterSelectChange(i, $event.detail.value)"
+    >
+      <ion-select-option *ngFor="let option of filter.options" [value]="option.code">
+        {{ option.name }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+      <!-- Show selected values as removable chips -->
+      <div class="selected-chips" *ngIf="filter.selected?.length">
+        <ion-chip *ngFor="let code of filter.selected">
+          <ion-label>{{ getOptionName(i, code) }}</ion-label>
+          <ion-icon name="close-outline" (click)="removeSelected(i, code)"></ion-icon>
+        </ion-chip>
+      </div>
+    </ng-container>
+
+    <ion-button expand="block" (click)="applyDynamicFilters()">
+      Apply Filters
+    </ion-button>
+    <ion-button expand="block" fill="outline" (click)="clearAllFilters()">
+      Clear All
+    </ion-button>
+
+  </ion-card-content>
+</ion-card>
 
     <div *ngIf="enrolledCourseList?.length">
       <h3 class="enrolled-section-title">
