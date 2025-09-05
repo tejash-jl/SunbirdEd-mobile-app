@@ -216,6 +216,7 @@
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  background-color: #fff;
 }
  
 .enrolled-course-card-header {
@@ -241,7 +242,7 @@
 .enrolled-course-left {
   width: 20%;
   min-width: 80px;
-  background: url("https://dev-fmps.sunbirded.org/assets/common-consumption/images/abstract_03.svg")
+  background: url("/assets/imgs/abstract_03.svg")
               no-repeat center center;
   background-size: cover;
   border-radius: 8px;
@@ -289,6 +290,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  
 }
 
 .number-of-courses {

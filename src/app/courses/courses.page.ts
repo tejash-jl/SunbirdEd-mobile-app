@@ -101,7 +101,7 @@ userId: string;
   courseFilter: any;
   appliedFilter: any;
   filterIcon = './assets/imgs/ic_action_filter.png';
-  defaultAppIcon:string = 'https://dev-fmps.sunbirded.org/assets/images/book.png';
+  defaultAppIcon:string = 'assets/imgs/book.png'
   profile: Profile;
   isVisible = false;
   inProgressSection = 'My Courses';
