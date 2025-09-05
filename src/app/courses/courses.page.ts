@@ -490,6 +490,7 @@ userId: string;
       console.warn('[initializeDynamicFilters] dynamicFilters is not defined or not an array:', this.dynamicFilters);
       return;
     }
+    const categoryData = await this.frameworkService.getCategoryTerms(frameworkId).toPromise();
 
     for (const filter of this.dynamicFilters) {
       console.log(`[initializeDynamicFilters] Processing filter:`, filter);
@@ -504,12 +505,14 @@ userId: string;
       });
 
       try {
-        const categoryData = await this.frameworkService.getCategoryTerms(frameworkId);
+
 
         console.log(`[initializeDynamicFilters] Received categoryData for "${frameworkId}":`, categoryData);
 
-        // filter.options = categoryData;
-        // filter.selectedNames = categoryData;
+
+        filter.options = categoryData.categories.find(ele => ele.code === currentCategoryCode).terms;
+        filter.selectedNames = categoryData;
+        filter.selected = [];
 
         console.log(`[initializeDynamicFilters] Updated filter "${currentCategoryCode}" with options and selectedNames:`, {
           options: filter.options,
@@ -528,7 +531,7 @@ userId: string;
   applyDynamicFilters() {
     const appliedFilters = {};
     this.dynamicFilters.forEach(filter => {
-      if (filter.selected.length > 0) {
+      if (filter?.selected?.length > 0) {
         appliedFilters[filter.code] = filter.selected;
       }
     });
