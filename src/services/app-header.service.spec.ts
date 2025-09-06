@@ -1,6 +1,6 @@
 import {AppHeaderService} from './app-header.service';
 import {MenuController} from '@ionic/angular';
-import {SharedPreferences} from '@project-sunbird/sunbird-sdk';
+import {SharedPreferences} from '@project-fmps/sunbird-sdk';
 import {of} from 'rxjs';
 import onboarding from './../assets/configurations/config.json';
 import { StatusBar } from '@capacitor/status-bar';

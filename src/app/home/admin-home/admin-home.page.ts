@@ -28,7 +28,7 @@ import {
   SearchType,
   InteractType,
   FormService
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { AggregatorPageType } from '../../../services/content/content-aggregator-namespaces';
 import { NavigationService } from '../../../services/navigation-handler.service';
 import { IonContent as ContentView } from '@ionic/angular';

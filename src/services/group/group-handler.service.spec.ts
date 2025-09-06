@@ -3,7 +3,7 @@ import { CommonUtilService, TelemetryGeneratorService } from '..';
 import { Location } from '@angular/common';
 import {
     GroupService
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { of, throwError } from 'rxjs';
 import { InteractType, InteractSubtype, Environment, ID } from '../telemetry-constants';
 

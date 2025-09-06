@@ -1,5 +1,5 @@
 import { AppGlobalService } from './app-global-service.service';
-import { ProfileService, AuthService, FrameworkService, SharedPreferences, ProfileType } from '@project-sunbird/sunbird-sdk';
+import { ProfileService, AuthService, FrameworkService, SharedPreferences, ProfileType } from '@project-fmps/sunbird-sdk';
 import { PopoverController } from '@ionic/angular';
 import { Events } from '../util/events';
 import { TelemetryGeneratorService } from './telemetry-generator.service';

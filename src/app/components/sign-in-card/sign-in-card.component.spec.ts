@@ -1,5 +1,5 @@
 import {SignInCardComponent} from './sign-in-card.component';
-import {ProfileService, AuthService, SharedPreferences, Profile, ProfileType, ProfileSource, SignInError} from '@project-sunbird/sunbird-sdk';
+import {ProfileService, AuthService, SharedPreferences, Profile, ProfileType, ProfileSource, SignInError} from '@project-fmps/sunbird-sdk';
 import {
     CommonUtilService, AppGlobalService, TelemetryGeneratorService,
     ContainerService, FormAndFrameworkUtilService
@@ -14,8 +14,8 @@ import {SegmentationTagService} from '../../../services/segmentation-tag/segment
 import {RouterLinks} from '../../../app/app.constant';
 import { App } from '@capacitor/app';
 
-jest.mock('@project-sunbird/sunbird-sdk', () => {
-    const actual = jest.requireActual('@project-sunbird/sunbird-sdk');
+jest.mock('@project-fmps/sunbird-sdk', () => {
+    const actual = jest.requireActual('@project-fmps/sunbird-sdk');
     return {
         ...actual,
         WebviewLoginSessionProvider() {

@@ -29,7 +29,7 @@ import {
   DeviceRegisterService,
   FormRequest, LocationSearchResult, Profile, ProfileService,
   SharedPreferences, ProfileType
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { LocationConfig, PreferenceKey, ProfileConstants, RegexPatterns, RouterLinks } from '../../app/app.constant';
 import { FormConstants } from '../form.constants';
 import { TncUpdateHandlerService } from '../../services/handlers/tnc-update-handler.service';

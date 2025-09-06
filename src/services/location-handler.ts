@@ -7,7 +7,7 @@ import {
     Organization,
     ProfileService,
     SharedPreferences
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { Location, PreferenceKey } from '../app/app.constant';
 
 @Injectable()

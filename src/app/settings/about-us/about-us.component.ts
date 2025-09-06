@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { Share } from '@capacitor/share';
 import {
   ContentRequest, ContentService, DeviceInfo, GetAllProfileRequest, ProfileService, SharedPreferences
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import {
   InteractType,
   InteractSubtype,

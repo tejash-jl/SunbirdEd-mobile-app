@@ -3,7 +3,7 @@ import { NavParams, Platform, PopoverController } from '@ionic/angular';
 import { AppRatingService } from '../../../services/app-rating.service';
 import { TelemetryGeneratorService } from '../../../services/telemetry-generator.service';
 import { UtilityService } from '../../../services/utility-service';
-import { SharedPreferences, TelemetryService } from '@project-sunbird/sunbird-sdk';
+import { SharedPreferences, TelemetryService } from '@project-fmps/sunbird-sdk';
 import { App } from '@capacitor/app';
 import { Observable } from 'rxjs';
 import { PreferenceKey, StoreRating } from '../../../app/app.constant';

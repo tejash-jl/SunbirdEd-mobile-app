@@ -28,7 +28,7 @@ import {
   CorrelationData,
   AuditState,
   SharedPreferences,
-  CachedItemRequestSourceFrom} from '@project-sunbird/sunbird-sdk';
+  CachedItemRequestSourceFrom} from '@project-fmps/sunbird-sdk';
 import { TelemetryGeneratorService } from '../../services/telemetry-generator.service';
 import { AppGlobalService } from '../../services/app-global-service.service';
 import { SunbirdQRScanner } from '../../services/sunbirdqrscanner.service';

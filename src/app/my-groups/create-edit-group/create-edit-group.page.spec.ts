@@ -1,5 +1,5 @@
 import { CreateEditGroupPage } from './create-edit-group.page';
-import { GroupService } from '@project-sunbird/sunbird-sdk';
+import { GroupService } from '@project-fmps/sunbird-sdk';
 import { FormBuilder } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Platform, AlertController } from '@ionic/angular';

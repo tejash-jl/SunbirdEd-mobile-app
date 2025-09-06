@@ -5,7 +5,7 @@ import {
     GetSuggestedFrameworksRequest,
     NetworkError,
     Profile, ProfileService
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import {AppGlobalService} from '../services/app-global-service.service';
 import {PageId} from '../services/telemetry-constants';
 import {Inject, Injectable} from '@angular/core';

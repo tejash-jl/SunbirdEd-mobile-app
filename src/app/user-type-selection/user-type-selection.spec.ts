@@ -4,7 +4,7 @@ import {
     ProfileService,
     ProfileSource,
     SharedPreferences
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { Platform } from '@ionic/angular';
 import { Events } from '../../util/events';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
@@ -25,7 +25,7 @@ import {
     CorReleationDataType, Environment, InteractSubtype, InteractType, LoginHandlerService, PageId,
     SplashScreenService
 } from '../../services';
-import { AuditState, CorrelationData, ProfileType } from '@project-sunbird/sunbird-sdk';
+import { AuditState, CorrelationData, ProfileType } from '@project-fmps/sunbird-sdk';
 import { OnboardingScreenType, PreferenceKey, RouterLinks } from '../app.constant';
 import { ProfileHandler } from '../../services/profile-handler';
 import { TncUpdateHandlerService } from '../../services/handlers/tnc-update-handler.service';

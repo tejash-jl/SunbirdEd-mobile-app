@@ -1,5 +1,5 @@
 import { Component, Input, Inject, Output, EventEmitter } from '@angular/core';
-import { NotificationService } from '@project-sunbird/sunbird-sdk';
+import { NotificationService } from '@project-fmps/sunbird-sdk';
 
 import { InteractSubtype } from '../../../services/telemetry-constants';
 import {NotificationService as LocalNotification} from '../../../services/notification.service';

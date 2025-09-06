@@ -7,7 +7,7 @@ import { TelemetryGeneratorService } from '../../../services/telemetry-generator
 import {
   GroupService, GroupCreateRequest, GroupMembershipType,
   UpdateByIdRequest, CorrelationData
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { CommonUtilService } from '../../../services/common-util.service';
 import { AppHeaderService } from '../../../services/app-header.service';
 import { Location } from '@angular/common';

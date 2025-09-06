@@ -1,4 +1,4 @@
-import { FormRequest } from '@project-sunbird/sunbird-sdk';
+import { FormRequest } from '@project-fmps/sunbird-sdk';
 import { throwError } from 'rxjs';
 import { OnboardingConfigurationService } from '..';
 import { mockOnboardingConfigData } from '../../app/components/discover/discover.page.spec.data';

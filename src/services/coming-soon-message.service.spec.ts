@@ -4,7 +4,7 @@ import {
     ContentService,
     SharedPreferences,
     SystemSettingsService
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { ContentConstants } from '../app/app.constant';
 import { of } from 'rxjs';
 

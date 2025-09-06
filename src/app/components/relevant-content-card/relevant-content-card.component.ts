@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import {ContentData} from '@project-sunbird/sunbird-sdk';
+import {ContentData} from '@project-fmps/sunbird-sdk';
 import { CommonUtilService } from '../../../services/common-util.service';
 
 @Component({

@@ -12,7 +12,7 @@ import { TelemetryGeneratorService } from '../../../services/telemetry-generator
 import {
   Environment, InteractSubtype, InteractType, PageId
 } from '../../../services/telemetry-constants';
-import { ContentService, ContentSearchResult, SearchType } from '@project-sunbird/sunbird-sdk';
+import { ContentService, ContentSearchResult, SearchType } from '@project-fmps/sunbird-sdk';
 import { ContentUtil } from '../../../util/content-util';
 import { FormAndFrameworkUtilService } from '../../../services/formandframeworkutil.service';
 

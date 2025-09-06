@@ -9,7 +9,7 @@ import { Environment, InteractSubtype } from '../../../services/telemetry-consta
 import { TelemetryGeneratorService } from '../../../services/telemetry-generator.service';
 import { ContentUtil } from '../../../util/content-util';
 import { File } from '@awesome-cordova-plugins/file/ngx';
-import { Content, CorrelationData, CourseService, InteractType, PlayerService } from '@project-sunbird/sunbird-sdk';
+import { Content, CorrelationData, CourseService, InteractType, PlayerService } from '@project-fmps/sunbird-sdk';
 import { ContentInfo } from '../content-info';
 import {UtilityService} from '../../../services/utility-service';
 

@@ -7,7 +7,7 @@ import {
     Profile, ProfileService, ProfileType,
     ServerProfile, SharedPreferences,
     ProfileSource, RootOrg
-  } from '@project-sunbird/sunbird-sdk';
+  } from '@project-fmps/sunbird-sdk';
 import { MenuController, Platform, PopoverController } from "@ionic/angular";
 import { ActivePageService, AppGlobalService, AppHeaderService, CommonUtilService, CorReleationDataType, Environment, ID, InteractSubtype, InteractType, NotificationService, PageId, TelemetryGeneratorService, UtilityService } from "../../../services";
 import { Events } from "../../../../src/util/events";

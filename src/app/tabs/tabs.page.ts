@@ -9,7 +9,7 @@ import { CommonUtilService } from '../../services/common-util.service';
 import { ContainerService } from '../../services/container.services';
 import { IonTabs, ToastController } from '@ionic/angular';
 import { Events } from '../../util/events';
-import { ProfileService, ProfileType, SharedPreferences } from '@project-sunbird/sunbird-sdk';
+import { ProfileService, ProfileType, SharedPreferences } from '@project-fmps/sunbird-sdk';
 import { OnboardingConfigurationService } from '../../services/onboarding-configuration.service';
 
 @Component({

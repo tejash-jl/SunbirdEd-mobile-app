@@ -1,6 +1,6 @@
 import { HasNotBeenOnboardedGuard } from './has-not-been-onboarded.guard';
 import { AppGlobalService, SplashScreenService } from '../services';
-import { AuthService, SharedPreferences } from '@project-sunbird/sunbird-sdk';
+import { AuthService, SharedPreferences } from '@project-fmps/sunbird-sdk';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 

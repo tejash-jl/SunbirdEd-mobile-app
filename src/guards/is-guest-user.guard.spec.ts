@@ -1,5 +1,5 @@
 import { IsGuestUserGuard } from './is-guest-user.guard';
-import { AuthService } from '@project-sunbird/sunbird-sdk';
+import { AuthService } from '@project-fmps/sunbird-sdk';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 

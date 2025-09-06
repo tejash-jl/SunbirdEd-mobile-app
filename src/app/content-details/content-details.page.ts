@@ -44,7 +44,7 @@ import {
   ContentMarkerRequest,
   MarkerType,
   Profile
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 
 import { Map } from '../../app/telemetryutil';
 import { ConfirmAlertComponent } from '../../app/components';

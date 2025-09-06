@@ -1,4 +1,4 @@
-import {CertificateService, CourseService, InteractType} from '@project-sunbird/sunbird-sdk';
+import {CertificateService, CourseService, InteractType} from '@project-fmps/sunbird-sdk';
 import {CertificateDownloadService} from 'sb-svg2pdf';
 import {AppGlobalService, AppHeaderService, CommonUtilService, Environment, InteractSubtype, PageId, TelemetryGeneratorService} from '../../../services';
 import {Router} from '@angular/router';

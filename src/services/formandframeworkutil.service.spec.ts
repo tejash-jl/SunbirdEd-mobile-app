@@ -8,7 +8,7 @@ import {
   SharedPreferences,
   ProfileType,
   ProfileSource
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { AppGlobalService } from './app-global-service.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Events } from '../util/events';

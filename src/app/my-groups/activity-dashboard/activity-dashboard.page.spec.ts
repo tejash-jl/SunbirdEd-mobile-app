@@ -6,7 +6,7 @@ import { AppHeaderService, AppGlobalService, CommonUtilService } from '../../../
 import { Platform } from '@ionic/angular';
 import { Location } from '@angular/common';
 import { of } from 'rxjs';
-import { GroupMemberRole, GroupService, InteractType } from '@project-sunbird/sunbird-sdk';
+import { GroupMemberRole, GroupService, InteractType } from '@project-fmps/sunbird-sdk';
 
 describe('ActivityTocPage', () => {
     let activityDashboardPage: ActivityDashboardPage;

@@ -13,7 +13,7 @@ import {
   EventsBusService,
   StorageService,
   StorageDestination
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { Location } from '@angular/common';
 import { AppHeaderService } from '../../services/app-header.service';
 import { CommonUtilService } from '../../services/common-util.service';

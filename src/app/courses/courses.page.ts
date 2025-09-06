@@ -14,6 +14,7 @@ import { CourseCardGridTypes } from '@project-sunbird/common-consumption';
 import forEach from 'lodash/forEach';
 import { Subscription } from 'rxjs';
 import {
+  CategoryTerm,
   Content,
   ContentAggregatorRequest, ContentEventType, ContentImportRequest, ContentImportResponse, ContentImportStatus,
   ContentSearchCriteria, ContentService,
@@ -22,12 +23,15 @@ import {
   CourseBatchStatus,
   CourseEnrollmentType,
   CourseService, DownloadEventType, DownloadProgress, EventsBusEvent, EventsBusService,
+  Framework,
+  FrameworkCategory,
   FrameworkCategoryCode,
   FrameworkCategoryCodesGroup,
+  FrameworkDetailsRequest,
   FrameworkService, FrameworkUtilService, GetFrameworkCategoryTermsRequest, NetworkError, PageAssembleCriteria, PageName,
   Profile, ProfileService, SharedPreferences,
   SortOrder, TelemetryObject
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import {
   BatchConstants, ContentCard,
   ContentFilterConfig, EventTopics,
@@ -53,6 +57,9 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './courses.page.html',
   styleUrls: ['./courses.page.scss'],
 })
+
+
+
 export class CoursesPage implements OnInit, OnDestroy {
 
   @ViewChild('courseRefresher', { static: false }) refresher: IonRefresher;
@@ -64,13 +71,13 @@ export class CoursesPage implements OnInit, OnDestroy {
 
   /**
    * Contains popular and latest courses ist
-   */
-  popularAndLatestCourses: Array<any>;
+  */
+ popularAndLatestCourses: Array<any>;
 
-  /**
-   * Contains user id
-   */
-  userId: string;
+ /**
+  * Contains user id
+ */
+userId: string;
 
   /**
    * Flag to show/hide loader
@@ -82,7 +89,7 @@ export class CoursesPage implements OnInit, OnDestroy {
 
   /**
    * Flag to show latest and popular course loader
-   */
+  */
   pageApiLoader = true;
   guestUser = false;
   showSignInCard = false;
@@ -94,9 +101,11 @@ export class CoursesPage implements OnInit, OnDestroy {
   courseFilter: any;
   appliedFilter: any;
   filterIcon = './assets/imgs/ic_action_filter.png';
+  defaultAppIcon:string = 'assets/imgs/book.png'
   profile: Profile;
   isVisible = false;
   inProgressSection = 'My Courses';
+  dynamicFilters: Array<any> = [];
 
   /**
    * To queue downloaded identifier
@@ -123,7 +132,35 @@ export class CoursesPage implements OnInit, OnDestroy {
   resetCourseFilter: boolean;
   filter: ContentSearchCriteria;
   isCourseListEmpty: boolean;
+  enrolledCourseList: Course[];
+  categories: any;
 
+
+trackByFilter = (_: number, item: any) => item?.code ?? item?.label ?? _;
+
+onFilterSelectChange(filterIndex: number, selected: string[] | string) {
+  const filter = this.dynamicFilters?.[filterIndex];
+  if (!filter) return;
+  filter.selected = Array.isArray(selected) ? selected : [selected];
+  this.applyDynamicFilters();
+
+}
+
+getOptionName(filterIndex: number, code: string): string {
+  const opts = this.dynamicFilters?.[filterIndex]?.options || [];
+  const found = opts.find((o: any) => (o.code ?? o.identifier) === code);
+  return found?.name ?? code;
+}
+
+removeSelected(filterIndex: number, code: string) {
+  const f = this.dynamicFilters?.[filterIndex];
+  if (!f?.selected) return;
+  f.selected = f.selected.filter((c: string) => c !== code);
+}
+
+clearAllFilters() {
+  this.dynamicFilters = (this.dynamicFilters || []).map((f: any) => ({ ...f, selected: [] }));
+}
   constructor(
     @Inject('EVENTS_BUS_SERVICE') private eventBusService: EventsBusService,
     @Inject('SHARED_PREFERENCES') private preferences: SharedPreferences,
@@ -171,12 +208,16 @@ export class CoursesPage implements OnInit, OnDestroy {
   /**
    * Angular life cycle hooks
    */
-  ngOnInit() {
-    this.getCourseTabData();
+  async ngOnInit() {
+    await this.getEnrolledCourses();
+    await this.getFrameworkDetails();
+    // this.getCourseTabData();
+    console.log("inside tabs/courses");
+    await this.initializeDynamicFilters();
 
-    this.events.subscribe('event:update_course_data', async () => {
-      await this.getAggregatorResult();
-    });
+    // this.events.subscribe('event:update_course_data', async () => {
+    //   await this.getAggregatorResult();
+    // });
   }
 
   ngOnDestroy() {
@@ -211,27 +252,29 @@ export class CoursesPage implements OnInit, OnDestroy {
   }
 
   async ionViewWillEnter() {
-    this.refresher.disabled = false;
-    this.isVisible = true;
-    this.events.subscribe('update_header', async () => {
-      await this.headerService.showHeaderWithHomeButton(['search', 'download']);
-    });
-    this.headerObservable = this.headerService.headerEventEmitted$.subscribe(async eventName => {
-      await this.handleHeaderEvents(eventName);
-    });
-    await this.headerService.showHeaderWithHomeButton(['search', 'download']);
+    // this.refresher.disabled = false;
+    // this.isVisible = true;
+    // this.events.subscribe('update_header', async () => {
+    //   await this.headerService.showHeaderWithHomeButton(['search', 'download']);
+    // });
+    // this.headerObservable = this.headerService.headerEventEmitted$.subscribe(async eventName => {
+    //   await this.handleHeaderEvents(eventName);
+    // });
+    // await this.headerService.showHeaderWithHomeButton(['search', 'download']);
+    console.log("inside ionViewWillEnter");
   }
 
   async ionViewDidEnter() {
-    await this.sbProgressLoader.hide({ id: ProgressPopupContext.DEEPLINK });
-    this.appGlobalService.generateConfigInteractEvent(PageId.COURSES, this.isOnBoardingCardCompleted);
+    // await this.sbProgressLoader.hide({ id: ProgressPopupContext.DEEPLINK });
+    // this.appGlobalService.generateConfigInteractEvent(PageId.COURSES, this.isOnBoardingCardCompleted);
 
-    this.events.subscribe('event:showScanner', async (data) => {
-      if (data.pageName === PageId.COURSES) {
-        await this.qrScanner.startScanner(PageId.COURSES, false);
-      }
-    });
-    await this.sbProgressLoader.hide({ id: 'login' });
+    // this.events.subscribe('event:showScanner', async (data) => {
+    //   if (data.pageName === PageId.COURSES) {
+    //     await this.qrScanner.startScanner(PageId.COURSES, false);
+    //   }
+    // });
+    // await this.sbProgressLoader.hide({ id: 'login' });
+    console.log("inside ionViewDidEnter");
   }
 
   ionViewWillLeave() {
@@ -248,6 +291,7 @@ export class CoursesPage implements OnInit, OnDestroy {
       this.showOverlay = false;
       this.downloadPercentage = 0;
     });
+    console.log("inside ionViewWillLeave");
   }
 
   generateNetworkType() {
@@ -403,6 +447,170 @@ export class CoursesPage implements OnInit, OnDestroy {
     const profileType = this.appGlobalService.getGuestUserType();
     this.showSignInCard = this.commonUtilService.isAccessibleForNonStudentRole(profileType);
   }
+
+  async getEnrolledCourses() {
+    this.profile = await this.profileService.getActiveSessionProfile({ requiredFields: ProfileConstants.REQUIRED_FIELDS }).toPromise();
+    console.log("this.profile", this.profile)
+    const option = {
+      userId: this.profile.uid,
+    };
+    this.courseService.getEnrolledCourses(option).toPromise()
+      .then(async (res: Course[]) => {
+        if (res.length) {
+          this.enrolledCourseList = res.sort((a, b) => (a.enrolledDate > b.enrolledDate ? -1 : 1));
+          this.enrolledCourses = res.sort((a, b) => (a.enrolledDate > b.enrolledDate ? -1 : 1));
+          console.log("this.enrolledCourseList", this.enrolledCourseList);
+        }
+      })
+      .catch((error: any) => {
+        console.error('error while loading enrolled courses', error);
+      });
+  }
+
+  async openEnrolledCourse(course) {
+    try {
+      const content = this.enrolledCourses.find(c =>
+        c.courseId === course.courseId && c.batch.batchId === course.batch.batchId
+      );
+      await this.navService.navigateToTrackableCollection({ content });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async getFrameworkDetails(): Promise<void> {
+    try {
+      if (!this.profile?.syllabus?.length) {
+        console.warn('No syllabus found in profile');
+        return;
+      }
+      const frameworkId = this.profile.syllabus[0];
+      const frameworkDetailsRequest: FrameworkDetailsRequest = {
+        frameworkId,
+        requiredCategories: FrameworkCategoryCodesGroup.DEFAULT_FRAMEWORK_CATEGORIES,
+      };
+      console.log("frameworkDetailsRequest.frameworkId ---------->", frameworkId);
+      const framework = await this.frameworkService.getFrameworkDetails(frameworkDetailsRequest).toPromise();
+      console.log("framework", framework);
+      const frameworkConfig = await this.frameworkService.getFrameworkConfig(frameworkId).toPromise();
+      if (!frameworkConfig) {
+        console.warn('Framework config is empty or undefined');
+      } else {
+        console.log("frameworkConfig", frameworkConfig);
+        this.dynamicFilters = frameworkConfig;
+      }
+    } catch (error) {
+      console.error('Error in getFrameworkDetails:', error);
+    }
+  }
+  
+  async initializeDynamicFilters() {
+    const frameworkId = this.profile?.syllabus?.[0] || '';
+    console.log('[initializeDynamicFilters] frameworkId:', frameworkId);
+
+    if (!frameworkId) {
+      console.warn('[initializeDynamicFilters] No frameworkId found. Skipping filter initialization.');
+      return;
+    }
+
+    if (!this.dynamicFilters || !Array.isArray(this.dynamicFilters)) {
+      console.warn('[initializeDynamicFilters] dynamicFilters is not defined or not an array:', this.dynamicFilters);
+      return;
+    }
+    const categoryData = await this.frameworkService.getCategoryTerms(frameworkId).toPromise();
+
+    for (const filter of this.dynamicFilters) {
+      console.log(`[initializeDynamicFilters] Processing filter:`, filter);
+
+      const currentCategoryCode = filter.code;
+      const selectedCodes = filter.selected || [];
+
+      console.log(`[initializeDynamicFilters] Requesting category data for:`, {
+        frameworkId,
+        currentCategoryCode,
+        selectedCodes
+      });
+
+      try {
+
+
+        console.log(`[initializeDynamicFilters] Received categoryData for "${frameworkId}":`, categoryData);
+
+
+        filter.options = categoryData.categories.find(ele => ele.code === currentCategoryCode).terms;
+        filter.selectedNames = categoryData;
+        filter.selected = [];
+
+        console.log(`[initializeDynamicFilters] Updated filter "${currentCategoryCode}" with options and selectedNames:`, {
+          options: filter.options,
+          selectedNames: filter.selectedNames
+        });
+
+      } catch (error) {
+        console.error(`[initializeDynamicFilters] Error fetching category data for "${currentCategoryCode}":`, error);
+        filter.options = [];
+      }
+    }
+
+    console.log('[initializeDynamicFilters] Final dynamicFilters:', this.dynamicFilters);
+  }
+
+  applyDynamicFilters() {
+    const appliedFilters = {};
+    this.dynamicFilters.forEach(filter => {
+      if (filter?.selected?.length > 0) {
+        appliedFilters[filter.code] = filter.selected;
+      }
+    });
+    this.filter = appliedFilters;
+    this.enrolledCourseList = this.filterEnrolledCourses(this.enrolledCourses, appliedFilters)
+    // this.getAggregatorResult();
+    this.spinner(false);
+  }
+
+  filterEnrolledCourses(list, filters) {
+    if (!filters) return list;
+    const norm = (v) => String(v ?? "").trim().toLowerCase();
+    const orgNeedles = (filters.organisation ?? []).map(norm);
+    const langNeedles = (filters.language ?? []).map(norm);
+    const catNeedles = (filters.category ?? []).map(norm);
+
+    return list.filter((item) => {
+      const orgName = norm(item.content?.orgDetails?.orgName);
+      const courseLangs = (item.content?.language ?? []).map(norm);
+      const category = norm(item.content?.primaryCategory ?? item.content?.contentType);
+
+      // OR within each category; if filter list empty, ignore that category
+      const orgOk =
+          orgNeedles.length === 0 || orgNeedles.includes(orgName);
+
+      const langOk =
+          langNeedles.length === 0 ||
+          courseLangs.some((cl) => langNeedles.includes(cl));
+      const catOk  =
+          catNeedles.length === 0 ||
+          catNeedles.includes(category);
+      // AND across categories
+      return orgOk && langOk && catOk;
+    });
+  }
+
+  onOptionToggle(filter, code, event) {
+    if (!filter.selected) {
+      filter.selected = [];
+    }
+    if (event.detail.checked) {
+      if (!filter.selected.includes(code)) {
+        filter.selected.push(code);
+      }
+    } else {
+      const index = filter.selected.indexOf(code);
+      if (index > -1) {
+        filter.selected.splice(index, 1);
+      }
+    }
+  }
+
 
   async search() {
     this.telemetryGeneratorService.generateInteractTelemetry(InteractType.TOUCH,
@@ -1010,9 +1218,9 @@ export class CoursesPage implements OnInit, OnDestroy {
   async exploreOtherContents() {
     const syllabus: Array<string> = this.appGlobalService.getCurrentUser().syllabus;
     const frameworkId = (syllabus && syllabus.length > 0) ? syllabus[0] : undefined;
-    const gradeLevelInfo = await this.getCategoryData(frameworkId, FrameworkCategoryCode.GRADE_LEVEL, this.profile.grade);
+    const gradeLevelInfo = await this.getCategoryData(frameworkId, FrameworkCategoryCode.BOARD, this.profile.grade);
     const mediumInfo = await this.getCategoryData(frameworkId, FrameworkCategoryCode.MEDIUM, this.profile.medium);
-    const subjectInfo = await this.getCategoryData(frameworkId, FrameworkCategoryCode.SUBJECT, this.profile.subject);
+    const subjectInfo = await this.getCategoryData(frameworkId, FrameworkCategoryCode.GRADE_LEVEL, this.profile.subject);
     const navigationExtras = {
       state: {
         categoryGradeLevels: gradeLevelInfo['categoryList'],

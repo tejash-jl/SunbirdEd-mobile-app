@@ -1,5 +1,5 @@
 import { PopoverController } from '@ionic/angular';
-import { ProfileService, SharedPreferences } from '@project-sunbird/sunbird-sdk';
+import { ProfileService, SharedPreferences } from '@project-fmps/sunbird-sdk';
 import { of } from 'rxjs';
 import { AppGlobalService, CommonUtilService, NavigationService } from '../../../../services';
 import { mockProfileData, paylod } from '../../../profile/profile.page.spec.data';

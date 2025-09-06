@@ -1,14 +1,14 @@
 import { SearchFilterPage } from './search-filter.page';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
-import { ContentService } from '@project-sunbird/sunbird-sdk';
+import { ContentService } from '@project-fmps/sunbird-sdk';
 import { CommonUtilService } from '../../services';
 import { FilterFormConfigMapper } from '../../app/search-filter/filter-form-config-mapper';
 import { Location } from '@angular/common';
 import { of } from 'rxjs';
 import { Environment, FormAndFrameworkUtilService, InteractSubtype, PageId, SearchFilterService, TelemetryGeneratorService } from '../../services';
 import { FilterCriteriaData } from './search-filter.page.spec.data';
-import { InteractType } from '@project-sunbird/sunbird-sdk';
+import { InteractType } from '@project-fmps/sunbird-sdk';
 
 describe('SearchFilterPage', () => {
     let searchFilterPage: SearchFilterPage;

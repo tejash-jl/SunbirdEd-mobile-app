@@ -5,7 +5,7 @@ import {
     CommonUtilService, Environment, ImpressionType,
     PageId, TelemetryGeneratorService
 } from '../../../services';
-import { GroupService, GroupMemberRole, MimeType } from '@project-sunbird/sunbird-sdk';
+import { GroupService, GroupMemberRole, MimeType } from '@project-fmps/sunbird-sdk';
 import { AppHeaderService, CollectionService, AppGlobalService, InteractType, InteractSubtype, AndroidPermissionsService } from '../../../services';
 import { Platform } from '@ionic/angular';
 import { Location } from '@angular/common';

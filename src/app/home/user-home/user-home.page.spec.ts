@@ -8,11 +8,11 @@ import {Router} from '@angular/router';
 import {AppHeaderService} from '../../../services/app-header.service';
 import {
     FrameworkService,
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import {of} from 'rxjs';
 import {NavigationService} from '../../../services/navigation-handler.service';
 import {ContentAggregatorHandler} from '../../../services/content/content-aggregator-handler.service';
-import {ContentService, FrameworkUtilService, Profile, ProfileService, ProfileSource, ProfileType, ServerProfile} from '@project-sunbird/sunbird-sdk';
+import {ContentService, FrameworkUtilService, Profile, ProfileService, ProfileSource, ProfileType, ServerProfile} from '@project-fmps/sunbird-sdk';
 import {SunbirdQRScanner} from '../../../services';
 import {mockUserHomeData} from '../../../app/home/user-home/user-home-spec.data';
 import {EventTopics, RouterLinks} from '../../../app/app.constant';

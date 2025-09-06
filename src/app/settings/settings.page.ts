@@ -16,7 +16,7 @@ import {
   TelemetryImpressionRequest,
   WebviewManualMergeSessionProvider,
   WebviewSessionProviderConfig
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { PreferenceKey, RouterLinks } from '../app.constant';
 import { Events } from '../../util/events';
 import { CommonUtilService } from '../../services/common-util.service';

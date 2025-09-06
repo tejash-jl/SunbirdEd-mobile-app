@@ -13,7 +13,7 @@ import { Observable, Observer } from 'rxjs';
 import {
     AuthService, Course, Framework, FrameworkCategoryCodesGroup, FrameworkDetailsRequest, FrameworkService,
     OAuthSession, Profile, ProfileService, ProfileSession, ProfileType, SharedPreferences
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { GenericAppConfig, PreferenceKey, ProfileConstants } from '../app/app.constant';
 import { PermissionAsked } from './android-permissions/android-permission';
 import { Environment, ID, InteractSubtype, InteractType, PageId } from './telemetry-constants';

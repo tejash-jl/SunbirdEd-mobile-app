@@ -1,6 +1,6 @@
 import {Router} from '@angular/router';
 import {ExternalIdVerificationService} from './externalid-verification.service';
-import {ProfileService, AuthService, SharedPreferences} from '@project-sunbird/sunbird-sdk';
+import {ProfileService, AuthService, SharedPreferences} from '@project-fmps/sunbird-sdk';
 import {
     LocalCourseService,
     CommonUtilService,

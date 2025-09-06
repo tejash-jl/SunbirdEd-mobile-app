@@ -1,5 +1,5 @@
 import { AppRatingService } from './app-rating.service';
-import { SharedPreferences } from '@project-sunbird/sunbird-sdk';
+import { SharedPreferences } from '@project-fmps/sunbird-sdk';
 import { File } from '@awesome-cordova-plugins/file/ngx';
 import { PreferenceKey, StoreRating } from '../app/app.constant';
 import { of } from 'rxjs';

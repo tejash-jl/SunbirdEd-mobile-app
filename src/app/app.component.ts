@@ -32,7 +32,7 @@ import {
   Profile, ProfileService, ProfileType, SharedPreferences,
   SunbirdSdk, DebuggingService,
   SystemSettings, SystemSettingsService, TelemetryAutoSyncService, TelemetryService
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { FormAndFrameworkUtilService } from '../services/formandframeworkutil.service';
 import { AppGlobalService } from '../services/app-global-service.service';
 import { CommonUtilService } from '../services/common-util.service';

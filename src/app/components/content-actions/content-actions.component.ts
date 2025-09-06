@@ -12,7 +12,7 @@ import {
   CorrelationData,
   OAuthSession,
   Rollup
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { CommonUtilService } from '../../../services/common-util.service';
 import { Environment, InteractSubtype, InteractType, PageId } from '../../../services/telemetry-constants';
 import { TelemetryGeneratorService } from '../../../services/telemetry-generator.service';

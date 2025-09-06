@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { SharedPreferences } from '@project-sunbird/sunbird-sdk';
+import { SharedPreferences } from '@project-fmps/sunbird-sdk';
 import { PreferenceKey, StoreRating } from '../app/app.constant';
 import { File } from '@awesome-cordova-plugins/file/ngx';
 import { FilePathService } from '../services/file-path/file.service';

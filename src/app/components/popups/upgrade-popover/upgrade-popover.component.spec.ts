@@ -1,7 +1,7 @@
 import { UpgradePopoverComponent } from './upgrade-popover.component';
 import { PopoverController, NavParams } from '@ionic/angular';
 import { Environment, ImpressionSubtype, ImpressionType, InteractSubtype, PageId, TelemetryGeneratorService } from '../../../../services';
-import { InteractType } from '@project-sunbird/sunbird-sdk';
+import { InteractType } from '@project-fmps/sunbird-sdk';
 
 jest.mock('@capacitor/app', () => {
     return {

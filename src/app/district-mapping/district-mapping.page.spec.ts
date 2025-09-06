@@ -14,12 +14,12 @@ import { of, throwError } from 'rxjs';
 import {
     ProfileService, Profile, SharedPreferences, ProfileType, ProfileSource, DeviceRegisterResponse,
     DeviceRegisterService
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { PreferenceKey } from '../../app/app.constant';
 import { FormLocationFactory } from '../../services/form-location-factory/form-location-factory';
 import { LocationHandler } from '../../services/location-handler';
 import { ProfileHandler } from '../../services/profile-handler';
-import { AuditState, CorrelationData } from '@project-sunbird/sunbird-sdk';
+import { AuditState, CorrelationData } from '@project-fmps/sunbird-sdk';
 import { TncUpdateHandlerService } from '../../services/handlers/tnc-update-handler.service';
 import { ExternalIdVerificationService } from '../../services/externalid-verification.service';
 import { RouterLinks } from '../app.constant';

@@ -1,7 +1,7 @@
 import { ProfileHandler } from './profile-handler';
 import { FormAndFrameworkUtilService } from './formandframeworkutil.service';
 import { of, throwError } from 'rxjs';
-import { ContentDisposition, ProfileType, SharedPreferences } from '@project-sunbird/sunbird-sdk';
+import { ContentDisposition, ProfileType, SharedPreferences } from '@project-fmps/sunbird-sdk';
 import { PreferenceKey } from '../app/app.constant';
 import { mockSupportedUserTypeConfig, mockFormFielddata, profile, userLocation, subPersonaConfig} from './profile-handler.spec.data';
 import { CommonUtilService } from './common-util.service';

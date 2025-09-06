@@ -1,13 +1,13 @@
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { ProfileService } from '@project-sunbird/sunbird-sdk';
+import { ProfileService } from '@project-fmps/sunbird-sdk';
 import { CommonUtilService } from '../../../services';
 import { TncUpdateHandlerService } from '../../../services/handlers/tnc-update-handler.service';
 import { OtpPage } from './otp.page';
 import { OTPTemplates, ProfileConstants, RouterLinks } from '../../app.constant';
 import { of, throwError } from 'rxjs';
-import { HttpClientError, SharedPreferences } from '@project-sunbird/sunbird-sdk';
+import { HttpClientError, SharedPreferences } from '@project-fmps/sunbird-sdk';
 
 describe('OtpPage', () => {
     let otpPage: OtpPage;

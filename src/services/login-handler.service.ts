@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {
     WebviewLoginSessionProvider,
     WebviewSessionProviderConfig
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { AppGlobalService } from '../services/app-global-service.service';
 import { FormAndFrameworkUtilService } from '../services/formandframeworkutil.service';
 import { CommonUtilService } from './common-util.service';

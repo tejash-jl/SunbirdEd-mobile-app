@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { FrameworkCategoryCode, GetFrameworkCategoryTermsRequest,
-     FrameworkUtilService, LocationSearchResult, CachedItemRequestSourceFrom, LocationSearchCriteria } from '@project-sunbird/sunbird-sdk';
+     FrameworkUtilService, LocationSearchResult, CachedItemRequestSourceFrom, LocationSearchCriteria } from '@project-fmps/sunbird-sdk';
 import { LocationHandler } from './location-handler';
 import { Location as LocationType } from '../app/app.constant';
 import { FormAndFrameworkUtilService } from './formandframeworkutil.service';

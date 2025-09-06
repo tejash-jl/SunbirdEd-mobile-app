@@ -6,7 +6,7 @@ import {
     SharedPreferences,
     SignInError,
     SystemSettingsService
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { SbProgressLoader } from '../services/sb-progress-loader.service';
 import { Events } from '../util/events';
 import { AppGlobalService } from '../services/app-global-service.service';
@@ -20,8 +20,8 @@ import { Platform } from '@ionic/angular';
 import { GooglePlus } from '@awesome-cordova-plugins/google-plus/ngx';
 import { PreferenceKey } from '../app/app.constant';
 
-jest.mock('@project-sunbird/sunbird-sdk', () => {
-    const actual = jest.requireActual('@project-sunbird/sunbird-sdk');
+jest.mock('@project-fmps/sunbird-sdk', () => {
+    const actual = jest.requireActual('@project-fmps/sunbird-sdk');
     return {
         ...actual,
         WebviewStateSessionProvider() {

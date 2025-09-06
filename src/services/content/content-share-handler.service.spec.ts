@@ -1,7 +1,7 @@
 import { of, throwError } from 'rxjs';
 import {
     ContentService, StorageService, Content
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import {
     ContentShareHandlerService, CommonUtilService,
     TelemetryGeneratorService

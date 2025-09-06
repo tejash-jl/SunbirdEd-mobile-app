@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AppGlobalService, AppHeaderService, CommonUtilService,
          TelemetryGeneratorService, PageId, Environment, ImpressionType,
          InteractSubtype, InteractType } from '../../services';
-import { CourseService, Course, CourseBatchStatus, TelemetryObject } from '@project-sunbird/sunbird-sdk';
+import { CourseService, Course, CourseBatchStatus, TelemetryObject } from '@project-fmps/sunbird-sdk';
 import { of, throwError } from 'rxjs';
 import { Location } from '@angular/common';
 import { Platform } from '@ionic/angular';

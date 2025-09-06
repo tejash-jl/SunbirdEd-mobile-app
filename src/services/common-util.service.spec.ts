@@ -6,7 +6,7 @@ import {
   PopoverController,
   Platform,
 } from '@ionic/angular';
-import { SharedPreferences, ProfileService, CorrelationData } from '@project-sunbird/sunbird-sdk';
+import { SharedPreferences, ProfileService, CorrelationData } from '@project-fmps/sunbird-sdk';
 import { TelemetryGeneratorService } from '../services/telemetry-generator.service';
 import { InteractType, InteractSubtype, PageId, Environment } from '../services/telemetry-constants';
 import { PreferenceKey } from '../app/app.constant';
@@ -17,7 +17,7 @@ import { NgZone } from '@angular/core';
 import { of, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { AndroidPermissionsService, ComingSoonMessageService } from '.';
-import { TelemetryService } from '@project-sunbird/sunbird-sdk';
+import { TelemetryService } from '@project-fmps/sunbird-sdk';
 
 declare const FCMPlugin;
 

@@ -6,7 +6,7 @@ import { AppHeaderService, AppGlobalService, CommonUtilService } from '../../../
 import { Platform } from '@ionic/angular';
 import { Location } from '@angular/common';
 import { of } from 'rxjs';
-import { InteractType } from '@project-sunbird/sunbird-sdk';
+import { InteractType } from '@project-fmps/sunbird-sdk';
 import { File } from '@awesome-cordova-plugins/file/ngx';
 import { StoragePermissionHandlerService } from '../../../services/storage-permission/storage-permission-handler.service';
 import { FileOpener } from '@capacitor-community/file-opener';

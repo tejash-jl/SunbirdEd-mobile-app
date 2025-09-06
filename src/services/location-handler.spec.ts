@@ -1,6 +1,6 @@
 import { LocationHandler } from './location-handler';
 import { of } from 'rxjs';
-import { FrameworkService, ProfileService, SharedPreferences } from '@project-sunbird/sunbird-sdk';
+import { FrameworkService, ProfileService, SharedPreferences } from '@project-fmps/sunbird-sdk';
 import { PreferenceKey } from '../app/app.constant';
 
 describe('LocationHandler', () => {

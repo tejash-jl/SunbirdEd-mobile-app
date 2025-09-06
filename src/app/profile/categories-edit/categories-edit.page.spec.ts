@@ -3,7 +3,7 @@ import {
     FrameworkService,
     FrameworkUtilService,
     ProfileService
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { TranslateService } from '@ngx-translate/core';
 import { Platform } from '@ionic/angular';
 import { Events } from '../../../util/events';
@@ -24,7 +24,7 @@ import { SbProgressLoader } from '../../../services/sb-progress-loader.service';
 import { ExternalIdVerificationService } from '../../services/externalid-verification.service';
 import { TncUpdateHandlerService } from '../../services/handlers/tnc-update-handler.service';
 import { of, throwError } from 'rxjs';
-import { CachedItemRequestSourceFrom, Framework, FrameworkCategoryCodesGroup, GetSuggestedFrameworksRequest, SharedPreferences, UpdateServerProfileInfoRequest } from '@project-sunbird/sunbird-sdk';
+import { CachedItemRequestSourceFrom, Framework, FrameworkCategoryCodesGroup, GetSuggestedFrameworksRequest, SharedPreferences, UpdateServerProfileInfoRequest } from '@project-fmps/sunbird-sdk';
 import { PreferenceKey, ProfileConstants, RouterLinks } from '../../app.constant';
 import { SegmentationTagService } from '../../../services/segmentation-tag/segmentation-tag.service';
 import { CategoriesEditService } from './categories-edit.service';

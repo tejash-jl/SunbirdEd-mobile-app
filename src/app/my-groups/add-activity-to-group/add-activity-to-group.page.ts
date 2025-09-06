@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { RouterLinks } from '../../../app/app.constant';
 import { CsGroupAddableBloc } from '@project-sunbird/client-services/blocs';
-import { CorrelationData } from '@project-sunbird/sunbird-sdk';
+import { CorrelationData } from '@project-fmps/sunbird-sdk';
 
 
 @Component({
