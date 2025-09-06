@@ -142,6 +142,7 @@ onFilterSelectChange(filterIndex: number, selected: string[] | string) {
   const filter = this.dynamicFilters?.[filterIndex];
   if (!filter) return;
   filter.selected = Array.isArray(selected) ? selected : [selected];
+  this.applyDynamicFilters();
 
 }
 

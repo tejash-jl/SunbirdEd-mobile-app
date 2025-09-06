@@ -1412,5 +1412,12 @@
   "FRMELEMNTS_LBL_FILE_CORRUPTED": "File corrupted",
   "FRMELEMNTS_LBL_PROJECT_END_DATE":"Project end date",
   "FRMELEMNTS_LBL_PROJECT_START_DATE":"Project start date",
-  "FRMELEMNTS_MSG_PROJECT_END_DATE":"Are you sure? Task end date will also be changed to this if it is later"
+  "FRMELEMNTS_MSG_PROJECT_END_DATE":"Are you sure? Task end date will also be changed to this if it is later",
+  "COMPLETED_COURSES":"Completed Courses",
+  "MY_COURSES":"My courses",
+  "FILTERS_MATCHING":"Filters matching your profile details",
+  "APPLY_FILTERS": "Apply Filters",
+  "Organisation":"Organisation",
+  "Language":"Language",
+  "Category":"Category"
 }
