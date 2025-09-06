@@ -565,6 +565,7 @@ clearAllFilters() {
     this.filter = appliedFilters;
     this.enrolledCourseList = this.filterEnrolledCourses(this.enrolledCourses, appliedFilters)
     // this.getAggregatorResult();
+    this.spinner(false);
   }
 
   filterEnrolledCourses(list, filters) {
