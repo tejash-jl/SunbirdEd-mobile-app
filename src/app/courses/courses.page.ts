@@ -572,10 +572,12 @@ clearAllFilters() {
     const norm = (v) => String(v ?? "").trim().toLowerCase();
     const orgNeedles = (filters.organisation ?? []).map(norm);
     const langNeedles = (filters.language ?? []).map(norm);
+    const catNeedles = (filters.category ?? []).map(norm);
 
     return list.filter((item) => {
       const orgName = norm(item.content?.orgDetails?.orgName);
       const courseLangs = (item.content?.language ?? []).map(norm);
+      const category = norm(item.content?.primaryCategory ?? item.content?.contentType);
 
       // OR within each category; if filter list empty, ignore that category
       const orgOk =
@@ -584,9 +586,11 @@ clearAllFilters() {
       const langOk =
           langNeedles.length === 0 ||
           courseLangs.some((cl) => langNeedles.includes(cl));
-
+      const catOk  =
+          catNeedles.length === 0 ||
+          catNeedles.includes(category);
       // AND across categories
-      return orgOk && langOk;
+      return orgOk && langOk && catOk;
     });
   }
 
