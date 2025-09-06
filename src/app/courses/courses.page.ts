@@ -135,6 +135,37 @@ userId: string;
   enrolledCourseList: Course[];
   categories: any;
 
+  /** Used by *ngFor trackBy to avoid re-rendering the whole select */
+trackByFilter = (_: number, item: any) => item?.code ?? item?.label ?? _;
+
+/** When a dropdown value changes (multi-select) */
+onFilterSelectChange(filterIndex: number, selected: string[] | string) {
+  const filter = this.dynamicFilters?.[filterIndex];
+  if (!filter) return;
+  filter.selected = Array.isArray(selected) ? selected : [selected];
+
+  // If you want auto-apply on change, uncomment:
+  // this.applyDynamicFilters();
+}
+
+/** Get the display name for a selected code (used by chips) */
+getOptionName(filterIndex: number, code: string): string {
+  const opts = this.dynamicFilters?.[filterIndex]?.options || [];
+  const found = opts.find((o: any) => (o.code ?? o.identifier) === code);
+  return found?.name ?? code;
+}
+
+/** Remove one selected value from a filter (chip close) */
+removeSelected(filterIndex: number, code: string) {
+  const f = this.dynamicFilters?.[filterIndex];
+  if (!f?.selected) return;
+  f.selected = f.selected.filter((c: string) => c !== code);
+}
+
+/** Clear everything */
+clearAllFilters() {
+  this.dynamicFilters = (this.dynamicFilters || []).map((f: any) => ({ ...f, selected: [] }));
+}
   constructor(
     @Inject('EVENTS_BUS_SERVICE') private eventBusService: EventsBusService,
     @Inject('SHARED_PREFERENCES') private preferences: SharedPreferences,
