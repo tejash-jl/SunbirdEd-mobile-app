@@ -17,7 +17,7 @@
     "capacitor:sync:before": "node scripts/copyContentPlayer.js android",
     "capacitor:update:after": "node scripts/configureGradleFiles.js && node scripts/copyGoogleServiceFile.js android && node scripts/copyContentPlayer.js android",
     "capacitor:update:before": "node scripts/copyGoogleServiceFile.js android && node scripts/configureGradleFiles.js",
-    "ionic-build": "ng build && cross-env NODE_ENV=staging ionic cap run android --source-map=true --target emulator-5554 --info",
+    "ionic-build": "ng build && cross-env NODE_ENV=staging ionic cap run android --prod --release --source-map=true --target emulator-5554 --info",
     "ionic-build:prod": "ng build && NODE_ENV=production ionic cap run android --prod --release --verbose --buildConfig ./buildConfig/build.json",
     "ionic-build:debug": "ng build && cordova build android --debug --buildConfig ./buildConfig/build.json",
     "ionic-serve": "ionic cordova run android --livereload --configuration=hmr",
