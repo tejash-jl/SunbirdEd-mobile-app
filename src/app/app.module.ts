@@ -568,5 +568,6 @@ export class AppModule {
 
   private setDefaultLanguage() {
     this.translate.setDefaultLang('ar');
+    document.documentElement.dir = 'rtl';
   }
 }
