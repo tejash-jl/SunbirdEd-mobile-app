@@ -41,6 +41,7 @@
       "sunbird-sdk/*": [
         "../node_modules/@project-fmps/sunbird-sdk/*"
       ],
+      "@project-fmps/sunbird-sdk/*": ["node_modules/@project-fmps/sunbird-sdk/dist/*"],
       "@project-sunbird/common-consumption": [
         "../node_modules/@project-sunbird/common-consumption"
       ],
