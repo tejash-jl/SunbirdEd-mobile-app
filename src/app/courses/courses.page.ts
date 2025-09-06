@@ -432,6 +432,7 @@ userId: string;
       .then(async (res: Course[]) => {
         if (res.length) {
           this.enrolledCourseList = res.sort((a, b) => (a.enrolledDate > b.enrolledDate ? -1 : 1));
+          this.enrolledCourses = res.sort((a, b) => (a.enrolledDate > b.enrolledDate ? -1 : 1));
           console.log("this.enrolledCourseList", this.enrolledCourseList);
         }
       })
@@ -442,7 +443,7 @@ userId: string;
 
   async openEnrolledCourse(course) {
     try {
-      const content = this.enrolledCourseList.find(c =>
+      const content = this.enrolledCourses.find(c =>
         c.courseId === course.courseId && c.batch.batchId === course.batch.batchId
       );
       await this.navService.navigateToTrackableCollection({ content });
@@ -536,9 +537,32 @@ userId: string;
       }
     });
     this.filter = appliedFilters;
-    this.getAggregatorResult();
+    this.enrolledCourseList = this.filterEnrolledCourses(this.enrolledCourses, appliedFilters)
+    // this.getAggregatorResult();
   }
 
+  filterEnrolledCourses(list, filters) {
+    if (!filters) return list;
+    const norm = (v) => String(v ?? "").trim().toLowerCase();
+    const orgNeedles = (filters.organisation ?? []).map(norm);
+    const langNeedles = (filters.language ?? []).map(norm);
+
+    return list.filter((item) => {
+      const orgName = norm(item.content?.orgDetails?.orgName);
+      const courseLangs = (item.content?.language ?? []).map(norm);
+
+      // OR within each category; if filter list empty, ignore that category
+      const orgOk =
+          orgNeedles.length === 0 || orgNeedles.includes(orgName);
+
+      const langOk =
+          langNeedles.length === 0 ||
+          courseLangs.some((cl) => langNeedles.includes(cl));
+
+      // AND across categories
+      return orgOk && langOk;
+    });
+  }
 
   onOptionToggle(filter, code, event) {
     if (!filter.selected) {
