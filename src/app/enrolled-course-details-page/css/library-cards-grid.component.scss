@@ -1,0 +1,170 @@
+@use "@project-sunbird/sb-styles/assets/mixins/mixins" as *;
+@use "@project-sunbird/sb-styles/assets/loadingshadows" as *;
+
+::ng-deep :root {
+  --cc-badge-bg: var(--rc-d4d3d3);
+  --cc-badge-text: var(--gray-800);
+  --cc-lb-card-grid-title:var(--primary-color);
+  
+}
+
+:host {
+  .layout-library {
+    display: flex;
+    // flex-wrap: wrap;
+    flex-direction: column;
+  }
+
+  .header {
+    display: flex;
+    flex-direction: row;
+    @include margin(1.5rem 0 1rem 0);
+    padding: 0px 0;
+    align-items: center;
+
+    .title {
+      font-family: inherit;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      flex: 1;
+      height: calculateRem(24px);
+      color: var(--cc-lb-card-grid-title);
+      font-size: calculateRem(18px);
+      font-weight: bold;
+      text-transform: capitalize;
+      line-height: calculateRem(26px);
+      display: flex;
+      align-items: center;
+
+      i {
+        @include margin(null, calculateRem(8px), null, null);
+        vertical-align: middle;
+        height: calculateRem(17px);
+        width: calculateRem(14px);
+        top: calculateRem(0px);
+      }
+
+      .badge {
+        display: inline-block;
+        background: var(--cc-badge-bg);
+        color: var(--cc-badge-text);
+        text-align: center;
+        padding: calculateRem(0px) calculateRem(12px);
+        border-radius: calculateRem(4px);
+        height: calculateRem(24px);
+        line-height: calculateRem(24px);
+        font-size: calculateRem(16px);
+        font-weight: normal;
+        @include margin(null, null, null, calculateRem(8px));
+      }
+    }
+  }
+/* using grid instead flex */
+  .cards-containers {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(292px, 1fr));
+    &--show-1 {
+      grid-template-columns: repeat(auto-fill, minmax(calc(100% / 1.5), 1fr));
+      }
+    &--show-2 {
+      grid-template-columns: repeat(auto-fill, minmax(calc(100% / 2.5), 1fr));
+      }
+    &--show-3 {
+      grid-template-columns: repeat(auto-fill, minmax(calc(100% / 3.5), 1fr));
+      }
+    &--show-4 {
+      grid-template-columns: repeat(auto-fill, minmax(calc(100% / 4.5), 1fr));
+      }
+    &--show-5 {
+      grid-template-columns: repeat(auto-fill, minmax(calc(100% / 5.5), 1fr));
+      }
+    @include respond-below(md) {
+      &--show-3, &--show-4, &--show-5 {
+        grid-template-columns: repeat(auto-fill, minmax(calc(100% / 2.5), 1fr));
+      }
+    }
+    @include respond-below(xs) {
+      &--show-2,&--show-3, &--show-4, &--show-5 {
+        grid-template-columns: repeat(auto-fill, minmax(calc(100% / 1.5), 1fr));
+      }
+    }
+    @include respond-between(md, lg) {
+      &--show-4, &--show-5 {
+        grid-template-columns: repeat(auto-fill, minmax(calc(100% / 3.5), 1fr));
+      }
+    }
+    grid-gap: 1rem;
+    grid-row-gap: 1.5rem;
+    .item {
+    }
+  }
+
+  .cards-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    // justify-content: space-between;
+    margin: -1.5rem -.5rem 0 -.5rem;
+    .item {
+      @include padding(0, calculateRem(8px), 0, calculateRem(8px));
+      box-sizing: border-box;
+      margin-top: calculateRem(24px);
+      @include respond-below(sm) {
+        margin-top: calculateRem(16px);
+      }
+      &.show-1 {
+        max-width: 100%;
+      }
+      &.show-2 {
+        flex: 0 0 50%;
+        max-width: 50%;
+      }
+      &.show-3 {
+        flex: 0 0 33.33%;
+        max-width: 33.33%;
+      }
+      &.show-4 {
+        flex: 0 0 25%;
+        max-width: 25%;
+      }
+      &.show-5 {
+        flex: 0 0 20%;
+        max-width: 20%;
+      }
+    }
+
+  @include respond-below(md) {
+      .item.show-2,
+      .item.show-3,
+      .item.show-4,
+      .item.show-5 {
+        flex: 0 0 50%;
+        max-width: 50%;
+      }
+    }
+
+  @include respond-below(xs) {
+  
+        .item.show-2,
+        .item.show-3,
+        .item.show-4,
+        .item.show-5 {
+          flex: 0 0 100%;
+          max-width: 100%;
+        }
+      }
+      @include respond-between(md, lg) {
+          .item.show-4,
+          .item.show-5 {
+            flex: 0 0 33.33%;
+            max-width: 33.33%;
+          }
+        }
+  }
+
+ .view-all-info {
+  position: absolute;
+  right: 0;
+  margin-top: -1.5rem;
+ }
+}

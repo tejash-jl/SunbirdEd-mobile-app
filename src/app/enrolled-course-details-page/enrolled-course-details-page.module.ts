@@ -11,6 +11,7 @@ import { IonicRatingModule } from 'ionic4-rating';
 import { TextbookTocService } from '../collection-detail-etb/textbook-toc-service';
 import { ComponentsModule } from '../components/components.module';
 import { EnrolledCourseDetailsPage } from './enrolled-course-details-page';
+import {TocCurriculumComponent} from "./toc-curriculum/toc-curriculum.component";
 
 const routes: Routes = [
   {
@@ -32,7 +33,7 @@ const routes: Routes = [
         ComponentsModule,
         CommonConsumptionModule,
     ],
-    declarations: [EnrolledCourseDetailsPage],
+    declarations: [EnrolledCourseDetailsPage, TocCurriculumComponent],
     providers: [DatePipe, TextbookTocService]
 })
 export class EnrolledCourseDetailsPagePageModule { }
