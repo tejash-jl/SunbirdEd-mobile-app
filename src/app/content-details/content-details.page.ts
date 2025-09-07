@@ -1766,6 +1766,11 @@ export class ContentDetailsPage implements OnInit, OnDestroy {
         metadata: this.config.metadata
       };
 
+       setInterval(() => {
+          (document.querySelector('.player-container .forward') as HTMLElement).style.display = "none";
+          (document.querySelector('.player-container .back-ward') as HTMLElement).style.display = "none";
+
+        }, 10);
       setTimeout(() => {
         const videoElement = document.createElement('sunbird-video-player');
 
