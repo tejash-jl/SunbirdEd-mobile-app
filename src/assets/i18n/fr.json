@@ -1412,5 +1412,12 @@
   "FRMELEMNTS_LBL_FILE_CORRUPTED": "Fichier corrompu",
   "FRMELEMNTS_LBL_PROJECT_END_DATE": "Date de fin du projet",
   "FRMELEMNTS_LBL_PROJECT_START_DATE": "Date de début du projet",
-  "FRMELEMNTS_MSG_PROJECT_END_DATE": "Êtes-vous sûr ? La date de fin des tâches sera également modifiée si elle est ultérieure"
+  "FRMELEMNTS_MSG_PROJECT_END_DATE": "Êtes-vous sûr ? La date de fin des tâches sera également modifiée si elle est ultérieure",
+  "COMPLETED_COURSES":"Cours terminés",
+  "MY_COURSES":"Mes cours",
+  "FILTERS_MATCHING":"Filtres correspondant aux détails de votre profil",
+  "APPLY_FILTERS": "Appliquer les filtres",
+  "Organisation":"Organisation",
+  "Language":"Langue",
+  "Category":"Catégorie"
 }

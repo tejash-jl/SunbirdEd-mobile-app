@@ -135,34 +135,29 @@ userId: string;
   enrolledCourseList: Course[];
   categories: any;
 
-  /** Used by *ngFor trackBy to avoid re-rendering the whole select */
+
 trackByFilter = (_: number, item: any) => item?.code ?? item?.label ?? _;
 
-/** When a dropdown value changes (multi-select) */
 onFilterSelectChange(filterIndex: number, selected: string[] | string) {
   const filter = this.dynamicFilters?.[filterIndex];
   if (!filter) return;
   filter.selected = Array.isArray(selected) ? selected : [selected];
+  this.applyDynamicFilters();
 
-  // If you want auto-apply on change, uncomment:
-  // this.applyDynamicFilters();
 }
 
-/** Get the display name for a selected code (used by chips) */
 getOptionName(filterIndex: number, code: string): string {
   const opts = this.dynamicFilters?.[filterIndex]?.options || [];
   const found = opts.find((o: any) => (o.code ?? o.identifier) === code);
   return found?.name ?? code;
 }
 
-/** Remove one selected value from a filter (chip close) */
 removeSelected(filterIndex: number, code: string) {
   const f = this.dynamicFilters?.[filterIndex];
   if (!f?.selected) return;
   f.selected = f.selected.filter((c: string) => c !== code);
 }
 
-/** Clear everything */
 clearAllFilters() {
   this.dynamicFilters = (this.dynamicFilters || []).map((f: any) => ({ ...f, selected: [] }));
 }
@@ -463,6 +458,7 @@ clearAllFilters() {
       .then(async (res: Course[]) => {
         if (res.length) {
           this.enrolledCourseList = res.sort((a, b) => (a.enrolledDate > b.enrolledDate ? -1 : 1));
+          this.enrolledCourses = res.sort((a, b) => (a.enrolledDate > b.enrolledDate ? -1 : 1));
           console.log("this.enrolledCourseList", this.enrolledCourseList);
         }
       })
@@ -473,7 +469,7 @@ clearAllFilters() {
 
   async openEnrolledCourse(course) {
     try {
-      const content = this.enrolledCourseList.find(c =>
+      const content = this.enrolledCourses.find(c =>
         c.courseId === course.courseId && c.batch.batchId === course.batch.batchId
       );
       await this.navService.navigateToTrackableCollection({ content });
@@ -567,9 +563,37 @@ clearAllFilters() {
       }
     });
     this.filter = appliedFilters;
-    this.getAggregatorResult();
+    this.enrolledCourseList = this.filterEnrolledCourses(this.enrolledCourses, appliedFilters)
+    // this.getAggregatorResult();
+    this.spinner(false);
   }
 
+  filterEnrolledCourses(list, filters) {
+    if (!filters) return list;
+    const norm = (v) => String(v ?? "").trim().toLowerCase();
+    const orgNeedles = (filters.organisation ?? []).map(norm);
+    const langNeedles = (filters.language ?? []).map(norm);
+    const catNeedles = (filters.category ?? []).map(norm);
+
+    return list.filter((item) => {
+      const orgName = norm(item.content?.orgDetails?.orgName);
+      const courseLangs = (item.content?.language ?? []).map(norm);
+      const category = norm(item.content?.primaryCategory ?? item.content?.contentType);
+
+      // OR within each category; if filter list empty, ignore that category
+      const orgOk =
+          orgNeedles.length === 0 || orgNeedles.includes(orgName);
+
+      const langOk =
+          langNeedles.length === 0 ||
+          courseLangs.some((cl) => langNeedles.includes(cl));
+      const catOk  =
+          catNeedles.length === 0 ||
+          catNeedles.includes(category);
+      // AND across categories
+      return orgOk && langOk && catOk;
+    });
+  }
 
   onOptionToggle(filter, code, event) {
     if (!filter.selected) {

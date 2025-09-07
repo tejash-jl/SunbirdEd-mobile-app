@@ -1,5 +1,5 @@
-<ion-content hide-header-footer class="main-container avoid-bottom-tabs-space ui-container" (ionScrollEnd)="logScrollEnd($event)"
-  scrollEvents="true" #contentView>
+<ion-content hide-header-footer class="main-container avoid-bottom-tabs-space ui-container"
+  (ionScrollEnd)="logScrollEnd($event)" scrollEvents="true" #contentView>
   <div slot="fixed" class="fixed-container">
     <sb-library-filters [list]="categoryMediumNamesArray" [selectedItems]="mediumsSelected"
       [layout]="mediumFilterLayout" (selectedFilter)="mediumClickEvent($event, true)">
@@ -12,54 +12,55 @@
     <ion-refresher #libraryRefresher slot="fixed" (ionRefresh)="swipeDownToRefresh($event)"></ion-refresher>
     <div *ngIf="!guestUser" style="padding-top: 5px;">
       <ng-container *ngIf="searchApiLoader && dynamicResponse && dynamicResponse.length === 0">
-        <sb-course-cards-hlist [type]="courseCardType.MY_COURSE_RECENTLY_VIEWED_CARD_GRID" [isLoading]="searchApiLoader">
+        <sb-course-cards-hlist [type]="courseCardType.MY_COURSE_RECENTLY_VIEWED_CARD_GRID"
+          [isLoading]="searchApiLoader">
         </sb-course-cards-hlist>
       </ng-container>
     </div>
-      <div *ngIf="inProgressCourses?.length">
-        <h3 class="enrolled-section-title">
-          In Progress
-          <span class="number-of-courses">{{inProgressCourses.length}}</span>
-        </h3>
-        <div class="enrolled-course-grid">
-          <ng-container *ngFor="let course of inProgressCourses">
-            <ion-card class="enrolled-full-width-card"
-              (click)="openEnrolledCourse(course)">
-              <div class="enrolled-course-card-header">
-                <div class="enrolled-course-label">COURSE</div>
-                <div class="enrolled-course-left">
-                  <img [src]="defaultAppIcon" alt="course logo" class="enrolled-course-logo" />
-                </div>
-                <div class="enrolled-course-info">
-                  <h2 class="enrolled-course-title">{{ course.courseName }}</h2>
-                </div>
+    <div *ngIf="inProgressCourses?.length">
+      <h3 class="enrolled-section-title">
+
+        {{'CONTINUE_LEARNING' | translate}}
+
+        <span class="number-of-courses">{{inProgressCourses.length}}</span>
+      </h3>
+      <div class="enrolled-course-grid">
+        <ng-container *ngFor="let course of inProgressCourses">
+          <ion-card class="enrolled-full-width-card" (click)="openEnrolledCourse(course)">
+            <div class="enrolled-course-card-header">
+              <div class="enrolled-course-label">COURSE</div>
+              <div class="enrolled-course-left">
+                <img [src]="defaultAppIcon" alt="course logo" class="enrolled-course-logo" />
               </div>
-            </ion-card>
-          </ng-container>
-        </div>
-      </div>
-    
-      <div *ngIf="completedCourses?.length">
-        <h3 class="enrolled-section-title">Completed
-          <span class="number-of-courses">{{completedCourses.length}}</span>
-        </h3>
-        <div class="enrolled-course-grid">
-          <ng-container *ngFor="let course of completedCourses">
-            <ion-card class="enrolled-full-width-card"
-              (click)="openEnrolledCourse(course)">
-              <div class="enrolled-course-card-header">
-                <div class="enrolled-course-label">COURSE</div>
-                <div class="enrolled-course-left">
-                  <img [src]="defaultAppIcon" alt="course logo" class="enrolled-course-logo" />
-                </div>
-                <div class="enrolled-course-info">
-                  <h2 class="enrolled-course-title">{{ course.courseName }}</h2>
-                </div>
+              <div class="enrolled-course-info">
+                <h2 class="enrolled-course-title">{{ course.courseName }}</h2>
               </div>
-            </ion-card>
-          </ng-container>
-        </div>
+            </div>
+          </ion-card>
+        </ng-container>
       </div>
+    </div>
+
+    <div *ngIf="completedCourses?.length">
+      <h3 class="enrolled-section-title"> {{'COMPLETED_COURSES' | translate}}
+        <span class="number-of-courses">{{completedCourses.length}}</span>
+      </h3>
+      <div class="enrolled-course-grid">
+        <ng-container *ngFor="let course of completedCourses">
+          <ion-card class="enrolled-full-width-card" (click)="openEnrolledCourse(course)">
+            <div class="enrolled-course-card-header">
+              <div class="enrolled-course-label">COURSE</div>
+              <div class="enrolled-course-left">
+                <img [src]="defaultAppIcon" alt="course logo" class="enrolled-course-logo" />
+              </div>
+              <div class="enrolled-course-info">
+                <h2 class="enrolled-course-title">{{ course.courseName }}</h2>
+              </div>
+            </div>
+          </ion-card>
+        </ng-container>
+      </div>
+    </div>
     <div class="ion-padding ion-text-center mt-32 mb-32" style="padding-top: 34px;"
       *ngIf="!commonUtilService?.networkInfo?.isNetworkAvailable">
       <img src="assets/imgs/outline-cloud_off.svg" alt="" />

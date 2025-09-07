@@ -1,96 +1,66 @@
-<ion-content hide-header-footer overflow-scroll="true"
-  class="main-container avoid-bottom-tabs-space" scrollEvents="true" [ngClass]="{'ui-container': !platform.is('ios')}">
+<ion-content hide-header-footer overflow-scroll="true" class="main-container avoid-bottom-tabs-space"
+  scrollEvents="true" [ngClass]="{'ui-container': !platform.is('ios')}">
   <div class="ui-container" *ngIf="platform.is('ios')"></div>
   <div class="ui-content">
-  <ion-refresher #courseRefresher slot="fixed" (ionRefresh)="getCourseTabData($event)">
-    <ion-refresher-content refreshingSpinner="circles"></ion-refresher-content>
-  </ion-refresher>
-  <div *ngIf="showSignInCard" class="enrolled-course-bg">
-    <app-sign-in-card [source]="'courses'" (valueChange)="showOfflineWarning()"></app-sign-in-card>
-  </div>
-  <div *ngIf="!guestUser" class="pt-8 enrolled-course-bg">
-    <ng-container *ngIf="showLoader && enrolledCourseList && enrolledCourseList.length === 0">
-      <sb-course-cards-hlist [type]="courseCardType.MY_COURSE_RECENTLY_VIEWED_CARD_GRID" [isLoading]="showLoader">
-      </sb-course-cards-hlist>
-    </ng-container>
-  </div>
-    <!-- <ion-card>
+    <ion-refresher #courseRefresher slot="fixed" (ionRefresh)="getCourseTabData($event)">
+      <ion-refresher-content refreshingSpinner="circles"></ion-refresher-content>
+    </ion-refresher>
+    <div *ngIf="showSignInCard" class="enrolled-course-bg">
+      <app-sign-in-card [source]="'courses'" (valueChange)="showOfflineWarning()"></app-sign-in-card>
+    </div>
+    <div *ngIf="!guestUser" class="pt-8 enrolled-course-bg">
+      <ng-container *ngIf="showLoader && enrolledCourseList && enrolledCourseList.length === 0">
+        <sb-course-cards-hlist [type]="courseCardType.MY_COURSE_RECENTLY_VIEWED_CARD_GRID" [isLoading]="showLoader">
+        </sb-course-cards-hlist>
+      </ng-container>
+    </div>
+
+    <ion-card class="filter-card">
       <ion-card-header>
-        <ion-card-title>Filter Courses</ion-card-title>
+        <ion-card-title>{{'FILTERS_MATCHING' | translate}}</ion-card-title>
       </ion-card-header>
+
       <ion-card-content>
-        <div *ngFor="let filter of dynamicFilters">
-          <ion-card>
-            <ion-card-header>
-              <ion-card-title>{{ filter.label }}</ion-card-title>
-            </ion-card-header>
-            <ion-card-content>
-              <ion-item *ngFor="let option of filter.options">
-                <ion-checkbox slot="start" [checked]="filter.selected?.includes(option.code)"
-                  (ionChange)="onOptionToggle(filter, option.code, $event)">
-                </ion-checkbox>
-                <ion-label>{{ option.name }}</ion-label>
-              </ion-item>
-            </ion-card-content>
-          </ion-card>
-        </div>
-        
-        <ion-button expand="block" (click)="applyDynamicFilters()">
-          Apply Filters
+
+        <!-- One dropdown per dynamic filter -->
+        <ng-container *ngFor="let filter of dynamicFilters; let i = index; trackBy: trackByFilter">
+          <ion-item lines="full">
+            <ion-label>{{ filter.label | translate }}</ion-label>
+
+            <!-- Multi-select dropdown -->
+            <!-- Add class="chips-only" to hide the trigger's selected text -->
+            <ion-select class="chips-only" interface="popover" [multiple]="true" [value]="filter.selected || []"
+              placeholder="" (ionChange)="onFilterSelectChange(i, $event.detail.value)">
+              <ion-select-option *ngFor="let option of filter.options" [value]="option.code">
+                {{ option.name }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <!-- Show selected values as removable chips -->
+          <div class="selected-chips" *ngIf="filter.selected?.length">
+            <ion-chip *ngFor="let code of filter.selected">
+              <ion-label>{{ getOptionName(i, code) }}</ion-label>
+              <ion-icon name="close-outline" (click)="removeSelected(i, code)"></ion-icon>
+            </ion-chip>
+          </div>
+        </ng-container>
+
+        <!-- <ion-button expand="block" (click)="applyDynamicFilters()">
+      {{'APPLY_FILTERS' | translate}}
+    </ion-button> -->
+        <ion-button expand="block" fill="outline" (click)="clearAllFilters()">
+
+          {{'RESET' | translate}}
         </ion-button>
+
       </ion-card-content>
-    </ion-card> -->
-<!-- Filter Courses (can keep class="filter-card" if you already made it fixed) -->
-<ion-card class="filter-card">
-  <ion-card-header>
-    <ion-card-title>Filter Courses</ion-card-title>
-  </ion-card-header>
-
-  <ion-card-content>
-
-    <!-- One dropdown per dynamic filter -->
-    <ng-container *ngFor="let filter of dynamicFilters; let i = index; trackBy: trackByFilter">
-      <ion-item lines="full">
-        <ion-label>{{ filter.label }}</ion-label>
-
-        <!-- Multi-select dropdown -->
-        <!-- Add class="chips-only" to hide the trigger's selected text -->
-    <ion-select
-      class="chips-only"
-      interface="popover"
-      [multiple]="true"
-      [value]="filter.selected || []"
-      placeholder=""
-      (ionChange)="onFilterSelectChange(i, $event.detail.value)"
-    >
-      <ion-select-option *ngFor="let option of filter.options" [value]="option.code">
-        {{ option.name }}
-      </ion-select-option>
-    </ion-select>
-  </ion-item>
-
-      <!-- Show selected values as removable chips -->
-      <div class="selected-chips" *ngIf="filter.selected?.length">
-        <ion-chip *ngFor="let code of filter.selected">
-          <ion-label>{{ getOptionName(i, code) }}</ion-label>
-          <ion-icon name="close-outline" (click)="removeSelected(i, code)"></ion-icon>
-        </ion-chip>
-      </div>
-    </ng-container>
-
-    <ion-button expand="block" (click)="applyDynamicFilters()">
-      Apply Filters
-    </ion-button>
-    <ion-button expand="block" fill="outline" (click)="clearAllFilters()">
-      Clear All
-    </ion-button>
-
-  </ion-card-content>
-</ion-card>
+    </ion-card>
 
     <div *ngIf="enrolledCourseList?.length">
       <h3 class="enrolled-section-title">
-        Enrolled Courses
+        {{'MY_COURSES' | translate}}
+
         <span class="number-of-courses">{{ enrolledCourseList.length }}</span>
       </h3>
       <div class="enrolled-course-grid">
@@ -99,58 +69,56 @@
             <div class="enrolled-course-card-header">
               <div class="enrolled-course-label">COURSE</div>
               <div class="enrolled-course-left">
-                <img [src]="defaultAppIcon"
-                     alt="course logo"
-                     class="enrolled-course-logo" />
+                <img [src]="defaultAppIcon" alt="course logo" class="enrolled-course-logo" />
               </div>
               <div class="enrolled-course-info">
                 <h2 class="enrolled-course-title">{{ course.courseName }}</h2>
               </div>
-            </div>   
+            </div>
           </div>
         </ng-container>
       </div>
     </div>
 
-  <ion-list class="m-n" *ngIf="showLoader && popularAndLatestCourses && popularAndLatestCourses.length === 0">
-    <app-skeleton-item height="16px" width="40%" style="padding: 16px;"></app-skeleton-item>
-    <ion-item *ngFor="let i of [0,1,2,3,4,5,6,7,8]" class="animation-background">
-      <ion-avatar item-start>
-        <app-skeleton-item height="72px" width="72px"></app-skeleton-item>
-      </ion-avatar>
-      <ion-label style="padding-left: 40px;">
-        <app-skeleton-item height="12px" width="67%" style="padding-bottom: 8px;"></app-skeleton-item>
-        <app-skeleton-item height="12px" width="47%" style="padding-bottom: 8px;"></app-skeleton-item>
-      </ion-label>
-    </ion-item>
-  </ion-list>
+    <ion-list class="m-n" *ngIf="showLoader && popularAndLatestCourses && popularAndLatestCourses.length === 0">
+      <app-skeleton-item height="16px" width="40%" style="padding: 16px;"></app-skeleton-item>
+      <ion-item *ngFor="let i of [0,1,2,3,4,5,6,7,8]" class="animation-background">
+        <ion-avatar item-start>
+          <app-skeleton-item height="72px" width="72px"></app-skeleton-item>
+        </ion-avatar>
+        <ion-label style="padding-left: 40px;">
+          <app-skeleton-item height="12px" width="67%" style="padding-bottom: 8px;"></app-skeleton-item>
+          <app-skeleton-item height="12px" width="47%" style="padding-bottom: 8px;"></app-skeleton-item>
+        </ion-label>
+      </ion-item>
+    </ion-list>
 
-  <div *ngIf="isCourseListEmpty" class="ion-text-center ion-padding">
-    <div class="sb-nodownloads-container" *ngIf="commonUtilService?.networkInfo?.isNetworkAvailable">
-      <div class="text-center">
-        <img style="width: 30%;" src="./assets/imgs/group.svg" alt="">
-      </div>
-      <div class="text-center">
-        <p class="sub-heading">{{'FRMELEMNTS_LBL_CONTENT_TO_BE_ADDED' | translate }}</p>
-        <ion-button class="explore-more-content" expand="block" fill="outline" (click)="exploreOtherContents()">
-          {{'FRMELEMENTS_LBL_SEE_MORE_COURSES' | translate}} </ion-button>
+    <div *ngIf="isCourseListEmpty" class="ion-text-center ion-padding">
+      <div class="sb-nodownloads-container" *ngIf="commonUtilService?.networkInfo?.isNetworkAvailable">
+        <div class="text-center">
+          <img style="width: 30%;" src="./assets/imgs/group.svg" alt="">
+        </div>
+        <div class="text-center">
+          <p class="sub-heading">{{'FRMELEMNTS_LBL_CONTENT_TO_BE_ADDED' | translate }}</p>
+          <ion-button class="explore-more-content" expand="block" fill="outline" (click)="exploreOtherContents()">
+            {{'FRMELEMENTS_LBL_SEE_MORE_COURSES' | translate}} </ion-button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="ion-text-center ion-padding" *ngIf="!commonUtilService?.networkInfo?.isNetworkAvailable">
-    <img height="80" width="100" src="assets/imgs/ic_offline.png" alt="offline" />
-    <ion-text>
-      <h6 color="secondary_black">
-        <strong>{{ 'NO_INTERNET_TITLE' | translate }}</strong>
-      </h6>
-    </ion-text>
-    <p color="dark_gray">{{ 'OFFLINE_WARNING' | translate }}</p>
-    <ion-text>
-      <strong class="ion-text-uppercase" color="primary"
-        (click)="retryShowingPopularCourses(true); showOfflineWarning();">{{'RETRY_ACTION' | translate}}</strong>
-    </ion-text>
-  </div>
+    <div class="ion-text-center ion-padding" *ngIf="!commonUtilService?.networkInfo?.isNetworkAvailable">
+      <img height="80" width="100" src="assets/imgs/ic_offline.png" alt="offline" />
+      <ion-text>
+        <h6 color="secondary_black">
+          <strong>{{ 'NO_INTERNET_TITLE' | translate }}</strong>
+        </h6>
+      </ion-text>
+      <p color="dark_gray">{{ 'OFFLINE_WARNING' | translate }}</p>
+      <ion-text>
+        <strong class="ion-text-uppercase" color="primary"
+          (click)="retryShowingPopularCourses(true); showOfflineWarning();">{{'RETRY_ACTION' | translate}}</strong>
+      </ion-text>
+    </div>
   </div>
 </ion-content>
 <ion-backdrop class="loading-backdrop ion-text-center" *ngIf="showOverlay">
