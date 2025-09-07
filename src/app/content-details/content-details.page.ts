@@ -1766,14 +1766,14 @@ export class ContentDetailsPage implements OnInit, OnDestroy {
         metadata: this.config.metadata
       };
 
-       setInterval(() => {
+      
+      setTimeout(() => {
+        const videoElement = document.createElement('sunbird-video-player');
+        setInterval(() => {
           (document.querySelector('.player-container .forward') as HTMLElement).style.display = "none";
           (document.querySelector('.player-container .back-ward') as HTMLElement).style.display = "none";
 
-        }, 10);
-      setTimeout(() => {
-        const videoElement = document.createElement('sunbird-video-player');
-
+        }, 100);
         videoElement.setAttribute('player-config', JSON.stringify(playerConfig));
         videoElement.addEventListener('playerEvent', (event: any) => {
           if (event && event.detail) {
