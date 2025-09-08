@@ -10,7 +10,7 @@ import { NavigationService } from '../../services/navigation-handler.service';
 import { CorReleationDataType, Environment, InteractSubtype, InteractType, PageId } from '../../services/telemetry-constants';
 import { TelemetryGeneratorService } from '../../services/telemetry-generator.service';
 import { ContentUtil } from '../../util/content-util';
-import { LibraryCardTypes } from '@project-sunbird/common-consumption';
+import { LibraryCardTypes } from '@project-fmps/common-consumption';
 import { ContentsGroupedByPageSection, ContentSearchCriteria, ContentData, SearchType, ProfileService, Profile, ContentService, CourseService, FormService, CachedItemRequestSourceFrom, ContentAggregatorRequest } from '@project-fmps/sunbird-sdk';
 import { AggregatorConfigField, ContentAggregation } from '@project-fmps/sunbird-sdk/content/handlers/content-aggregator';
 import { Subscription } from 'rxjs';

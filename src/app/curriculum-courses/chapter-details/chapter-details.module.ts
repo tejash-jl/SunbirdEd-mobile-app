@@ -6,7 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { ChapterDetailsPage } from './chapter-details.page';
-import { CommonConsumptionModule } from '@project-sunbird/common-consumption';
+import { CommonConsumptionModule } from '@project-fmps/common-consumption';
 import { TranslateModule } from '@ngx-translate/core';
 import { ComponentsModule } from '../../../app/components/components.module';
 import { PipesModule } from '../../../pipes/pipes.module';

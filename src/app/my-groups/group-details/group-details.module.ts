@@ -6,7 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { GroupDetailsPage } from './group-details.page';
-import { CommonConsumptionModule } from '@project-sunbird/common-consumption';
+import { CommonConsumptionModule } from '@project-fmps/common-consumption';
 import { ComponentsModule } from '../../components/components.module';
 import { PipesModule } from '../../../pipes/pipes.module';
 import { AddActivityToGroupPage } from '../add-activity-to-group/add-activity-to-group.page';

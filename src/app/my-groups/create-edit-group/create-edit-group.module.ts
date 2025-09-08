@@ -6,7 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { CreateEditGroupPage } from './create-edit-group.page';
 import { DirectivesModule } from '../../../directives/directives.module';
-import { CommonConsumptionModule } from '@project-sunbird/common-consumption';
+import { CommonConsumptionModule } from '@project-fmps/common-consumption';
 
 const routes: Routes = [
   {

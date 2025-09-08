@@ -12,7 +12,7 @@ import { ContentAggregatorHandler } from '../../../services/content/content-aggr
 import { AppHeaderService } from '../../../services/app-header.service';
 import { TelemetryGeneratorService } from '../../../services/telemetry-generator.service';
 import { SunbirdQRScanner } from '../../../services/sunbirdqrscanner.service';
-import { ButtonPosition, CourseCardGridTypes } from '@project-sunbird/common-consumption';
+import { ButtonPosition, CourseCardGridTypes } from '@project-fmps/common-consumption';
 import { NavigationExtras, Router } from '@angular/router';
 import { EventTopics, ProfileConstants, RouterLinks, ViewMore } from '../../app.constant';
 import {
