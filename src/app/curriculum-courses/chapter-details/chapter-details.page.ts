@@ -6,7 +6,7 @@ import { AppHeaderService } from '../../../services/app-header.service';
 import { CommonUtilService } from '../../../services/common-util.service';
 import { TelemetryGeneratorService } from '../../../services/telemetry-generator.service';
 import { Router, NavigationExtras } from '@angular/router';
-import { TocCardType } from '@project-sunbird/common-consumption';
+import { TocCardType } from '@project-fmps/common-consumption';
 import { SbPopoverComponent } from '../../../app/components/popups/sb-popover/sb-popover.component';
 import { PopoverController, Platform } from '@ionic/angular';
 import { Events } from '../../../util/events';

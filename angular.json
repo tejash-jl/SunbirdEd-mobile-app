@@ -42,7 +42,7 @@
               },
               {
                 "glob": "**/*.*",
-                "input": "./node_modules/@project-sunbird/common-consumption/assets",
+                "input": "./node_modules/@project-fmps/common-consumption/assets",
                 "output": "./assets/common-consumption"
               },
               {
