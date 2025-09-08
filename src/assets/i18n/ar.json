@@ -928,5 +928,6 @@
   "APPLY_FILTERS": "تطبيق_الفلاتر",
   "Organisation": "المؤسسة",
   "Language": "اللغة",
-  "Category": "الفئة"
+  "Category": "الفئة",
+  "GOOGLE_LOGIN": "تسجيل الدخول باستخدام Google"
 }
