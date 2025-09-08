@@ -357,10 +357,9 @@
 			
 			
 			<div *ngSwitchCase="'modules'">
-				<fmps-toc-curriculum [isChapterListing]="true" [tocData]="courseHeirarchy"
-					(tocCardClick)="
-					onTocCardClick($event)" shadowColor="#d2eadd" progressColor="#008840">
-				</fmps-toc-curriculum>
+				<sb-toc-curriculum [isChapterListing]="true" [tocData]="courseHeirarchy"
+					(tocCardClick)="onTocCardClick($event)" shadowColor="#d2eadd" progressColor="#008840">
+				</sb-toc-curriculum>
 			</div>
 		</div>
 	</div>
