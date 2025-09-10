@@ -522,7 +522,7 @@ export class AppComponent implements OnInit, AfterViewInit {
    * Enter all methods which should trigger during OnInit and User Sign-In.
    */
   async reloadSigninEvents() {
-    await this.checkForTncUpdate();
+    // await this.checkForTncUpdate();
   }
 
   async reloadGuestEvents() {
