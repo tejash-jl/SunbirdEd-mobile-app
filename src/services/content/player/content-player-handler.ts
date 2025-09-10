@@ -116,7 +116,7 @@ export class ContentPlayerHandler {
                         });
                     }).catch((err) => {
                         console.error('err', err);
-                        this.file.readAsText(`file://${data.metadata.basePath}/`, 'index.json').then(async (response)=> {
+                        this.canvasPlayerService.readJSON(`${filePath}/index.json`).then(async (response)=> {
                             data['data'] = response;
                             await this.router.navigate([RouterLinks.PLAYER],
                                 { state: { config: data,  course : contentInfo.course, navigateBackToContentDetails,
