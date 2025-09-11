@@ -37,7 +37,7 @@ copyFromContentPlayer(srcPath, destinationPath);
 copyFromContentPlayer(srcPath, destinationPath1);
 console.log('copied from content-player to www/content-player');
 
-srcPath = 'node_modules/@project-sunbird/content-player';
+srcPath = 'node_modules/@project-fmps/content-player';
 destinationPath = 'www/content-player';
 destinationPath1 = 'dist/content-player';
 copyFromNodeModule(srcPath, destinationPath);

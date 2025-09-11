@@ -218,6 +218,7 @@ export class PlayerPage implements OnInit, OnDestroy, PlayerActionHandlerDelegat
             }
           }
         }
+       
         if (this.previewElement?.nativeElement) {
           clearInterval(playerInterval);
           // This is to reload a iframe as iframes reload method not working on cross-origin.
@@ -742,6 +743,7 @@ const entry = await fileTransfer
         config: this.config.config,
         metadata: this.config.metadata
       };  
+      
       setTimeout(() => {
         const videoElement = document.createElement('sunbird-video-player');
 
@@ -767,6 +769,7 @@ const entry = await fileTransfer
         config: this.config.config,
         metadata: this.config.metadata
       }; 
+     
       setTimeout(() => {
         const epubElement = document.createElement('sunbird-epub-player');
         epubElement.setAttribute('player-config', JSON.stringify(playerConfig));
@@ -798,6 +801,7 @@ const entry = await fileTransfer
       config: this.config.config,
       metadata: this.config.metadata
     };  
+  
     setTimeout(() => {
       const pdfElement = document.createElement('sunbird-pdf-player');
         pdfElement.setAttribute('player-config', JSON.stringify(playerConfig));
@@ -820,6 +824,7 @@ const entry = await fileTransfer
         config: this.config.config,
         metadata: this.config.metadata
       };  
+     
       setTimeout(() => {
         const qumlElement = document.createElement('sunbird-quml-player');
         qumlElement.setAttribute('player-config', JSON.stringify(playerConfig));
