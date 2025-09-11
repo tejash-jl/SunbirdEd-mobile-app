@@ -929,5 +929,6 @@
   "Organisation": "المؤسسة",
   "Language": "اللغة",
   "Category": "الفئة",
-  "GOOGLE_LOGIN": "تسجيل الدخول باستخدام Google"
+  "GOOGLE_LOGIN": "تسجيل الدخول باستخدام Google",
+  "NO_COURSE_ENROLLED": "أنت غير مسجل في أي دورة"
 }

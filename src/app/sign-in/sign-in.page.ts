@@ -122,7 +122,7 @@ export class SignInPage implements OnInit {
                         direction: 'right'
                     },
                     labelHtml: {
-                        contents: `<span aria-label="Forgot Password link,  Double tap to activate"  class="fgt-pwsd-lbl"></span>`,
+                        contents: `<span aria-label="Forgot Password link,  Double tap to activate"  class="fgt-pwsd-lbl">Forgot Password ?</span>`,
                     }
                 }
             }
