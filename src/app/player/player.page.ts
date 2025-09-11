@@ -120,7 +120,6 @@ export class PlayerPage implements OnInit, OnDestroy, PlayerActionHandlerDelegat
     await StatusBar.hide();
     console.log('ngoninit ');
     this.playerConfig = await this.formAndFrameworkUtilService.getPdfPlayerConfiguration();
-    
     if(this.config['metadata'].hierarchyInfo) {
       await this.getNextContent(this.config['metadata'].hierarchyInfo , this.config['metadata'].identifier)
     }
