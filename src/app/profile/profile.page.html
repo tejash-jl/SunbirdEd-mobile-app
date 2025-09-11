@@ -73,7 +73,7 @@
         </div>
     </div>
    </div>
-    <div class="contacts" *ngIf="!profile?.managedBy && (profile?.phone || profile?.email)">
+    <!-- <div class="contacts" *ngIf="!profile?.managedBy && (profile?.phone || profile?.email)">
         <div *ngIf="profile?.email">
             <div class="email " (click)="editEmail();" tabindex="0">
                 <span class="icon MR10 align-middle">
@@ -111,7 +111,7 @@
                 <span class="value align-middle">{{'ADD_RECOVERY_ID' | translate}}</span>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <div class="self-declare-teacher-details" *ngIf="isCustodianOrgId &&  profile?.declarations?.length">
         <p class="declare-info">{{'MY_DETAILS' | translate | titlecase }}</p>

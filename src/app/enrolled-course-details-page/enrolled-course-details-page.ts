@@ -11,7 +11,7 @@ import { TelemetryGeneratorService } from '../../services/telemetry-generator.se
 import { UtilityService } from '../../services/utility-service';
 import { AppHeaderService } from '../../services/app-header.service';
 import { DatePipe, Location } from '@angular/common';
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import {
   AuditState, AuthService,
@@ -199,6 +199,7 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
   showUnenrollButton = false;
   licenseDetails;
   forumId?: string;
+  profileConfig: any = {};
 
 
   @ViewChild('stickyPillsRef', { static: false }) stickyPillsRef: ElementRef;
@@ -263,6 +264,7 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
     @Inject('SHARED_PREFERENCES') private preferences: SharedPreferences,
     @Inject('AUTH_SERVICE') public authService: AuthService,
     @Inject('DOWNLOAD_SERVICE') private downloadService: DownloadService,
+    private http: HttpClient,
     private zone: NgZone,
     private events: Events,
     private fileSizePipe: FileSizePipe,
@@ -332,6 +334,7 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
    * Angular life cycle hooks
    */
   async ngOnInit() {
+    this.profileConfig = await this.getProfileConfig();
     this.appName = await this.commonUtilService.getAppName();
     await this.subscribeUtilityEvents();
     if (this.courseCardData.batchId) {
@@ -339,6 +342,84 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
     }
     await this.generateDataForDF();
   }
+// async getProfileConfig() {
+//   const active = await this.profileService
+//     .getActiveSessionProfile({ requiredFields: ProfileConstants.REQUIRED_FIELDS })
+//     .toPromise();
+//   // 1️⃣ Print full API result
+//   console.log('Full API result:', active);
+//   // 2️⃣ Print the raw profileConfig string
+//   const raw = active?.serverProfile?.framework?.profileConfig?.[0];
+//   console.log('Raw profileConfig:', raw);
+//   // 3️⃣ Parse and print as JSON
+//   try {
+//     const parsed = raw ? JSON.parse(raw) : {};
+//     console.log('Parsed profileConfig:', parsed?.idFmps);
+//     return parsed;
+//   } catch (e) {
+//     console.error('Error parsing profileConfig:', e);
+//     return {};
+//   }
+// }
+async getProfileConfig() {
+  const active = await this.profileService
+    .getActiveSessionProfile({ requiredFields: ProfileConstants.REQUIRED_FIELDS })
+    .toPromise();
+
+  console.log('Full API result:', active);
+
+  const raw = active?.serverProfile?.framework?.profileConfig?.[0];
+  console.log('Raw profileConfig:', raw);
+
+  try {
+    const parsed = raw ? JSON.parse(raw) : {};
+    console.log('Parsed profileConfig:', parsed);
+
+    // 👇 Extract idFmps from parsed config
+    const idFmps = parsed?.idFmps;
+    console.log('idFmps:', idFmps);
+
+    // ✅ Only call the API if idFmps exists
+    if (idFmps) {
+      const body = {
+        request: {
+          filters: {
+            code: ["FIC2022"]   // 👈 dynamic from profileConfig
+          }
+        }
+      };
+
+      const headers = new HttpHeaders({
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-App-Id': 'staging.sunbird.portal',
+        'X-App-Version': '7.0.0',
+        'X-Channel-Id': '0143146729170944000',
+        'X-Device-ID': 'c561b339ff1f00ef830aefa6cbb98e41',
+        'X-Org-code': '0143146729170944000',
+        'X-Request-ID': '33c417d2-6561-477e-a0c7-9888b7c33920',
+        'X-Session-ID': 'Ae4RFFpbZjCXMRf_QY52gZgKFSDY_xzz',
+        'X-Source': 'web',
+        'X-User-ID': active?.serverProfile?.id || '',
+        'X-msgid': '33c417d2-6561-477e-a0c7-9888b7c33920'
+      });
+
+      // 🔹 Call the Search API
+      this.http.post('https://maharat.fmps.ma/api/content/v1/search', body, { headers })
+        .subscribe(
+          (res) => console.log('Search API result:', res),
+          (err) => console.error('Search API error:', err)
+        );
+    }
+
+    return parsed;
+  } catch (e) {
+    console.error('Error parsing profileConfig:', e);
+    return {};
+  }
+}
+
+
 
   async showDeletePopup() {
     this.contentDeleteObservable = this.contentDeleteHandler.contentDeleteCompleted$.subscribe(async () => {
@@ -2639,3 +2720,5 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
   }
 
 }
+
+
