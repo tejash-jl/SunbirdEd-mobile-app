@@ -84,7 +84,10 @@
   </div>
 </div>
 <ng-template #noInProgress>
-  <p class="no-course-msg">No course enrolled</p>
+  <p class="no-course-msg">
+ {{ 'NO_COURSE_ENROLLED' | translate }}
+  
+  </p>
 </ng-template>
 
 <!-- Completed courses -->
@@ -110,7 +113,7 @@
   </div>
 </div>
 <ng-template #noCompleted>
-  <p class="no-course-msg">No course enrolled</p>
+  <p class="no-course-msg">{{ 'NO_COURSE_ENROLLED' | translate }}</p>
 </ng-template>
 
     <div class="ion-padding ion-text-center mt-32 mb-32" style="padding-top: 34px;"

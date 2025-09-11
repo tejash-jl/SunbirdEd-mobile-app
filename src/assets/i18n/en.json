@@ -1419,5 +1419,6 @@
   "APPLY_FILTERS": "Apply Filters",
   "Organisation":"Organisation",
   "Language":"Language",
-  "Category":"Category"
+  "Category":"Category",
+  "NO_COURSE_ENROLLED":"No course enrolled"
 }
