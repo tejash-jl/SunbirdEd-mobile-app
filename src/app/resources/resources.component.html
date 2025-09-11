@@ -62,7 +62,7 @@
       </div>
     </div> -->
     <!-- In-progress courses -->
-<div *ngIf="inProgressCourses?.length > 0; else noInProgress">
+<!-- <div *ngIf="inProgressCourses?.length > 0; else noInProgress">
   <h3 class="enrolled-section-title">
     {{ 'CONTINUE_LEARNING' | translate }}
     <span class="number-of-courses">{{ inProgressCourses.length }}</span>
@@ -90,7 +90,6 @@
   </p>
 </ng-template>
 
-<!-- Completed courses -->
 <div *ngIf="completedCourses?.length > 0; else noCompleted">
   <h3 class="enrolled-section-title">
     {{ 'COMPLETED_COURSES' | translate }}
@@ -113,6 +112,61 @@
   </div>
 </div>
 <ng-template #noCompleted>
+  <p class="no-course-msg">{{ 'NO_COURSE_ENROLLED' | translate }}</p>
+</ng-template> -->
+<!-- Parent check: if both are empty, show one common message -->
+<ng-container *ngIf="(inProgressCourses?.length || 0) > 0 || (completedCourses?.length || 0) > 0; else noCourses">
+
+  <!-- In-progress courses -->
+  <div *ngIf="(inProgressCourses?.length || 0) > 0">
+    <h3 class="enrolled-section-title">
+      {{ 'CONTINUE_LEARNING' | translate }}
+      <span class="number-of-courses">{{ inProgressCourses.length }}</span>
+    </h3>
+    <div class="enrolled-course-grid">
+      <ng-container *ngFor="let course of inProgressCourses">
+        <ion-card class="enrolled-full-width-card" (click)="openEnrolledCourse(course)">
+          <div class="enrolled-course-card-header">
+            <div class="enrolled-course-label">COURSE</div>
+            <div class="enrolled-course-left">
+              <img [src]="defaultAppIcon" alt="course logo" class="enrolled-course-logo" />
+            </div>
+            <div class="enrolled-course-info">
+              <h2 class="enrolled-course-title">{{ course.courseName }}</h2>
+            </div>
+          </div>
+        </ion-card>
+      </ng-container>
+    </div>
+  </div>
+
+  <!-- Completed courses -->
+  <div *ngIf="(completedCourses?.length || 0) > 0">
+    <h3 class="enrolled-section-title">
+      {{ 'COMPLETED_COURSES' | translate }}
+      <span class="number-of-courses">{{ completedCourses.length }}</span>
+    </h3>
+    <div class="enrolled-course-grid">
+      <ng-container *ngFor="let course of completedCourses">
+        <ion-card class="enrolled-full-width-card" (click)="openEnrolledCourse(course)">
+          <div class="enrolled-course-card-header">
+            <div class="enrolled-course-label">COURSE</div>
+            <div class="enrolled-course-left">
+              <img [src]="defaultAppIcon" alt="course logo" class="enrolled-course-logo" />
+            </div>
+            <div class="enrolled-course-info">
+              <h2 class="enrolled-course-title">{{ course.courseName }}</h2>
+            </div>
+          </div>
+        </ion-card>
+      </ng-container>
+    </div>
+  </div>
+
+</ng-container>
+
+<!-- Common fallback -->
+<ng-template #noCourses>
   <p class="no-course-msg">{{ 'NO_COURSE_ENROLLED' | translate }}</p>
 </ng-template>
 

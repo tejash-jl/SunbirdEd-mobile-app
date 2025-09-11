@@ -1420,5 +1420,5 @@
   "Organisation":"Organisation",
   "Language":"Language",
   "Category":"Category",
-  "NO_COURSE_ENROLLED":"No course enrolled"
+  "NO_COURSE_ENROLLED":"you are not enrolled to any courses"
 }
