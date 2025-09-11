@@ -6,7 +6,7 @@ import { ComponentsModule } from '../../../app/components/components.module';
 import { DirectivesModule } from '../../../directives/directives.module';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { CommonConsumptionModule } from '@project-sunbird/common-consumption';
+import { CommonConsumptionModule } from '@project-fmps/common-consumption';
 import { ExploreBooksPage } from './explore-books.page';
 
 const routes: Routes = [

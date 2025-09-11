@@ -10,7 +10,7 @@ import { ConnectionStatus, Network } from '@capacitor/network';
 import { IonRefresher, Platform, PopoverController, ToastController } from '@ionic/angular';
 import { Events } from '../../util/events';
 import { CsPrimaryCategory } from '@project-sunbird/client-services/services/content';
-import { CourseCardGridTypes } from '@project-sunbird/common-consumption';
+import { CourseCardGridTypes } from '@project-fmps/common-consumption';
 import forEach from 'lodash/forEach';
 import { Subscription } from 'rxjs';
 import {

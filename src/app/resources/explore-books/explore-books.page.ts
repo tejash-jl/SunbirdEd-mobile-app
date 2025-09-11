@@ -24,7 +24,7 @@ import {
   FilterValue,
   SearchType
 } from '@project-fmps/sunbird-sdk';
-import { LibraryCardTypes } from '@project-sunbird/common-consumption';
+import { LibraryCardTypes } from '@project-fmps/common-consumption';
 import { AppGlobalService } from '../../../services/app-global-service.service';
 import { CommonUtilService } from '../../../services/common-util.service';
 import { AppHeaderService } from '../../../services/app-header.service';

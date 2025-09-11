@@ -34,7 +34,7 @@ import { ModalController } from '@ionic/angular';
 import { SearchFilterPage } from '../../app/search-filter/search-filter.page';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { PillBorder, PillsColorTheme } from '@project-sunbird/common-consumption';
+import { PillBorder, PillsColorTheme } from '@project-fmps/common-consumption';
 import { ObjectUtil } from '../../util/object.util';
 import { FormAndFrameworkUtilService } from './../../services/formandframeworkutil.service';
 import { TranslateJsonPipe } from '../../pipes/translate-json/translate-json';
