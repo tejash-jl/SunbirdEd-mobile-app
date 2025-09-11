@@ -38,33 +38,6 @@ export class ContentViewerComponent implements OnInit {
 
   playWebVideoContent() {
     if (this.playerConfig) {
-      this.playerConfig.context.resourceBundles = {
-        "lbl": {
-          "goTo": "Go To",
-          "previous": "Previous",
-          "yourScoreIs": "Your score is",
-          "redoTheAssessment": "You can redo the assessment to improve your score.",
-          "responsesHaveBeenRecorded": "Your responses have been recorded.",
-          "redo": "Redo",
-          "exit": "Exit",
-          "next": "Next",
-          "youJustCompleted": "You Just Completed",
-          "author": "Author",
-          "score": "SCORE",
-          "time": "TIME",
-          "submitToContinue": "Submit to continue.",
-          "totalQuestions": "Total questions:",
-          "questionsAnswered": "Questions answered:",
-          "questionsSkipped": "Questions skipped:",
-          "submit": "Submit",
-          "loading": "Loading",
-          "print": "Print",
-          "download": "Download",
-          "share": "Share",
-          "upNext": "Up Next",
-          "reply": "Reply"
-        }
-      }
       const playerConfigData: any = {
         context: this.playerConfig.context,
         config: this.playerConfig.config,
