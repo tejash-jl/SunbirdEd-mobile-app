@@ -10,6 +10,8 @@ import { CommonConsumptionModule } from '@project-fmps/common-consumption';
 import { TranslateModule } from '@ngx-translate/core';
 import { ComponentsModule } from '../../../app/components/components.module';
 import { PipesModule } from '../../../pipes/pipes.module';
+import { TocCurriculumComponent} from "../../../app/enrolled-course-details-page/toc-curriculum/toc-curriculum.component";
+import { TocCardComponent} from "../../../app/enrolled-course-details-page/toc-card/toc-card.component";
 
 const routes: Routes = [
   {
@@ -28,8 +30,10 @@ const routes: Routes = [
         PipesModule,
         TranslateModule.forChild(),
         RouterModule.forChild(routes),
+
     ],
-    declarations: [ChapterDetailsPage],
+    exports: [TocCardComponent],
+    declarations: [ChapterDetailsPage, TocCurriculumComponent, TocCardComponent],
     providers: [DatePipe]
 })
 export class ChapterDetailsPageModule {}

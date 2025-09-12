@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ViewChild, ViewChildren, QueryList, Output, E
 import { MimeTypePipe, MimeTypeMasterData } from '../pipes-module/mime-type';
 import {staticData} from './toc-data';
 import { isNgTemplate } from '@angular/compiler';
+import {TocCardComponent} from '../toc-card/toc-card.component';
 
 @Component({
     selector: 'fmps-toc-curriculum',
