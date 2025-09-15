@@ -11,6 +11,7 @@ import { TelemetryGeneratorService } from '../../services/telemetry-generator.se
 import { UtilityService } from '../../services/utility-service';
 import { AppHeaderService } from '../../services/app-header.service';
 import { DatePipe, Location } from '@angular/common';
+import { ContentSearchCriteria } from '@project-fmps/sunbird-sdk';
 
 
 import {
@@ -76,6 +77,7 @@ import { ActivityData } from '../my-groups/group.interface';
 import { FormAndFrameworkUtilService } from './../../services/formandframeworkutil.service';
 import { FilePathService } from '../../services/file-path/file.service';
 import { FilePaths } from '../../services/file-path/file';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 declare const cordova;
 
@@ -85,7 +87,13 @@ declare const cordova;
   styleUrls: ['./enrolled-course-details-page.scss'],
 })
 export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopoverActionsDelegate {
+formField = {
+  facet: 'Code',         // change to your facet label if needed
+  aggregate: 'code'      // change to the aggregate key your mapping expects
+};
 
+// if you actually maintain user prefs, set real values; else keep as {}
+userPreferences: any = {};
   /**
    * Contains content details
    */
@@ -199,7 +207,7 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
   showUnenrollButton = false;
   licenseDetails;
   forumId?: string;
-
+  profileConfig: any = {};
 
   @ViewChild('stickyPillsRef', { static: false }) stickyPillsRef: ElementRef;
   @ViewChild(AccessDiscussionComponent, { static: false }) accessDiscussionComponent: AccessDiscussionComponent;
@@ -263,6 +271,7 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
     @Inject('SHARED_PREFERENCES') private preferences: SharedPreferences,
     @Inject('AUTH_SERVICE') public authService: AuthService,
     @Inject('DOWNLOAD_SERVICE') private downloadService: DownloadService,
+    
     private zone: NgZone,
     private events: Events,
     private fileSizePipe: FileSizePipe,
@@ -285,6 +294,9 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
     private tncUpdateHandlerService: TncUpdateHandlerService,
     private formAndFrameworkUtilService: FormAndFrameworkUtilService,
     private filePathService: FilePathService,
+    
+    private http: HttpClient,
+
   ) {
     this.objRollup = new Rollup();
     this.csGroupAddableBloc = CsGroupAddableBloc.instance;
@@ -332,6 +344,8 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
    * Angular life cycle hooks
    */
   async ngOnInit() {
+     this.profileConfig = await this.getProfileConfigUsingAggregator();
+    // this.profileConfig = await this.getProfileConfig();
     this.appName = await this.commonUtilService.getAppName();
     await this.subscribeUtilityEvents();
     if (this.courseCardData.batchId) {
@@ -339,6 +353,148 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
     }
     await this.generateDataForDF();
   }
+ 
+  async getProfileConfigUsingAggregator(): Promise<any> {
+  try {
+    // Ensure session exists (needed for withBearerToken = true)
+    const session = await this.authService.getSession().toPromise();
+    if (!session) {
+      console.warn('No session. Please sign in first.');
+      return;
+    }
+
+    // Get idFmps from profileConfig
+    const active = await this.profileService
+      .getActiveSessionProfile({ requiredFields: ProfileConstants.REQUIRED_FIELDS })
+      .toPromise();
+
+    const raw = active?.serverProfile?.framework?.profileConfig?.[0];
+    const parsed = raw ? JSON.parse(raw) : {};
+    const idFmps: string | undefined = parsed?.idFmps;
+    if (!idFmps) {
+      console.warn('idFmps missing in profileConfig; skipping.');
+      return;
+    }
+
+    const channel = active?.serverProfile?.rootOrg?.hashTagId;
+
+    // ---- (1) Build search criteria
+    const searchCriteria: any = {
+      query: '',
+      limit: 10,
+      offset: 0,
+      sortCriteria: [],
+      facets: [],
+      filters: {
+        code: [idFmps],
+      }
+    };
+
+    // ---- (2) Aggregator config
+    const aggConfig: any = {
+      dataSrc: {
+        type: 'CONTENTS',
+        request: {
+          type: 'POST',
+          path: '/api/content/v1/search',
+          withBearerToken: true
+        }
+      },
+      sections: [
+        {
+          index: 0,
+          title: 'Search results',
+          theme: {}
+        }
+      ]
+    };
+
+    // ---- (3) Build aggregator without formService
+    const aggregator = (this.contentService as any).buildContentAggregator(
+      this.courseService,
+      this.profileService
+    );
+
+    // ---- (4) Run aggregate and print results
+    const resp = await (aggregator as any).aggregate(
+      {
+        interceptSearchCriteria: () => searchCriteria,
+        userPreferences: this.userPreferences || {}
+      },
+      [],
+      null,
+      [aggConfig]
+    ).toPromise();
+
+    console.log('Aggregator full response:', resp);
+    const result = (resp as any)?.result ?? [];
+    console.log('Aggregator .result:', result);
+    console.log('filterCriteria:', result?.[0]?.meta?.filterCriteria ?? {});
+    console.log('Raw section items:', result?.[0]?.contents || result?.[0]?.data || result);
+  } catch (e) {
+    console.error('Aggregator error:', e);
+  }
+}
+
+
+
+// async getProfileConfig() {
+//   const active = await this.profileService
+//     .getActiveSessionProfile({ requiredFields: ProfileConstants.REQUIRED_FIELDS })
+//     .toPromise();
+
+//   console.log('Full API result:', active);
+
+//   const raw = active?.serverProfile?.framework?.profileConfig?.[0];
+//   console.log('Raw profileConfig:', raw);
+
+//   try {
+//     const parsed = raw ? JSON.parse(raw) : {};
+//     console.log('Parsed profileConfig:', parsed);
+
+//     // 👇 Extract idFmps from parsed config
+//     const idFmps = parsed?.idFmps;
+//     console.log('idFmps:', idFmps);
+
+//     // ✅ Only call the API if idFmps exists
+//     if (idFmps) {
+//       const body = {
+//         request: {
+//           filters: {
+//             code: ["FIC2022"]   // 👈 dynamic from profileConfig
+//           }
+//         }
+//       };
+
+//       const headers = new HttpHeaders({
+//         'Accept': 'application/json',
+//         'Content-Type': 'application/json',
+//         'X-App-Id': 'staging.sunbird.portal',
+//         'X-App-Version': '7.0.0',
+//         'X-Channel-Id': '0143146729170944000',
+//         'X-Device-ID': 'c561b339ff1f00ef830aefa6cbb98e41',
+//         'X-Org-code': '0143146729170944000',
+//         'X-Request-ID': '33c417d2-6561-477e-a0c7-9888b7c33920',
+//         'X-Session-ID': 'Ae4RFFpbZjCXMRf_QY52gZgKFSDY_xzz',
+//         'X-Source': 'web',
+//         'X-User-ID': active?.serverProfile?.id || '',
+//         'X-msgid': '33c417d2-6561-477e-a0c7-9888b7c33920'
+//       });
+
+//       // 🔹 Call the Search API
+//       this.http.post('https://maharat.fmps.ma/api/content/v1/search', body, { headers })
+//         .subscribe(
+//           (res) => console.log('Search API result:', res),
+//           (err) => console.error('Search API error:', err)
+//         );
+//     }
+
+//     return parsed;
+//   } catch (e) {
+//     console.error('Error parsing profileConfig:', e);
+//     return {};
+//   }
+// }
 
   async showDeletePopup() {
     this.contentDeleteObservable = this.contentDeleteHandler.contentDeleteCompleted$.subscribe(async () => {
