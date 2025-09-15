@@ -218,6 +218,34 @@ export class PlayerPage implements OnInit, OnDestroy, PlayerActionHandlerDelegat
             }
           }
         }
+          this.config.context.resourceBundles = {
+        "lbl": {
+          "goTo": "Go To",
+          "previous": "Previous",
+          "yourScoreIs": "Your score is",
+          "redoTheAssessment": "You can redo the assessment to improve your score.",
+          "responsesHaveBeenRecorded": "Your responses have been recorded.",
+          "redo": "Redo",
+          "exit": "Exit",
+          "next": "Next",
+          "youJustCompleted": "You Just Completed",
+          "author": "Author",
+          "score": "SCORE",
+          "time": "TIME",
+          "submitToContinue": "Submit to continue.",
+          "totalQuestions": "Total questions:",
+          "questionsAnswered": "Questions answered:",
+          "questionsSkipped": "Questions skipped:",
+          "submit": "Submit",
+          "loading": "Loading",
+          "print": "Print",
+          "download": "Download",
+          "share": "Share",
+          "upNext": "Up Next",
+          "reply": "Reply"
+        }
+      }
+
         if (this.previewElement?.nativeElement) {
           clearInterval(playerInterval);
           // This is to reload a iframe as iframes reload method not working on cross-origin.
@@ -742,6 +770,34 @@ const entry = await fileTransfer
         config: this.config.config,
         metadata: this.config.metadata
       };  
+        this.config.context.resourceBundles = {
+        "lbl": {
+          "goTo": "Go To",
+          "previous": "Previous",
+          "yourScoreIs": "Your score is",
+          "redoTheAssessment": "You can redo the assessment to improve your score.",
+          "responsesHaveBeenRecorded": "Your responses have been recorded.",
+          "redo": "Redo",
+          "exit": "Exit",
+          "next": "Next",
+          "youJustCompleted": "You Just Completed",
+          "author": "Author",
+          "score": "SCORE",
+          "time": "TIME",
+          "submitToContinue": "Submit to continue.",
+          "totalQuestions": "Total questions:",
+          "questionsAnswered": "Questions answered:",
+          "questionsSkipped": "Questions skipped:",
+          "submit": "Submit",
+          "loading": "Loading",
+          "print": "Print",
+          "download": "Download",
+          "share": "Share",
+          "upNext": "Up Next",
+          "reply": "Reply"
+        }
+      }
+
       setTimeout(() => {
         const videoElement = document.createElement('sunbird-video-player');
 
@@ -767,6 +823,34 @@ const entry = await fileTransfer
         config: this.config.config,
         metadata: this.config.metadata
       }; 
+        this.config.context.resourceBundles = {
+        "lbl": {
+          "goTo": "Go To",
+          "previous": "Previous",
+          "yourScoreIs": "Your score is",
+          "redoTheAssessment": "You can redo the assessment to improve your score.",
+          "responsesHaveBeenRecorded": "Your responses have been recorded.",
+          "redo": "Redo",
+          "exit": "Exit",
+          "next": "Next",
+          "youJustCompleted": "You Just Completed",
+          "author": "Author",
+          "score": "SCORE",
+          "time": "TIME",
+          "submitToContinue": "Submit to continue.",
+          "totalQuestions": "Total questions:",
+          "questionsAnswered": "Questions answered:",
+          "questionsSkipped": "Questions skipped:",
+          "submit": "Submit",
+          "loading": "Loading",
+          "print": "Print",
+          "download": "Download",
+          "share": "Share",
+          "upNext": "Up Next",
+          "reply": "Reply"
+        }
+      }
+
       setTimeout(() => {
         const epubElement = document.createElement('sunbird-epub-player');
         epubElement.setAttribute('player-config', JSON.stringify(playerConfig));
@@ -798,6 +882,34 @@ const entry = await fileTransfer
       config: this.config.config,
       metadata: this.config.metadata
     };  
+      this.config.context.resourceBundles = {
+        "lbl": {
+          "goTo": "Go To",
+          "previous": "Previous",
+          "yourScoreIs": "Your score is",
+          "redoTheAssessment": "You can redo the assessment to improve your score.",
+          "responsesHaveBeenRecorded": "Your responses have been recorded.",
+          "redo": "Redo",
+          "exit": "Exit",
+          "next": "Next",
+          "youJustCompleted": "You Just Completed",
+          "author": "Author",
+          "score": "SCORE",
+          "time": "TIME",
+          "submitToContinue": "Submit to continue.",
+          "totalQuestions": "Total questions:",
+          "questionsAnswered": "Questions answered:",
+          "questionsSkipped": "Questions skipped:",
+          "submit": "Submit",
+          "loading": "Loading",
+          "print": "Print",
+          "download": "Download",
+          "share": "Share",
+          "upNext": "Up Next",
+          "reply": "Reply"
+        }
+      }
+
     setTimeout(() => {
       const pdfElement = document.createElement('sunbird-pdf-player');
         pdfElement.setAttribute('player-config', JSON.stringify(playerConfig));
@@ -820,6 +932,34 @@ const entry = await fileTransfer
         config: this.config.config,
         metadata: this.config.metadata
       };  
+        this.config.context.resourceBundles = {
+        "lbl": {
+          "goTo": "Go To",
+          "previous": "Previous",
+          "yourScoreIs": "Your score is",
+          "redoTheAssessment": "You can redo the assessment to improve your score.",
+          "responsesHaveBeenRecorded": "Your responses have been recorded.",
+          "redo": "Redo",
+          "exit": "Exit",
+          "next": "Next",
+          "youJustCompleted": "You Just Completed",
+          "author": "Author",
+          "score": "SCORE",
+          "time": "TIME",
+          "submitToContinue": "Submit to continue.",
+          "totalQuestions": "Total questions:",
+          "questionsAnswered": "Questions answered:",
+          "questionsSkipped": "Questions skipped:",
+          "submit": "Submit",
+          "loading": "Loading",
+          "print": "Print",
+          "download": "Download",
+          "share": "Share",
+          "upNext": "Up Next",
+          "reply": "Reply"
+        }
+      }
+
       setTimeout(() => {
         const qumlElement = document.createElement('sunbird-quml-player');
         qumlElement.setAttribute('player-config', JSON.stringify(playerConfig));
