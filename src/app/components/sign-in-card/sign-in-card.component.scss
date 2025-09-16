@@ -21,7 +21,7 @@
     .sign-in-card-title{
       margin: 0 18px 8px;
       padding-top: 16px;
-      font-family: "Noto Sans", sans-serif;
+      font-family: "Times New Roman", Arial, serif;
       color: map-get($colors, white);
       font-weight: bold;
       font-size: 1rem;
@@ -35,7 +35,7 @@
       box-shadow: 0 20px 40px -10px map-get($colors, light_silver);
       p{
         margin-bottom: 8px;
-        font-family: "Noto Sans", sans-serif;
+        font-family: "Times New Roman", Arial, serif;
         color: map-get($colors, primary_black);
       }
       ion-button{

@@ -21,7 +21,7 @@ import { TelemetryGeneratorService } from '../../services/telemetry-generator.se
 import { Platform } from '@ionic/angular';
 import { Events } from '../../util/events';
 import { Location as SbLocation } from '@project-sunbird/client-services/models/location';
-import { FieldConfig } from 'common-form-elements';
+import { FieldConfig, FieldConfigValidationType } from 'common-form-elements';
 import { concat, defer, of, Subscription } from 'rxjs';
 import { delay, distinctUntilChanged, filter, mergeMap, pairwise, take, tap } from 'rxjs/operators';
 import {
@@ -508,7 +508,37 @@ export class DistrictMappingPage implements OnDestroy {
       }
     }
     this.initialFormLoad = false;
-    this.locationFormConfig = locationMappingConfig;
+    console.log('locationMappingConfig', locationMappingConfig);
+    const allowed = new Set(['category', 'cin', 'idFmps', 'trainingGroup', 'province']);
+
+const filteredConfig: FieldConfig<any, any>[] = locationMappingConfig
+  .filter(f => allowed.has(f.code))
+  .map((f) => {
+    // start with a clean object (omit children entirely to satisfy the type)
+    const next: FieldConfig<any, any> = {
+      code: f.code,
+      type: f.type,
+      default: f.default ?? null,
+      templateOptions: {
+        ...(f.templateOptions || {}),
+        hidden: false,           // make sure visible
+      },
+      validations: Array.isArray(f.validations) ? [...f.validations] : [],
+    };
+
+    // Ensure `validations` use the enum (add required only if you want it)
+    if (f.code === 'province') {
+      const hasRequired = next.validations?.some(v => v.type === FieldConfigValidationType.REQUIRED);
+      if (!hasRequired) {
+        next.validations?.push({ type: FieldConfigValidationType.REQUIRED });
+      }
+    }
+
+    return next;
+  });
+console.log('filteredConfig', filteredConfig);
+this.locationFormConfig = filteredConfig;  // 
+    // this.locationFormConfig = locationMappingConfig;
     this.hideClearButton = false;
      if(this.params){
     this.fieldConfig();

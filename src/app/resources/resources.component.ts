@@ -123,7 +123,7 @@ import { FormConstants } from '../form.constants';
 })
 export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, FrameworkSelectionActionsDelegate, OnTabViewWillEnter {
   @ViewChild('libraryRefresher', { static: false }) refresher: IonRefresher;
-
+  coursesLoading = false
   pageLoadedSuccess = false;
   storyAndWorksheets: Array<any>;
   selectedValue: Array<string> = [];
@@ -412,22 +412,41 @@ export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, Fra
     await this.getLocalContent();
   }
 
-  async getEnrolledCourses() {
-    const option = {
-      userId: this.profile.uid,
-    };
-    this.courseService.getEnrolledCourses(option).toPromise()
-      .then(async (res: Course[]) => {
-        if (res.length) {
-          this.enrolledCourseList = res.sort((a, b) => (a.enrolledDate > b.enrolledDate ? -1 : 1));
-          this.inProgressCourses = this.enrolledCourseList.filter(course => course.status !== 2 || course.progress === 0);
-          this.completedCourses = this.enrolledCourseList.filter(course => course.status === 2 && course.progress > 0);
-        }
-      })
-      .catch((error: any) => {
-        console.error('error while loading enrolled courses', error);
-      });
+   
+  async getEnrolledCourses(): Promise<void> {
+    this.coursesLoading = true;
+
+    const loader = await this.commonUtilService.getLoader();
+    await loader.present();
+
+    try {
+      const userId = this.profile?.uid;
+      const option = { userId };
+
+      const res: Course[] = await this.courseService.getEnrolledCourses(option).toPromise();
+      const list = Array.isArray(res) ? res : [];
+
+      // newest first
+      this.enrolledCourseList = [...list].sort((a, b) => (a.enrolledDate > b.enrolledDate ? -1 : 1));
+
+      // split into in-progress vs completed
+      this.completedCourses = this.enrolledCourseList.filter(
+        c => c.status === 2 && (c.progress ?? 0) > 0
+      );
+      this.inProgressCourses = this.enrolledCourseList.filter(
+        c => !(c.status === 2 && (c.progress ?? 0) > 0)
+      );
+    } catch (error) {
+      console.error('Error while loading enrolled courses', error);
+      this.enrolledCourseList = [];
+      this.inProgressCourses = [];
+      this.completedCourses = [];
+    } finally {
+      this.coursesLoading = false;
+      await loader.dismiss();
+    }
   }
+
 
   async openEnrolledCourse(course) {
     try {

@@ -2,7 +2,7 @@
 :host {
   .label-font {
     color: map-get($colors, primary_black) !important;
-    font-family: "Noto Sans", sans-serif !important;
+    font-family: "Times New Roman", Arial, serif !important;
     font-size: 1.25rem !important;
     line-height: 1.375rem !important;
     font-weight: normal;
@@ -36,7 +36,7 @@
     padding-left: 8px;
     padding-right: 16px !important;
     font-size: $font-size-base;
-    font-family: "Noto Sans", sans-serif;
+    font-family: "Times New Roman", Arial, serif;
     .select-icon {
       .select-icon-inner {
         border: solid blue;
@@ -103,7 +103,7 @@
 
   ion-label {
     color: map-get($colors, primary_black);
-    font-family: "Noto Sans", sans-serif;
+    font-family: "Times New Roman", Arial, serif;
     font-size: $font-size-base;
     letter-spacing: 0;
     line-height: 1.188rem;
@@ -120,7 +120,7 @@
 
 .cf-input-title{
   color: map-get($colors, primary_black);
-  font-family: "Noto Sans", sans-serif;
+  font-family: "Times New Roman", Arial, serif;
   font-size: $font-size-base;
   letter-spacing: 0;
   line-height: 1.188rem;
@@ -157,7 +157,7 @@
   width: 100%;
   height: 2.5rem;
   box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.25);
-  font-family: "Noto Sans", sans-serif;
+  font-family: "Times New Roman", Arial, serif;
   font-size: 1rem;
 }
 
@@ -168,7 +168,7 @@
   height: 2.5rem;
   border: 1px solid $blue;
   box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.25);
-  font-family: "Noto Sans", sans-serif;
+  font-family: "Times New Roman", Arial, serif;
   font-size: 1rem;
 }
 
