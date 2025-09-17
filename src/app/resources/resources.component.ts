@@ -123,7 +123,7 @@ import { FormConstants } from '../form.constants';
 })
 export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, FrameworkSelectionActionsDelegate, OnTabViewWillEnter {
   @ViewChild('libraryRefresher', { static: false }) refresher: IonRefresher;
-  coursesLoading = false
+  coursesLoading = true
   pageLoadedSuccess = false;
   storyAndWorksheets: Array<any>;
   selectedValue: Array<string> = [];
