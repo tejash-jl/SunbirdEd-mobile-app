@@ -335,39 +335,30 @@
 					</div>
 				</ion-card-content>
 			</ion-card>
-			<!-- inside the same [ngSwitch]="segmentType" block -->
-			<ng-container *ngSwitchCase="'info'">
-				<ion-card *ngIf="expiryDate && expiryDate !== 'NA'">
-					<ion-card-content class="ion-no-padding">
-						<ion-accordion-group>
-							<ion-accordion value="expiry">
-								<!-- Header (click to open/close) -->
-								<ion-item slot="header" lines="none">
-									<ion-label>
-										<strong>{{ 'EXPIRY' | translate }}:</strong>
 			
-										{{ expiryDate | date:'dd/MM/yyyy' }}
+
+			<ng-container *ngSwitchCase="'info'">
+				<ion-card *ngIf="expiryDate" class="expiry-card" [style.--background]="'#fff'"
+					[style.--ion-card-background]="'#fff'" style="background:#fff">
+					<ion-card-content class="ion-no-padding" [style.--background]="'#fff'" style="background:#fff">
+						<ion-accordion-group [style.--background]="'#fff'" style="background:#fff">
+							<ion-accordion value="expiry" [style.--background]="'#fff'" style="background:#fff">
+								<ion-item slot="header" lines="none" detail="false" [style.--background]="'#fff'"
+									[style.--ion-item-background]="'#fff'" style="background:#fff">
+									<ion-label>
+										<strong>{{ 'EXPIRY' | translate }}</strong>
 									</ion-label>
-									<ion-icon slot="end" name="chevron-down" aria-hidden="true"></ion-icon>
 								</ion-item>
 			
-								<!-- Body -->
-								<div slot="content" class="ion-padding">
-			
-									<p>{{ 'EXPIRY_ON' | translate }} {{ expiryDate | date:'fullDate' }}</p>
+								<div slot="content" class="ion-padding" style="background:#fff">
+									<p>{{ expiryDate | date:'fullDate' }}</p>
 								</div>
 							</ion-accordion>
 						</ion-accordion-group>
 					</ion-card-content>
 				</ion-card>
-			
-				<!-- Optional fallback when expiry is not available -->
-				<ion-card *ngIf="!expiryDate || expiryDate === 'NA'">
-					<ion-card-content class="ion-padding">
-						<strong>{{ 'EXPIRY' | translate }}:</strong> NA
-					</ion-card-content>
-				</ion-card>
 			</ng-container>
+
 
 			
 			<!--credits and license info-->

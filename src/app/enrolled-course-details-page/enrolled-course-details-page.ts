@@ -361,8 +361,8 @@ userPreferences: any = {};
 
   async fetchExpiryDateFromProfileConfig(): Promise<any> {
     const activeProfile = await this.profileService
-        .getActiveSessionProfile({ requiredFields: ProfileConstants.REQUIRED_FIELDS })
-        .toPromise();
+      .getActiveSessionProfile({ requiredFields: ProfileConstants.REQUIRED_FIELDS })
+      .toPromise();
 
     const profileConfigRaw = activeProfile?.serverProfile?.framework?.profileConfig?.[0];
     const profileConfig = profileConfigRaw ? JSON.parse(profileConfigRaw) : {};
@@ -372,12 +372,14 @@ userPreferences: any = {};
       return;
     }
 
-    this.contentService.searchContent({}, {"request": {"filters": {"code": [idFmps]}}}).toPromise()
-        .then((searchResult: ContentSearchResult) => {
-          
-          this.expiryDate = (searchResult?.contentDataList?.find((contentItem: any) =>contentItem?.childNodes?.includes?.(this.identifier)) as any)?.expiry_date ?? 'NA';
-        
-        });
+    this.contentService.searchContent({}, { "request": { "filters": { "code": [idFmps] } } }).toPromise()
+      .then((searchResult: ContentSearchResult) => {
+
+        this.expiryDate = (searchResult?.contentDataList?.find((contentItem: any) => contentItem?.childNodes?.includes?.(this.identifier)) as any)?.expiry_date ?? 'NA';
+
+
+
+      });
 
   }
 
@@ -423,7 +425,7 @@ userPreferences: any = {};
     });
 
     this.events.subscribe('courseToc:content-clicked', async (data) => {
-      console.log('courseToc:content-clicked', data);
+      
       if (this.course.createdBy !== this.userId) {
         if (!data.isEnrolled && !data.isBatchNotStarted) {
           await this.joinTraining();
@@ -485,7 +487,7 @@ userPreferences: any = {};
       userId: this.userId,
       returnFreshCourses: true
     };
-    console.log('updateEnrolledCourseData');
+    
     this.updatedCourseCardData = await this.courseService.getEnrolledCourses(fetchEnrolledCourseRequest).toPromise()
       .then((enrolledCourses) => {
 
@@ -1057,7 +1059,7 @@ userPreferences: any = {};
         rollUp: this.rollUpMap[value]
       });
     });
-    console.log('in enrolled course details page', folderPath);
+    
 
     return requestParams;
   }
@@ -1264,7 +1266,7 @@ userPreferences: any = {};
             });
         }
       });
-      console.log('courseCompletionData ', this.courseCompletionData);
+     
     });
   }
 
