@@ -930,5 +930,7 @@
   "Language": "اللغة",
   "Category": "الفئة",
   "GOOGLE_LOGIN": "تسجيل الدخول باستخدام Google",
-  "NO_COURSE_ENROLLED": "أنت غير مسجل في أي دورة"
+  "NO_COURSE_ENROLLED": "أنت غير مسجل في أي دورة",
+  "EXPIRY": "انتهاء الصلاحية",
+  "EXPIRY_ON": "ينتهي في"
 }
