@@ -220,7 +220,7 @@ export class SignInPage implements OnInit {
         this.loginNavigationHandlerService.generateLoginInteractTelemetry
         (InteractType.LOGIN_INITIATE, InteractSubtype.GOOGLE, '');
         this.googlePlusLogin.login({
-            webClientId:clientId.value
+            webClientId: ""
         }).then(async (result) => {
             await this.sbProgressLoader.show({id: 'login'});
             const nativeSessionGoogleProvider = new NativeGoogleSessionProvider(() => result);
