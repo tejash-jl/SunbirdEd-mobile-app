@@ -11,7 +11,7 @@ import { TelemetryGeneratorService } from '../../services/telemetry-generator.se
 import { UtilityService } from '../../services/utility-service';
 import { AppHeaderService } from '../../services/app-header.service';
 import { DatePipe, Location } from '@angular/common';
-import {ApiService, ContentSearchCriteria, ContentSearchResult} from '@project-fmps/sunbird-sdk';
+import {ApiService,  ContentSearchResult} from '@project-fmps/sunbird-sdk';
 
 
 import {
