@@ -1420,5 +1420,7 @@
   "Organisation":"Organisation",
   "Language":"Langue",
   "Category":"Catégorie",
-  "NO_COURSE_ENROLLED": "Vous n'êtes inscrit à aucun cours"
+  "NO_COURSE_ENROLLED": "Vous n'êtes inscrit à aucun cours",
+  "EXPIRY": "Expiration",
+  "EXPIRY_ON": "Expire le"
 }

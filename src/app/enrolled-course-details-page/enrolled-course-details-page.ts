@@ -374,7 +374,9 @@ userPreferences: any = {};
 
     this.contentService.searchContent({}, {"request": {"filters": {"code": [idFmps]}}}).toPromise()
         .then((searchResult: ContentSearchResult) => {
-          this.expiryDate = searchResult?.contentDataList?.find(contentItem => contentItem?.childNodes?.includes(this.identifier))?.expiry_date;
+          
+          this.expiryDate = (searchResult?.contentDataList?.find((contentItem: any) =>contentItem?.childNodes?.includes?.(this.identifier)) as any)?.expiry_date ?? 'NA';
+        
         });
 
   }
