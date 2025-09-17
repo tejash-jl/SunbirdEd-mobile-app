@@ -5,6 +5,7 @@
 
 
 :host {
+  --expiry-bg: #fff;
     ion-card{
       margin: 0 0 10px 0 !important;
       --ion-item-background: white;
@@ -624,7 +625,31 @@ margin-top: -13px; opacity: 1;
   }
 
 }
+/* Card itself */
+.expiry-card {
+  --background: var(--expiry-bg) !important;
+  --ion-card-background: var(--expiry-bg) !important; /* for older Ionic */
+  background: var(--expiry-bg) !important;
+}
 
+/* Header item */
+.expiry-card ion-item {
+  --background: var(--expiry-bg) !important;
+  --ion-item-background: var(--expiry-bg) !important;
+  background: var(--expiry-bg) !important;
+}
+
+/* Accordion parts (Shadow DOM) */
+.expiry-accordion::part(header),
+.expiry-accordion::part(content) {
+  background: var(--expiry-bg) !important;
+}
+
+/* Group container */
+.expiry-card ion-accordion-group {
+  --background: var(--expiry-bg) !important;
+  background: var(--expiry-bg) !important;
+}
 
 .course-details{
   ion-card-title{
