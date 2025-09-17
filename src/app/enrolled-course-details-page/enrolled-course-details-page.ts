@@ -77,8 +77,7 @@ import { ActivityData } from '../my-groups/group.interface';
 import { FormAndFrameworkUtilService } from './../../services/formandframeworkutil.service';
 import { FilePathService } from '../../services/file-path/file.service';
 import { FilePaths } from '../../services/file-path/file';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {contentService} from "@app/app/app.module";
+
 // import {ContentSearchApiHandler} from "@project-fmps/sunbird-sdk/content/handlers/import/content-search-api-handler";
 
 declare const cordova;
@@ -91,7 +90,7 @@ declare const cordova;
 export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopoverActionsDelegate {
 
 
-// if you actually maintain user prefs, set real values; else keep as {}
+
 
   /**
    * Contains content details
