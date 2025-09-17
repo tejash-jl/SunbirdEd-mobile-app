@@ -1421,6 +1421,5 @@
   "Language":"Language",
   "Category":"Category",
   "NO_COURSE_ENROLLED":"you are not enrolled to any courses",
-  "EXPIRY": "Expiry Date",
-  "EXPIRY_ON": "Expires on"
+  "EXPIRY": "Expiry Date"
 }
