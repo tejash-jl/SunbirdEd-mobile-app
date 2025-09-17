@@ -170,13 +170,14 @@ export class DistrictMappingPage implements OnDestroy {
     }
   }
 
-  async submit() {
+  async submit(s: string = "LP_FMPS_MA_002") {
     await this.saveDeviceLocation();
     const locationCodes = [];
-    for(const acc in this.formGroup.value.children['persona']) {
-      if (this.formGroup.value.children['persona'][acc]) {
-        const location: SbLocation = this.formGroup.value.children['persona'][acc] as SbLocation;
-        if (location.type) {
+    const personaChildren = this.formGroup?.value?.children?.persona ?? {};
+    for (const acc in personaChildren) {
+      if (personaChildren[acc]) {
+        const location: SbLocation = personaChildren[acc] as SbLocation;
+        if (location?.type) {
           locationCodes.push({
             type: location.type,
             code: location.code
@@ -185,7 +186,7 @@ export class DistrictMappingPage implements OnDestroy {
       }
     }
 
-    const corRelationList: CorrelationData[] =  locationCodes.map(r => ({ type: r.type, id: r.code || '' }));
+    const corRelationList: CorrelationData[] = locationCodes.map(r => ({ type: r.type, id: r.code || '' }));
     this.generateSubmitInteractEvent(corRelationList);
     this.telemetryGeneratorService.generateInteractTelemetry(
       this.isLocationUpdated ? InteractType.LOCATION_CHANGED : InteractType.LOCATION_UNCHANGED,
@@ -203,52 +204,61 @@ export class DistrictMappingPage implements OnDestroy {
         this.commonUtilService.showToast('INTERNET_CONNECTIVITY_NEEDED');
         return;
       }
-      const name = this.formGroup.value['name'].replace(RegexPatterns.SPECIALCHARECTERSANDEMOJIS, '').trim();
+      const name = (this.formGroup?.value?.name ?? '').replace(RegexPatterns.SPECIALCHARECTERSANDEMOJIS, '').trim();
       const userTypes = [];
-      if (this.formGroup.value['persona'] && this.formGroup.value.children['persona'] && this.formGroup.value.children['persona']['subPersona'] && this.formGroup.value.children['persona']['subPersona'].length) {
-        if (typeof this.formGroup.value.children['persona']['subPersona'] === 'string') {
+      const personaValue = this.formGroup?.value?.persona;
+      const subPersonaValue = this.formGroup?.value?.children?.persona?.subPersona;
+      if (personaValue && subPersonaValue && subPersonaValue.length) {
+        if (typeof subPersonaValue === 'string') {
           userTypes.push({
-            type: this.formGroup.value['persona'],
-            subType: this.formGroup.value.children['persona']['subPersona'] || undefined
+            type: personaValue,
+            subType: subPersonaValue || undefined
           });
-        }
-        else if (Array.isArray(this.formGroup.value.children['persona']['subPersona'])) {
-          for (let i = 0; i < this.formGroup.value.children['persona']['subPersona'].length; i++) {
-            if(this.formGroup.value.children['persona']['subPersona'][i]){
+        } else if (Array.isArray(subPersonaValue)) {
+          for (let i = 0; i < subPersonaValue.length; i++) {
+            if (subPersonaValue[i]) {
               userTypes.push({
-                "type": this.formGroup.value['persona'],
-                "subType": this.formGroup.value.children['persona']['subPersona'][i]
-              })
+                type: personaValue,
+                subType: subPersonaValue[i]
+              });
             }
           }
         }
-      }
-      else{
+      } else if (personaValue) {
         userTypes.push({
-          "type" : this.formGroup.value['persona']
+          type: personaValue
         });
       }
       const req = {
-        userId: this.appGlobalService.getCurrentUser().uid || this.profile.uid,
+        userId: this.appGlobalService.getCurrentUser()?.uid || this.profile?.uid,
         profileLocation: locationCodes,
         ...(name ? { firstName: name } : {}),
         lastName: '',
-        profileUserTypes: userTypes
+        // profileUserTypes: userTypes,
+        framework: {
+          "category":[],
+          "id":["FMPS"],
+          "language":["Arabic"],
+          "organisation":["FMPS"],
+          "profileConfig":[ JSON.stringify(this.formGroup.value)]
+        }
       };
-      if (this.isGoogleSignIn && this.userData.isMinor) {
-          const navigationExtras: NavigationExtras = {
-            state: {
-              userData: {...this.userData,
-                location: this.formGroup.value.children['persona'],
-                profileUserTypes: userTypes,
-                userId: this.appGlobalService.getCurrentUser().uid || this.profile.uid}
+      if (this.isGoogleSignIn && this.userData?.isMinor) {
+        const navigationExtras: NavigationExtras = {
+          state: {
+            userData: {
+              ...this.userData,
+              location: personaChildren,
+              profileUserTypes: userTypes,
+              userId: this.appGlobalService.getCurrentUser()?.uid || this.profile?.uid
             }
-          };
-          await this.router.navigate([RouterLinks.SIGNUP_EMAIL], navigationExtras);
+          }
+        };
+        await this.router.navigate([RouterLinks.SIGNUP_EMAIL], navigationExtras);
       } else {
         if (this.isGoogleSignIn) {
-          req['firstName'] = this.userData.name;
-          req['dob'] = this.userData.dob;
+          req['firstName'] = this.userData?.name;
+          req['dob'] = this.userData?.dob;
         }
         const loader = await this.commonUtilService.getLoader();
         await loader.present();
@@ -256,8 +266,8 @@ export class DistrictMappingPage implements OnDestroy {
         this.profileService.updateServerProfile(req).toPromise()
           .then(async () => {
             await loader.dismiss();
-            await this.preferences.putString(PreferenceKey.SELECTED_USER_TYPE, this.formGroup.value.persona).toPromise().then();
-            if (!(await this.commonUtilService.isDeviceLocationAvailable())) { // adding the device loc if not available
+            await this.preferences.putString(PreferenceKey.SELECTED_USER_TYPE, personaValue ?? '').toPromise().then();
+            if (!(await this.commonUtilService.isDeviceLocationAvailable())) {
               await this.saveDeviceLocation();
             }
             this.isLocationUpdated = false;
@@ -273,13 +283,13 @@ export class DistrictMappingPage implements OnDestroy {
                 state: categoriesProfileData
               });
             } else if (this.profile && (this.source === PageId.GUEST_PROFILE || this.source === PageId.PROFILE_NAME_CONFIRMATION_POPUP)) {
-                this.location.back();
+              this.location.back();
             } else if (this.profile && this.source === PageId.PROFILE) {
-                this.location.back();
-                if (this.profile.serverProfile && (!Object.keys(this.profile.serverProfile.profileUserType).length
-                    || (this.formGroup.value.persona !== this.profile.serverProfile.profileUserType.type))) {
-                  this.events.publish('UPDATE_TABS', {type: 'SWITCH_TABS_USERTYPE'});
-                }
+              this.location.back();
+              if (this.profile.serverProfile && (!Object.keys(this.profile.serverProfile.profileUserType ?? {}).length
+                || (personaValue !== this.profile.serverProfile.profileUserType.type))) {
+                this.events.publish('UPDATE_TABS', { type: 'SWITCH_TABS_USERTYPE' });
+              }
             } else {
               if (this.profile && !isSSOUser) {
                 await this.appGlobalService.showYearOfBirthPopup(this.profile.serverProfile);
@@ -288,11 +298,11 @@ export class DistrictMappingPage implements OnDestroy {
                 window.history.go(-this.navigateToCourse);
                 await this.externalIdVerificationService.showExternalIdVerificationPopup();
               } else {
-                this.events.publish('UPDATE_TABS', {type: 'SWITCH_TABS_USERTYPE'});
+                this.events.publish('UPDATE_TABS', { type: 'SWITCH_TABS_USERTYPE' });
                 this.events.publish('update_header');
               }
             }
-          }).catch(async () => {
+          }).catch(async (err) => {
             await loader.dismiss();
             this.commonUtilService.showToast('PROFILE_UPDATE_FAILED');
             if (this.profile) {
@@ -306,12 +316,12 @@ export class DistrictMappingPage implements OnDestroy {
             }
           });
       }
-    } else if (this.source === PageId.GUEST_PROFILE) { // block for editing the device location
-      this.generateLocationCaptured(true); // is dirtrict or location edit  = true
+    } else if (this.source === PageId.GUEST_PROFILE) {
+      this.generateLocationCaptured(true);
       await this.saveDeviceLocation();
       this.events.publish('refresh:profile');
       this.location.back();
-    } else { // add or update the device loc
+    } else {
       await this.saveDeviceLocation();
       await this.appGlobalService.setOnBoardingCompleted();
       const navigationExtras: NavigationExtras = {
@@ -339,7 +349,9 @@ export class DistrictMappingPage implements OnDestroy {
     await loader.present();
     const req: DeviceRegisterRequest = {
       userDeclaredLocation: {
-        ...(Object.keys(this.formGroup.value.children['persona']).reduce((acc, key) => {
+        ...(Object.keys((this.formGroup.value &&
+            this.formGroup.value.children &&
+            this.formGroup.value.children['persona']) || {}).reduce((acc, key) => {
           if (this.formGroup.value.children['persona'][key]) {
             acc[key] = (this.formGroup.value.children['persona'][key] as SbLocation).name;
             acc[key + 'Id'] = (this.formGroup.value.children['persona'][key] as SbLocation).id;
@@ -518,46 +530,23 @@ export class DistrictMappingPage implements OnDestroy {
     console.log('locationMappingConfig', locationMappingConfig);
     const allowed = new Set(['category', 'cin', 'idFmps', 'trainingGroup', 'province']);
 
-const filteredConfig: FieldConfig<any, any>[] = locationMappingConfig
-  .filter(f => allowed.has(f.code))
-  .map((f) => {
-    // start with a clean object (omit children entirely to satisfy the type)
-    const next: FieldConfig<any, any> = {
-      code: f.code,
-      type: f.type,
-      default: f.default ?? null,
-      templateOptions: {
-        ...(f.templateOptions || {}),
-        hidden: false,           // make sure visible
-      },
-      validations: Array.isArray(f.validations) ? [...f.validations] : [],
-    };
-
-    // Ensure `validations` use the enum (add required only if you want it)
-    if (f.code === 'province') {
-      const hasRequired = next.validations?.some(v => v.type === FieldConfigValidationType.REQUIRED);
-      if (!hasRequired) {
-        next.validations?.push({ type: FieldConfigValidationType.REQUIRED });
+    const filteredConfig: FieldConfig<any, any>[] = locationMappingConfig
+        .filter(f => allowed.has(f.code));
+    console.log('filteredConfig', filteredConfig);
+    filteredConfig.forEach(field => {
+      const match = this.profileConfig.find(item =>
+          item.key.charAt(0).toLowerCase() + item.key.slice(1) === field.code
+      );
+      if (match) {
+        field.default = match.value;
       }
-    }
-
-    return next;
-  });
-console.log('filteredConfig', filteredConfig);
-filteredConfig.forEach(field => {
-  const match = this.profileConfig.find(item =>
-    item.key.charAt(0).toLowerCase() + item.key.slice(1) === field.code
-  );
-  if (match) {
-    field.default = match.value;
-  }
-});
-this.locationFormConfig = filteredConfig;  // 
+    });
+    this.locationFormConfig = filteredConfig;  //
     // this.locationFormConfig = locationMappingConfig;
     this.hideClearButton = false;
-     if(this.params){
-    this.fieldConfig();
-  }
+    if (this.params) {
+      this.fieldConfig();
+    }
   }
  
   private setDefaultConfig(fieldConfig: FieldConfig<any>): SbLocation {
