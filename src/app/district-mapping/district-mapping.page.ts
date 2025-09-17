@@ -41,6 +41,7 @@ import { ExternalIdVerificationService } from '../../services/externalid-verific
   styleUrls: ['./district-mapping.page.scss'],
 })
 export class DistrictMappingPage implements OnDestroy {
+  profileConfig: { key: string; value: any; }[];
   get isShowBackButton(): boolean {
     if (window.history.state.isShowBackButton === undefined) {
       return true;
@@ -406,6 +407,12 @@ export class DistrictMappingPage implements OnDestroy {
   private async initialiseFormData(
     formRequest: FormRequest
   ) {
+    let parsedConfig = JSON.parse(this.profile.serverProfile.framework.profileConfig[0]);
+    this.profileConfig = Object.entries(parsedConfig).map(([key, value]) => ({
+      key: key.charAt(0).toUpperCase() + key.slice(1),
+      value
+    }));
+    console.log("this.profileConfig: ---->", this.profileConfig);
     let locationMappingConfig: FieldConfig<any>[];
     try {
       locationMappingConfig = await this.formAndFrameworkUtilService.getFormFields(formRequest);
@@ -537,6 +544,14 @@ const filteredConfig: FieldConfig<any, any>[] = locationMappingConfig
     return next;
   });
 console.log('filteredConfig', filteredConfig);
+filteredConfig.forEach(field => {
+  const match = this.profileConfig.find(item =>
+    item.key.charAt(0).toLowerCase() + item.key.slice(1) === field.code
+  );
+  if (match) {
+    field.default = match.value;
+  }
+});
 this.locationFormConfig = filteredConfig;  // 
     // this.locationFormConfig = locationMappingConfig;
     this.hideClearButton = false;
