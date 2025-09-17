@@ -41,7 +41,6 @@ import { ExternalIdVerificationService } from '../../services/externalid-verific
   styleUrls: ['./district-mapping.page.scss'],
 })
 export class DistrictMappingPage implements OnDestroy {
-  profileConfig: { key: string; value: any; }[];
   get isShowBackButton(): boolean {
     if (window.history.state.isShowBackButton === undefined) {
       return true;
@@ -170,7 +169,7 @@ export class DistrictMappingPage implements OnDestroy {
     }
   }
 
-  async submit(s: string = "LP_FMPS_MA_002") {
+  async submit() {
     await this.saveDeviceLocation();
     const locationCodes = [];
     const personaChildren = this.formGroup?.value?.children?.persona ?? {};
@@ -349,12 +348,10 @@ export class DistrictMappingPage implements OnDestroy {
     await loader.present();
     const req: DeviceRegisterRequest = {
       userDeclaredLocation: {
-        ...(Object.keys((this.formGroup.value &&
-            this.formGroup.value.children &&
-            this.formGroup.value.children['persona']) || {}).reduce((acc, key) => {
-          if (this.formGroup.value.children['persona'][key]) {
-            acc[key] = (this.formGroup.value.children['persona'][key] as SbLocation).name;
-            acc[key + 'Id'] = (this.formGroup.value.children['persona'][key] as SbLocation).id;
+        ...(Object.keys((this.formGroup?.value?.children?.persona || {})).reduce((acc, key) => {
+          if (this.formGroup?.value?.children?.persona?.[key]) {
+            acc[key] = (this.formGroup.value.children.persona[key] as SbLocation).name;
+            acc[key + 'Id'] = (this.formGroup.value.children.persona[key] as SbLocation).id;
           }
           return acc;
         }, {})),
@@ -420,11 +417,11 @@ export class DistrictMappingPage implements OnDestroy {
     formRequest: FormRequest
   ) {
     let parsedConfig = JSON.parse(this.profile.serverProfile.framework.profileConfig[0]);
-    this.profileConfig = Object.entries(parsedConfig).map(([key, value]) => ({
+    let profileConfig = Object.entries(parsedConfig).map(([key, value]) => ({
       key: key.charAt(0).toUpperCase() + key.slice(1),
       value
     }));
-    console.log("this.profileConfig: ---->", this.profileConfig);
+    console.log("this.profileConfig: ---->", profileConfig);
     let locationMappingConfig: FieldConfig<any>[];
     try {
       locationMappingConfig = await this.formAndFrameworkUtilService.getFormFields(formRequest);
@@ -530,15 +527,12 @@ export class DistrictMappingPage implements OnDestroy {
     console.log('locationMappingConfig', locationMappingConfig);
     const allowed = new Set(['category', 'cin', 'idFmps', 'trainingGroup', 'province']);
 
-    const filteredConfig: FieldConfig<any, any>[] = locationMappingConfig
-        .filter(f => allowed.has(f.code));
+    const filteredConfig: FieldConfig<any, any>[] = locationMappingConfig.filter(f => allowed.has(f.code));
     console.log('filteredConfig', filteredConfig);
+    const profileConfigMap = new Map(profileConfig.map(item => [item.key.charAt(0).toLowerCase() + item.key.slice(1), item.value]));
     filteredConfig.forEach(field => {
-      const match = this.profileConfig.find(item =>
-          item.key.charAt(0).toLowerCase() + item.key.slice(1) === field.code
-      );
-      if (match) {
-        field.default = match.value;
+      if (profileConfigMap.has(field.code)) {
+        field.default = profileConfigMap.get(field.code);
       }
     });
     this.locationFormConfig = filteredConfig;  //
