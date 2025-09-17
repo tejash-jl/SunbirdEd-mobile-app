@@ -11,7 +11,7 @@ import { TelemetryGeneratorService } from '../../services/telemetry-generator.se
 import { UtilityService } from '../../services/utility-service';
 import { AppHeaderService } from '../../services/app-header.service';
 import { DatePipe, Location } from '@angular/common';
-import {ApiService,  ContentSearchResult} from '@project-fmps/sunbird-sdk';
+import { ContentSearchResult} from '@project-fmps/sunbird-sdk';
 
 
 import {
@@ -89,13 +89,10 @@ declare const cordova;
   styleUrls: ['./enrolled-course-details-page.scss'],
 })
 export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopoverActionsDelegate {
-formField = {
-  facet: 'Code',         // change to your facet label if needed
-  aggregate: 'code'      // change to the aggregate key your mapping expects
-};
+
 
 // if you actually maintain user prefs, set real values; else keep as {}
-userPreferences: any = {};
+
   /**
    * Contains content details
    */
@@ -211,7 +208,7 @@ userPreferences: any = {};
   showUnenrollButton = false;
   licenseDetails;
   forumId?: string;
-  profileConfig: any = {};
+  
 
   @ViewChild('stickyPillsRef', { static: false }) stickyPillsRef: ElementRef;
   @ViewChild(AccessDiscussionComponent, { static: false }) accessDiscussionComponent: AccessDiscussionComponent;
@@ -270,7 +267,6 @@ userPreferences: any = {};
   constructor(
     @Inject('PROFILE_SERVICE') private profileService: ProfileService,
     @Inject('CONTENT_SERVICE') private contentService: ContentService,
-    @Inject('API_SERVICE') private apiService: ApiService,
     @Inject('EVENTS_BUS_SERVICE') private eventsBusService: EventsBusService,
     @Inject('COURSE_SERVICE') private courseService: CourseService,
     @Inject('SHARED_PREFERENCES') private preferences: SharedPreferences,
@@ -300,7 +296,7 @@ userPreferences: any = {};
     private formAndFrameworkUtilService: FormAndFrameworkUtilService,
     private filePathService: FilePathService,
     
-    private http: HttpClient,
+   
 
   ) {
     this.objRollup = new Rollup();
@@ -350,7 +346,7 @@ userPreferences: any = {};
    */
   async ngOnInit() {
     await this.fetchExpiryDateFromProfileConfig();
-    // this.profileConfig = await this.getProfileConfig();
+    
     this.appName = await this.commonUtilService.getAppName();
     await this.subscribeUtilityEvents();
     if (this.courseCardData.batchId) {
