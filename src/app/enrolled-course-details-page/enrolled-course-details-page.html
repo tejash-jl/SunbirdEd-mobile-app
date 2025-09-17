@@ -335,30 +335,27 @@
 					</div>
 				</ion-card-content>
 			</ion-card>
-			
-
-			<ng-container *ngSwitchCase="'info'">
-				<ion-card *ngIf="expiryDate" class="expiry-card" [style.--background]="'#fff'"
-					[style.--ion-card-background]="'#fff'" style="background:#fff">
-					<ion-card-content class="ion-no-padding" [style.--background]="'#fff'" style="background:#fff">
-						<ion-accordion-group [style.--background]="'#fff'" style="background:#fff">
-							<ion-accordion value="expiry" [style.--background]="'#fff'" style="background:#fff">
-								<ion-item slot="header" lines="none" detail="false" [style.--background]="'#fff'"
-									[style.--ion-item-background]="'#fff'" style="background:#fff">
-									<ion-label>
-										<strong>{{ 'EXPIRY' | translate }}</strong>
-									</ion-label>
-								</ion-item>
-			
-								<div slot="content" class="ion-padding" style="background:#fff">
-									<p>{{ expiryDate | date:'fullDate' }}</p>
-								</div>
-							</ion-accordion>
-						</ion-accordion-group>
-					</ion-card-content>
-				</ion-card>
-			</ng-container>
-
+				<!--expiry date-->
+				<ng-container *ngSwitchCase="'info'">
+					<ion-card *ngIf="expiryDate" class="expiry-card">
+						<ion-card-content class="ion-no-padding">
+							<ion-accordion-group>
+								<ion-accordion value="expiry" class="expiry-accordion">
+									<ion-item slot="header" lines="none" detail="false">
+										<ion-label>
+											<strong>{{ 'EXPIRY' | translate }}</strong>
+										</ion-label>
+									</ion-item>
+				
+									<div slot="content" class="ion-padding">
+										<p>{{ expiryDate && expiryDate !== 'NA' ? (expiryDate | date:'fullDate') : "NA" }}</p>
+				
+									</div>
+								</ion-accordion>
+							</ion-accordion-group>
+						</ion-card-content>
+					</ion-card>
+				</ng-container>
 
 			
 			<!--credits and license info-->
