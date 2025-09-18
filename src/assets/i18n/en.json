@@ -1420,5 +1420,6 @@
   "Organisation":"Organisation",
   "Language":"Language",
   "Category":"Category",
-  "NO_COURSE_ENROLLED":"you are not enrolled to any courses"
+  "NO_COURSE_ENROLLED":"You are not enrolled to any courses",
+  "EXPIRY": "Expiry Date"
 }

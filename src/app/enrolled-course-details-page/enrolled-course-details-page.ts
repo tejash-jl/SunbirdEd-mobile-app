@@ -11,6 +11,7 @@ import { TelemetryGeneratorService } from '../../services/telemetry-generator.se
 import { UtilityService } from '../../services/utility-service';
 import { AppHeaderService } from '../../services/app-header.service';
 import { DatePipe, Location } from '@angular/common';
+import { ContentSearchResult} from '@project-fmps/sunbird-sdk';
 
 
 import {
@@ -58,7 +59,7 @@ import { ContentDeleteHandler } from '../../services/content/content-delete-hand
 import { LocalCourseService, ConsentPopoverActionsDelegate } from '../../services/local-course.service';
 import { EnrollCourse } from './course.interface';
 import { SbSharePopupComponent } from '../components/popups/sb-share-popup/sb-share-popup.component';
-import { share } from 'rxjs/operators';
+import {map, share } from 'rxjs/operators';
 import { SbProgressLoader } from '../../services/sb-progress-loader.service';
 import { CsGroupAddableBloc } from '@project-sunbird/client-services/blocs';
 import { CsPrimaryCategory } from '@project-sunbird/client-services/services/content';
@@ -77,6 +78,8 @@ import { FormAndFrameworkUtilService } from './../../services/formandframeworkut
 import { FilePathService } from '../../services/file-path/file.service';
 import { FilePaths } from '../../services/file-path/file';
 
+// import {ContentSearchApiHandler} from "@project-fmps/sunbird-sdk/content/handlers/import/content-search-api-handler";
+
 declare const cordova;
 
 @Component({
@@ -85,6 +88,9 @@ declare const cordova;
   styleUrls: ['./enrolled-course-details-page.scss'],
 })
 export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopoverActionsDelegate {
+
+
+
 
   /**
    * Contains content details
@@ -132,6 +138,8 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
    * To hold identifier
    */
   identifier: string;
+
+  expiryDate: string = "NA";
   /**
    * Contains child content import / download progress
    */
@@ -199,7 +207,7 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
   showUnenrollButton = false;
   licenseDetails;
   forumId?: string;
-
+  
 
   @ViewChild('stickyPillsRef', { static: false }) stickyPillsRef: ElementRef;
   @ViewChild(AccessDiscussionComponent, { static: false }) accessDiscussionComponent: AccessDiscussionComponent;
@@ -263,6 +271,7 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
     @Inject('SHARED_PREFERENCES') private preferences: SharedPreferences,
     @Inject('AUTH_SERVICE') public authService: AuthService,
     @Inject('DOWNLOAD_SERVICE') private downloadService: DownloadService,
+    
     private zone: NgZone,
     private events: Events,
     private fileSizePipe: FileSizePipe,
@@ -285,6 +294,9 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
     private tncUpdateHandlerService: TncUpdateHandlerService,
     private formAndFrameworkUtilService: FormAndFrameworkUtilService,
     private filePathService: FilePathService,
+    
+   
+
   ) {
     this.objRollup = new Rollup();
     this.csGroupAddableBloc = CsGroupAddableBloc.instance;
@@ -332,6 +344,8 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
    * Angular life cycle hooks
    */
   async ngOnInit() {
+    await this.fetchExpiryDateFromProfileConfig();
+    
     this.appName = await this.commonUtilService.getAppName();
     await this.subscribeUtilityEvents();
     if (this.courseCardData.batchId) {
@@ -339,6 +353,49 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
     }
     await this.generateDataForDF();
   }
+
+  async fetchExpiryDateFromProfileConfig(): Promise<any> {
+    const activeProfile = await this.profileService
+      .getActiveSessionProfile({ requiredFields: ProfileConstants.REQUIRED_FIELDS })
+      .toPromise();
+    try {
+      const profileConfigRaw = activeProfile?.serverProfile?.framework?.profileConfig?.[0];
+
+      let profileConfig: any = {};
+      try {
+        profileConfig = profileConfigRaw ? JSON.parse(profileConfigRaw) : {};
+      } catch (e) {
+        console.warn('Invalid profileConfig JSON; defaulting to {}', e);
+        profileConfig = {};
+      }
+
+      const idFmps = profileConfig?.idFmps;
+      if (!idFmps) {
+        console.warn('idFmps missing in profileConfig; skipping.');
+        return;
+      }
+
+      this.contentService
+        .searchContent({}, { request: { filters: { code: [idFmps] } } })
+        .toPromise()
+        .then((searchResult: ContentSearchResult) => {
+          this.expiryDate =
+            (searchResult?.contentDataList?.find(
+              (contentItem: any) => contentItem?.childNodes?.includes?.(this.identifier)
+            ) as any)?.expiry_date ?? 'NA';
+        })
+        .catch((err: any) => {
+          console.error('searchContent failed:', err);
+          this.expiryDate = 'NA';
+        });
+
+    } catch (err) {
+      console.error('profileConfig block failed:', err);
+      this.expiryDate = 'NA';
+    }
+
+  }
+
 
   async showDeletePopup() {
     this.contentDeleteObservable = this.contentDeleteHandler.contentDeleteCompleted$.subscribe(async () => {
@@ -381,7 +438,7 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
     });
 
     this.events.subscribe('courseToc:content-clicked', async (data) => {
-      console.log('courseToc:content-clicked', data);
+      
       if (this.course.createdBy !== this.userId) {
         if (!data.isEnrolled && !data.isBatchNotStarted) {
           await this.joinTraining();
@@ -443,7 +500,7 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
       userId: this.userId,
       returnFreshCourses: true
     };
-    console.log('updateEnrolledCourseData');
+    
     this.updatedCourseCardData = await this.courseService.getEnrolledCourses(fetchEnrolledCourseRequest).toPromise()
       .then((enrolledCourses) => {
 
@@ -1015,7 +1072,7 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
         rollUp: this.rollUpMap[value]
       });
     });
-    console.log('in enrolled course details page', folderPath);
+    
 
     return requestParams;
   }
@@ -1222,7 +1279,7 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
             });
         }
       });
-      console.log('courseCompletionData ', this.courseCompletionData);
+     
     });
   }
 
