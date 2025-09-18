@@ -103,7 +103,7 @@
 
   ion-label {
     color: map-get($colors, primary_black);
-    font-family: "Noto Sans", sans-serif;
+    font-family:"Times New Roman", Arial, serif;
     font-size: $font-size-base;
     letter-spacing: 0;
     line-height: 1.188rem;
@@ -120,7 +120,7 @@
 
 .sp-input-title{
   color: map-get($colors, primary_black);
-  font-family: "Noto Sans", sans-serif;
+  font-family:"Times New Roman", Arial, serif;
   font-size: $font-size-base;
   letter-spacing: 0;
   line-height: 1.188rem;
@@ -155,7 +155,7 @@ ion-footer{
   ion-button{
     --background: #{$blue} !important;
     height: 2.5rem !important;
-    font-family: "Noto Sans", sans-serif;
+    font-family:"Times New Roman", Arial, serif;
     font-size: 1rem;
   }
 }
