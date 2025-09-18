@@ -182,9 +182,9 @@ export class CategoriesEditPage implements OnInit, OnDestroy {
    */
   async ionViewWillEnter() {
     this.frameworkId = this.profile.syllabus[0];
-    await this.setDefaultBMG();
     await this.initializeLoader();
     await this.loader.present();
+    await this.setDefaultBMG();
     this.getCategoriesAndUpdateAttributes();
     if (this.appGlobalService.isUserLoggedIn()) {
       // await this.getLoggedInFrameworkCategory();
@@ -208,7 +208,9 @@ export class CategoriesEditPage implements OnInit, OnDestroy {
         }
       });
     }
-    await this.loader.dismiss();
+    setTimeout(() => {
+      this.loader.dismiss();
+    }, 5000);
   }
 
   async ionViewDidEnter() {
