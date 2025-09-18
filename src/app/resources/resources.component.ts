@@ -633,6 +633,7 @@ export class ResourcesComponent implements OnInit, AfterViewInit, OnDestroy, Fra
   }
 
   async ionViewWillEnter() {
+    await this.getEnrolledCourses();
     this.events.subscribe('update_header', async () => {
       await this.headerService.showHeaderWithHomeButton(['search', 'download', 'notification']);
     });
