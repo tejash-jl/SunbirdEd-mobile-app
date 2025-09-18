@@ -208,9 +208,7 @@ export class CategoriesEditPage implements OnInit, OnDestroy {
         }
       });
     }
-    setTimeout(() => {
-      this.loader.dismiss();
-    }, 5000);
+    await this.loader.dismiss();
   }
 
   async ionViewDidEnter() {
