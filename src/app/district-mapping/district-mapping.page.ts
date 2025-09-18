@@ -236,9 +236,9 @@ export class DistrictMappingPage implements OnDestroy {
         // profileUserTypes: userTypes,
         framework: {
           "category":[],
-          "id":["FMPS"],
-          "language":["Arabic"],
-          "organisation":["FMPS"],
+          "id":[],
+          "language":[],
+          "organisation":[],
           "profileConfig":[ JSON.stringify(this.formGroup.value)]
         }
       };
