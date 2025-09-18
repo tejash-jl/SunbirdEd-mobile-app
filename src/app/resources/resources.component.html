@@ -1,13 +1,13 @@
 <ion-content hide-header-footer class="main-container avoid-bottom-tabs-space ui-container"
   (ionScrollEnd)="logScrollEnd($event)" scrollEvents="true" #contentView>
-  <div slot="fixed" class="fixed-container">
+  <!-- <div slot="fixed" class="fixed-container">
     <sb-library-filters [list]="categoryMediumNamesArray" [selectedItems]="mediumsSelected"
       [layout]="mediumFilterLayout" (selectedFilter)="mediumClickEvent($event, true)">
     </sb-library-filters>
     <sb-library-filters [list]="categoryGradeLevelsArray" [selectedItems]="classSelected" [layout]="classFilterLayout"
       (selectedFilter)="classClickEvent($event, true);">
     </sb-library-filters>
-  </div>
+  </div> -->
   <div class="scrollable-container">
     <ion-refresher #libraryRefresher slot="fixed" (ionRefresh)="swipeDownToRefresh($event)"></ion-refresher>
     <div *ngIf="!guestUser" style="padding-top: 5px;">
