@@ -18,6 +18,7 @@ import { CorrelationData } from '@project-fmps/sunbird-sdk';
     templateUrl: 'activity-toc.page.html',
     styleUrls: ['./activity-toc.page.scss'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class ActivityTocPage {
 

@@ -67,29 +67,24 @@ import { FilePathService } from '../..//services/file-path/file.service';
 import { FilePaths } from '../..//services/file-path/file';
 
 @Component({
-  selector: 'app-search',
-  templateUrl: './search.page.html',
-  styleUrls: ['./search.page.scss'],
-  animations: [
-    trigger('labelVisibility', [
-      state(
-        'show',
-        style({
-          maxHeight: '50vh',
-          overflow: 'hidden'
-        })
-      ),
-      state(
-        'hide',
-        style({
-          maxHeight: '0',
-          overflow: 'hidden'
-        })
-      ),
-      transition('* => show', [animate('500ms ease-out')]),
-      transition('show => hide', [animate('500ms ease-in')])
-    ])
-  ],
+    selector: 'app-search',
+    templateUrl: './search.page.html',
+    styleUrls: ['./search.page.scss'],
+    animations: [
+        trigger('labelVisibility', [
+            state('show', style({
+                maxHeight: '50vh',
+                overflow: 'hidden'
+            })),
+            state('hide', style({
+                maxHeight: '0',
+                overflow: 'hidden'
+            })),
+            transition('* => show', [animate('500ms ease-out')]),
+            transition('show => hide', [animate('500ms ease-in')])
+        ])
+    ],
+    standalone: false
 })
 export class SearchPage implements OnInit, AfterViewInit, OnDestroy, OnTabViewWillEnter {
 
@@ -1223,15 +1218,13 @@ export class SearchPage implements OnInit, AfterViewInit, OnDestroy, OnTabViewWi
 
     this.showLoader = true;
 
+    let pageAssemblefilter: PageAssembleFilter = {};
     this.formAndFrameworkUtilService.getSupportedContentFilterConfig(ContentFilterConfig.NAME_DIALCODE).then(categories => {
-      this.primaryCategories = categories;
+      pageAssemblefilter.dialcodes = this.dialCode;
+      pageAssemblefilter.primaryCategory = categories;
     }).catch(e => console.log(e));
 
     // Page API START
-    const pageAssemblefilter: PageAssembleFilter = {};
-    pageAssemblefilter.dialcodes = this.dialCode;
-    pageAssemblefilter.primaryCategory = this.primaryCategories;
-
     const pageAssembleCriteria: PageAssembleCriteria = {
       name: PageName.DIAL_CODE,
       filters: pageAssemblefilter,

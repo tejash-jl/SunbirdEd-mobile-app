@@ -59,11 +59,13 @@ import { LocalNotifications } from '@capacitor/local-notifications';
 // TODO: Capacitor temp fix 
 import { Keyboard } from '@capacitor/keyboard';
 
+
 declare const window;
 
 @Component({
-  selector: 'app-root',
-  templateUrl: 'app.component.html'
+    selector: 'app-root',
+    templateUrl: 'app.component.html',
+    standalone: false
 })
 export class AppComponent implements OnInit, AfterViewInit {
   rootPage: any;
@@ -124,6 +126,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     private networkAvailability: NetworkAvailabilityToastService,
     private splashScreenService: SplashScreenService,
     private localCourseService: LocalCourseService,
+    
     // TODO: Capacitor temp fix 
     // private splaschreenDeeplinkActionHandlerDelegate: SplaschreenDeeplinkActionHandlerDelegate,
     // private utils: ApiUtilsService,
@@ -217,7 +220,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.handleBackButton();
       await this.appRatingService.checkInitialDate();
       this.getCampaignParameter();
-      this.checkForCodeUpdates();
+      // this.checkForCodeUpdates();
       this.checkAndroidWebViewVersion();
       await this.checkForTheme();
       this.onTraceIdUpdate();
@@ -552,7 +555,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       }
       // TODO: Capacitor temp fix 
       await this.splashScreenService.handleSunbirdSplashScreenActions().then().catch();
-      this.checkForCodeUpdates();
+      // this.checkForCodeUpdates();
       await this.notificationSrc.handleNotification().then().catch();
       this.isForeground = true;
       this.segmentationTagService.getPersistedSegmentaion();
@@ -862,7 +865,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         || (routeUrl.indexOf(RouterLinks.EXPLORE_BOOK) !== -1)
         || (routeUrl.indexOf(RouterLinks.PERMISSION) !== -1)
         || (routeUrl.indexOf(RouterLinks.LANGUAGE_SETTING) !== -1)
-        || (routeUrl.indexOf(RouterLinks.MY_GROUPS) !== -1)
+        // ||(routeUrl.indexOf(RouterLinks.MY_GROUPS) !== -1)
         || (routeUrl.indexOf(`${RouterLinks.PROJECT}/${RouterLinks.DETAILS}`) !== -1)
         || (routeUrl.indexOf(`${RouterLinks.SETTINGS}/${RouterLinks.DATA_SYNC}`) !== -1)
         || (routeUrl.indexOf(`${RouterLinks.ADD_FILE}/`) !== -1)
@@ -894,16 +897,17 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   async menuItemAction(menuName) {
     switch (menuName.menuItem) {
-      case 'MY_GROUPS':
-        this.telemetryGeneratorService.generateInteractTelemetry(
-          InteractType.TOUCH,
-          InteractSubtype.MY_GROUPS_CLICKED,
-          Environment.USER,
-          PageId.PROFILE
-        );
-        const navigationExtrasUG: NavigationExtras = { state: { profile: this.profile } };
-        await this.router.navigate([`/${RouterLinks.MY_GROUPS}`], navigationExtrasUG);
-        break;
+      // case 'MY_GROUPS':
+      //   this.telemetryGeneratorService.generateInteractTelemetry(
+      //     InteractType.TOUCH,
+      //     InteractSubtype.MY_GROUPS_CLICKED,
+      //     Environment.USER,
+      //     PageId.PROFILE
+      //   );
+      //   const navigationExtrasUG: NavigationExtras = { state: { profile: this.profile } };
+      //   await this.router.navigate([`/${RouterLinks.MY_GROUPS}`], navigationExtrasUG);
+      //   break;
+
 
       case 'SETTINGS': {
         this.telemetryGeneratorService.generateInteractTelemetry(
@@ -963,9 +967,9 @@ export class AppComponent implements OnInit, AfterViewInit {
           }
         }
         break;
-      case 'MLREPORTS':
-        await this.router.navigate([RouterLinks.REPORTS], {});
-        break;
+      // case 'MLREPORTS':
+      //   await this.router.navigate([RouterLinks.REPORTS], {});
+      //   break;
       case 'ORIENTATION':
         const currentOrientation = await this.preferences.getString(PreferenceKey.ORIENTATION).toPromise();
         if (currentOrientation === AppOrientation.LANDSCAPE) {

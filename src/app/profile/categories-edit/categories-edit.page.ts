@@ -39,9 +39,10 @@ import { TncUpdateHandlerService } from '../../../services/handlers/tnc-update-h
 
 
 @Component({
-  selector: 'app-categories-edit',
-  templateUrl: './categories-edit.page.html',
-  styleUrls: ['./categories-edit.page.scss'],
+    selector: 'app-categories-edit',
+    templateUrl: './categories-edit.page.html',
+    styleUrls: ['./categories-edit.page.scss'],
+    standalone: false
 })
 export class CategoriesEditPage implements OnInit, OnDestroy {
 
@@ -187,11 +188,11 @@ export class CategoriesEditPage implements OnInit, OnDestroy {
     await this.setDefaultBMG();
     this.getCategoriesAndUpdateAttributes();
     if (this.appGlobalService.isUserLoggedIn()) {
-      // await this.getLoggedInFrameworkCategory();
+      await this.getLoggedInFrameworkCategory();
     } else {
       await this.getSyllabusDetails();
     }
-   // this.getCategoriesAndUpdateAttributes();
+    await this.getCategoriesAndUpdateAttributes();
     this.disableSubmitButton = false;
     this.headerConfig = this.headerService.getDefaultPageConfig();
     this.headerConfig.actionButtons = [];
@@ -634,6 +635,7 @@ export class CategoriesEditPage implements OnInit, OnDestroy {
     let userFrameworkId = (this.profile && this.profile.serverProfile && this.profile.serverProfile.framework &&this.profile.serverProfile.framework.id && 
       this.profile.serverProfile.framework.id.length) ? this.profile.serverProfile?.framework?.id[0] : this.profile.syllabus[0];
     const rootOrgId = (this.profile && this.profile.serverProfile) ? this.profile.serverProfile['rootOrgId'] : undefined;
+    change = !userFrameworkId ? true : false;
     await this.formAndFrameworkUtilService.invokedGetFrameworkCategoryList((change ? this.frameworkId : userFrameworkId), rootOrgId).then(async (categories) => {
       if (categories) {
         this.categories = categories.filter(a => a.code !== "category").sort((a,b) => a.index - b.index);
@@ -649,13 +651,11 @@ export class CategoriesEditPage implements OnInit, OnDestroy {
         this.categories[0]['itemList'] = change ? this.syllabusList : [];
         await this.setFrameworkCategory1Value();
         await this.setCategoriesTerms()
-        if (!change) {
-          this.initializeNewForm()
-          for (var key of Object.keys(categoryDetails)) {
-            if (this.editProfileForm.get(key) && key !== 'id') {
-              let value = Array.isArray(categoryDetails[key]) ? categoryDetails[key] : [categoryDetails[key]]
-              this.editProfileForm.get(key).patchValue(value);
-            }
+        this.initializeNewForm()
+        for (var key of Object.keys(categoryDetails)) {
+          if (this.editProfileForm.get(key) && key !== 'id') {
+            let value = Array.isArray(categoryDetails[key]) ? categoryDetails[key] : [categoryDetails[key]]
+            this.editProfileForm.get(key).patchValue(value);
           }
         }
       }

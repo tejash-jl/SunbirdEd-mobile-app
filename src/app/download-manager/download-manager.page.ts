@@ -35,15 +35,17 @@ import {
 import { DownloadsTabComponent } from './downloads-tab/downloads-tab.component';
 import { finalize, tap, skip, takeWhile } from 'rxjs/operators';
 import { ContentUtil } from '../../util/content-util';
+import _ from 'lodash';
 // TODO: Capacitor temp fix 
 // import { DbService } from '../manage-learn/core/services/db.service';
 // import { UtilsService, LocalStorageService } from '../manage-learn/core';
 // import { storageKeys } from '../manage-learn/storageKeys';
 
 @Component({
-  selector: 'app-download-manager',
-  templateUrl: './download-manager.page.html',
-  styleUrls: ['./download-manager.page.scss'],
+    selector: 'app-download-manager',
+    templateUrl: './download-manager.page.html',
+    styleUrls: ['./download-manager.page.scss'],
+    standalone: false
 })
 export class DownloadManagerPage implements DownloadManagerPageInterface, OnInit {
   headerObservable: any;
@@ -193,6 +195,7 @@ export class DownloadManagerPage implements DownloadManagerPageInterface, OnInit
         //     data.push(res);
         //   });
         // }).catch(err => console.log(err));
+        data = _.uniqBy(data, 'identifier');
         await this.ngZone.run(async () => {
           this.downloadedContents = data;
         });

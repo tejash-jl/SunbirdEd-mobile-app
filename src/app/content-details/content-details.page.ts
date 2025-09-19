@@ -99,10 +99,11 @@ import { FilePaths } from '../..//services/file-path/file';
 declare const cordova;
 declare const window;
 @Component({
-  selector: 'app-content-details',
-  templateUrl: './content-details.page.html',
-  styleUrls: ['./content-details.page.scss'],
-  encapsulation: ViewEncapsulation.None
+    selector: 'app-content-details',
+    templateUrl: './content-details.page.html',
+    styleUrls: ['./content-details.page.scss'],
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class ContentDetailsPage implements OnInit, OnDestroy {
   appName: any;
@@ -358,6 +359,7 @@ export class ContentDetailsPage implements OnInit, OnDestroy {
       this.generateEndEvent();
       this.content = data.content;
       this.downloadAndPlayContents(this.content);
+      this.downloadAndPlayContents(this.content);
       this.course = data.course;
       await this.getNavParams();
       setTimeout(() => {
@@ -580,6 +582,7 @@ export class ContentDetailsPage implements OnInit, OnDestroy {
     }
 
     this.content = data;
+    this.downloadAndPlayContents(this.content);
     this.downloadAndPlayContents(this.content);
     if (data.contentData.licenseDetails && Object.keys(data.contentData.licenseDetails).length) {
       this.licenseDetails = data.contentData.licenseDetails;
@@ -1555,6 +1558,7 @@ export class ContentDetailsPage implements OnInit, OnDestroy {
       content.contentData.status === ContentFilterConfig.CONTENT_STATUS_UNLISTED);
     if (this.limitedShareContentFlag) {
       this.content = content;
+      this.downloadAndPlayContents(this.content);
       this.downloadAndPlayContents(this.content);
       this.playingContent = content;
       this.identifier = content.contentId || content.identifier;

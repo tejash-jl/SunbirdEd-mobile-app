@@ -5,8 +5,9 @@ import { tap } from 'rxjs/operators';
 import { CorrelationData, Rollup } from '@project-fmps/sunbird-sdk';
 
 @Component({
-  selector: 'sb-popover',
-  templateUrl: 'sb-popover.component.html'
+    selector: 'sb-popover',
+    templateUrl: 'sb-popover.component.html',
+    standalone: false
 })
 export class SbPopoverComponent implements OnDestroy {
   sbPopoverHeading: any;

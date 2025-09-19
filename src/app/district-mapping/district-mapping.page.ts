@@ -37,9 +37,10 @@ import { ExternalIdVerificationService } from '../../services/externalid-verific
 import {CachedItemRequestSourceFrom, ServerProfileDetailsRequest} from "sunbird-sdk";
 
 @Component({
-  selector: 'app-district-mapping',
-  templateUrl: './district-mapping.page.html',
-  styleUrls: ['./district-mapping.page.scss'],
+    selector: 'app-district-mapping',
+    templateUrl: './district-mapping.page.html',
+    styleUrls: ['./district-mapping.page.scss'],
+    standalone: false
 })
 export class DistrictMappingPage implements OnDestroy {
   get isShowBackButton(): boolean {

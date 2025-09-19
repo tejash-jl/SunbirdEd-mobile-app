@@ -20,10 +20,11 @@ import { Location } from '@angular/common';
 declare var cordova;
 
 @Component({
-  selector: 'app-certificate-view',
-  templateUrl: './certificate-view.page.html',
-  styleUrls: ['./certificate-view.page.scss'],
-  providers: [CertificateDownloadService]
+    selector: 'app-certificate-view',
+    templateUrl: './certificate-view.page.html',
+    styleUrls: ['./certificate-view.page.scss'],
+    providers: [CertificateDownloadService],
+    standalone: false
 })
 export class CertificateViewPage implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('certificateContainer', {static: true}) certificateContainer: ElementRef;
@@ -226,6 +227,20 @@ export class CertificateViewPage implements OnInit, AfterViewInit, OnDestroy {
       });
     } else {
       this.certificateContainer.nativeElement.innerHTML = template;
+      const svgElement = this.certificateContainer.nativeElement.querySelector('svg');
+      if (svgElement && svgElement.querySelectorAll) {
+        const images = svgElement.querySelectorAll('image');
+      
+        images.forEach((img: any) => {
+          img.addEventListener('error', (event: any) => {
+            console.warn('Image failed to load, removing:', event.target.getAttribute('href'));
+            event.target.remove();
+          });
+        });
+      } else {
+        console.warn('SVG element not found or invalid:', svgElement);
+      }
+
     }
   }
 
@@ -305,9 +320,7 @@ export class CertificateViewPage implements OnInit, AfterViewInit, OnDestroy {
       showBackdrop: false,
       componentProps: {
         options: [
-          { label: 'PDF', value: {} },
-          { label: 'PNG', value: {} },
-        ] || []
+          { label: 'PDF', value: {} }        ]
       },
       cssClass: 'certificate-popup'
     });

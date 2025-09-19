@@ -1,12 +1,13 @@
 import { Inject, Injectable } from '@angular/core';
 import { ContentStateResponse, GetContentStateRequest, SunbirdSdk, SharedPreferences } from '@project-fmps/sunbird-sdk';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import * as X2JS from 'x2js';
+import X2JS from 'x2js';
 import {MaxAttempt, PreferenceKey, ProfileConstants} from '../app/app.constant';
 import { Events } from '../util/events';
 import { LocalCourseService } from './local-course.service';
 import { CommonUtilService } from './common-util.service';
 import { File } from '@awesome-cordova-plugins/file/ngx';
+import { FilePathService } from './file-path/file.service';
 
 declare global {
     interface Window {
@@ -23,6 +24,7 @@ export class CanvasPlayerService {
         private localCourseService: LocalCourseService,
         private commonUtilService: CommonUtilService,
         private file: File,
+        private readAsText: FilePathService,
     ) { }
 
     /**
@@ -112,11 +114,12 @@ export class CanvasPlayerService {
      * @param {string} path Path to the xml file
      */
     xmlToJSon(path: string, file): Promise<any> {
-        if (path.length) {
+        if (path.length) { 
             const _headers = new HttpHeaders();
             const headers = _headers.set('Content-Type', 'text/xml');
+            const filePath = path+file;
             return new Promise((resolve, reject) => {
-                this.file.readAsText(path, file).then((response) => {
+                this.readAsText.readFile(filePath).then((response:any) => {
                     const x2js = new X2JS();
                     const json = x2js.xml2js(response);
                     resolve(json);
