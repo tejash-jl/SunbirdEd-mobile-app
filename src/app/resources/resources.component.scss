@@ -238,7 +238,7 @@
   font-weight: bold;
   margin-top: 35px;
   color: #222;
-  font-family: "Noto Sans", sans-serif;
+  font-family:"Times New Roman", Arial, serif;
 }
  
 .enrolled-course-id {
@@ -266,7 +266,18 @@
   border-radius: 5px;
   color: #fff;
 }
+
 .no-course-msg {
   padding: 16px; /* adjust as needed */
   text-align: center; /* optional */
+}
+
+.loader-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;     /* horizontal center */
+  justify-content: center; /* vertical center   */
+  gap: 8px;
+  min-height: 60vh;        /* gives the box height to center within */
+  text-align: center;
 }

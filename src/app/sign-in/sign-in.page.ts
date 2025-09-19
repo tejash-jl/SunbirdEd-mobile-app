@@ -122,7 +122,7 @@ export class SignInPage implements OnInit {
                         direction: 'right'
                     },
                     labelHtml: {
-                        contents: `<span aria-label="Forgot Password link,  Double tap to activate"  class="fgt-pwsd-lbl">Forgot Password ?</span>`,
+                        contents: `<span aria-label="Forgot Password link,  Double tap to activate"  class="fgt-pwsd-lbl"></span>`,
                     }
                 }
             }
@@ -219,8 +219,9 @@ export class SignInPage implements OnInit {
     async signInWithGoogle() {
         this.loginNavigationHandlerService.generateLoginInteractTelemetry
         (InteractType.LOGIN_INITIATE, InteractSubtype.GOOGLE, '');
+          const clientId = await this.systemSettingsService.getSystemSettings({id: SystemSettingsIds.GOOGLE_CLIENT_ID}).toPromise();
         this.googlePlusLogin.login({
-            webClientId:clientId.value
+            webClientId: clientId.value
         }).then(async (result) => {
             await this.sbProgressLoader.show({id: 'login'});
             const nativeSessionGoogleProvider = new NativeGoogleSessionProvider(() => result);

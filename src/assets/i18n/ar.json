@@ -932,5 +932,6 @@
   "GOOGLE_LOGIN": "تسجيل الدخول باستخدام Google",
   "NO_COURSE_ENROLLED": "أنت غير مسجل في أي دورة",
   "EXPIRY": "تاريخ انهاء الدورة",
-  "IMPORT_CONTENT":"استيراد المحتوى"
+  "IMPORT_CONTENT":"استيراد المحتوى",
+  "LOADING": "يتم تحميل المحتويات"
 }

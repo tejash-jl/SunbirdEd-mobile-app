@@ -20,8 +20,8 @@
 @import "./assets/styles/default-theme";
 
 :root {
-  --ion-default-font: "NotoSans";
-  --ion-font-family: "NotoSans";
+  --ion-default-font: "Times New Roman", Arial, serif;
+  --ion-font-family: "Times New Roman", Arial, serif;
 }
 
 html,
@@ -29,12 +29,12 @@ body {
   height: 100%;
   font-size: $font-size-base;
   @extend .NotoSans;
-  --ion-default-font: "NotoSans";
-  --ion-font-family: "NotoSans";
+  --ion-default-font: "Times New Roman", Arial, serif;
+  --ion-font-family: "Times New Roman", Arial, serif;
 }
 html.md {
-  --ion-default-font: "NotoSans";
-  --ion-font-family: "NotoSans";
+  --ion-default-font: "Times New Roman", Arial, serif;
+  --ion-font-family: "Times New Roman", Arial, serif;
 }
 rating {
   ion-button {
@@ -1207,12 +1207,12 @@ sb-library-cards-hlist {
 
 .card-section-secondary{
   color: map-get($colors, granite_gray);
-  font-family: "Noto Sans";
+  font-family:"Times New Roman", Arial, serif;
 }
 
 .card-section-danger{
   color: $orange;
-  font-family: "Noto Sans";
+  font-family: "Times New Roman", Arial, serif;
 }
 
 .card-section-invisible{
@@ -1459,7 +1459,7 @@ ion-modal.sb-progress-loader::part(content) {
   padding: 16px;
   ion-item {
     font-size: $font-size-base;
-    font-family: "Noto Sans";
+    font-family: "Times New Roman", Arial, serif;
   }
 
   ion-item:nth-child(1) {
@@ -2351,7 +2351,7 @@ app-metadata-details,app-add-file {
   height: 1.125rem;
   width: auto;
   color: map-get($colors, granite_gray);
-  font-family: "Noto Sans", sans-serif;
+  font-family: "Times New Roman", Arial, serif;
   font-size: 0.813rem !important;
   line-height: 1.25rem;
   text-align: center;

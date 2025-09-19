@@ -1421,5 +1421,6 @@
   "Language":"Langue",
   "Category":"Catégorie",
   "NO_COURSE_ENROLLED": "Vous n'êtes inscrit à aucun cours",
-  "EXPIRY": "Date d’expiration"
+  "EXPIRY": "Date d’expiration",
+  "LOADING": "Los contenidos se están cargando."
 }

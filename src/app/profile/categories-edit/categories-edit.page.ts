@@ -182,8 +182,9 @@ export class CategoriesEditPage implements OnInit, OnDestroy {
    */
   async ionViewWillEnter() {
     this.frameworkId = this.profile.syllabus[0];
-    await this.setDefaultBMG();
     await this.initializeLoader();
+    await this.loader.present();
+    await this.setDefaultBMG();
     this.getCategoriesAndUpdateAttributes();
     if (this.appGlobalService.isUserLoggedIn()) {
       // await this.getLoggedInFrameworkCategory();
@@ -207,6 +208,7 @@ export class CategoriesEditPage implements OnInit, OnDestroy {
         }
       });
     }
+    await this.loader.dismiss();
   }
 
   async ionViewDidEnter() {
@@ -448,7 +450,10 @@ export class CategoriesEditPage implements OnInit, OnDestroy {
     await this.loader.present();
     const req: UpdateServerProfileInfoRequest = {
       userId: this.profile.uid,
-      framework: this.editProfileForm.value
+      framework: {
+        ...this.profile.serverProfile.framework,
+        ...this.editProfileForm.value
+      }
     }
     req.framework[this.categories[0].code] = [this.framework.name];
     req.framework['id'] = [this.frameworkId];
@@ -631,7 +636,7 @@ export class CategoriesEditPage implements OnInit, OnDestroy {
     const rootOrgId = (this.profile && this.profile.serverProfile) ? this.profile.serverProfile['rootOrgId'] : undefined;
     await this.formAndFrameworkUtilService.invokedGetFrameworkCategoryList((change ? this.frameworkId : userFrameworkId), rootOrgId).then(async (categories) => {
       if (categories) {
-        this.categories = categories.sort((a,b) => a.index - b.index);
+        this.categories = categories.filter(a => a.code !== "category").sort((a,b) => a.index - b.index);
         this.requiredCategory = this.categories ? this.categories.map(e => e.code) : this.appGlobalService.getRequiredCategories();
         let categoryDetails = {};
         await this.getLoggedInFrameworkCategory();

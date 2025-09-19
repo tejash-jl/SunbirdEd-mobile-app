@@ -52,7 +52,7 @@ ion-icon {
 
     .use-app-label{
         color: map-get($colors, granite_gray);
-        font-family: "Noto Sans", serif;
+        font-family: "Times New Roman", Arial, serif;
         font-size: $font-size-base;
         letter-spacing: 0;
         line-height: 0.875rem;
@@ -72,7 +72,7 @@ ion-icon {
 .another-user-title{
     background-color: map-get($colors, light_grayish_green);
     color: $green;
-    font-family: "Noto Sans", serif;
+    font-family: "Times New Roman", Arial, serif;
     font-size: 1rem;
     letter-spacing: 0;
     line-height: 1rem;
@@ -140,7 +140,7 @@ ion-icon {
   
   .onoffswitch-inner:before, .onoffswitch-inner:after {
       float: left; width: 50%; height: 0.938rem; padding: 0; line-height: 0.938rem;
-      font-size: 0.5rem; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+      font-size: 0.5rem; color: white; font-family: "Times New Roman", Arial, serif; font-weight: bold;
       -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
   }
   
