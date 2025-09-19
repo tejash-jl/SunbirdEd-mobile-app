@@ -306,7 +306,6 @@ export class CertificateViewPage implements OnInit, AfterViewInit, OnDestroy {
       componentProps: {
         options: [
           { label: 'PDF', value: {} },
-          { label: 'PNG', value: {} },
         ] || []
       },
       cssClass: 'certificate-popup'
