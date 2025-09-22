@@ -2,12 +2,16 @@ apply plugin: 'com.android.application'
 import com.android.build.gradle.internal.tasks.FinalizeBundleTask
 
 ext {
-   
+    // (keep empty or add overrides as needed)
 }
 
 android {
     namespace "org.sunbird"
+
+    // Keep using the shared values from variables.gradle (rootProject.ext.*)
+    // Ensure these are defined there: compileSdkVersion=35, minSdkVersion=23, targetSdkVersion=35
     compileSdkVersion rootProject.ext.compileSdkVersion
+
     defaultConfig {
         applicationId app_id.replaceAll("\\s","")
         resValue("string", "app_name", "${app_name}")
@@ -16,67 +20,76 @@ android {
         resValue("string", "deeplink_base_url", "${deeplink_base_url}")
         resValue("string", "deeplink_igot_url", "${deeplink_igot_url}")
         resValue("string", "deeplink_ncert_url", "${deeplink_ncert_url}")
-        minSdkVersion rootProject.ext.minSdkVersion
+
+        minSdkVersion    rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-		versionCode 1
+
+        versionCode 1
         ext.buildNumber = System.getenv("TRAVIS_BUILD_NUMBER") ?: "local"
-		versionName "6.0.local"
+        versionName "6.0.local"
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
         aaptOptions {
             // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
             // Default: https://android.googlesource.com/platform/frameworks/base/+/282e181b58cf72b6ca770dc7ca5f91f135444502/tools/aapt/AaptAssets.cpp#61
             ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+
     signingConfigs {
         release {
-            storeFile = file("keystore/android_keystore.jks")
+            storeFile     = file("keystore/android_keystore.jks")
             storePassword System.getenv("PROD_SIGNING_STORE_PASSWORD")
-            keyAlias System.getenv("PROD_SIGNING_KEY_ALIAS")
-            keyPassword System.getenv("PROD_SIGNING_KEY_PASSWORD")
+            keyAlias      System.getenv("PROD_SIGNING_KEY_ALIAS")
+            keyPassword   System.getenv("PROD_SIGNING_KEY_PASSWORD")
         }
         debug {
-            storeFile = file("keystore/android_debug_keystore.jks")
-            storePassword System.getenv("DEBUG_SIGNING_STORE_PASSWORD")
-            keyAlias System.getenv("DEBUG_SIGNING_KEY_ALIAS")
-            keyPassword System.getenv("DEBUG_SIGNING_KEY_PASSWORD")
+            storeFile   = file("keystore/android_debug_keystore.jks")
+            // 👇 Fallbacks so debug builds don't fail if env vars are missing
+            storePassword (System.getenv("DEBUG_SIGNING_STORE_PASSWORD") ?: "android")
+            keyAlias      (System.getenv("DEBUG_SIGNING_KEY_ALIAS")       ?: "androiddebugkey")
+            keyPassword   (System.getenv("DEBUG_SIGNING_KEY_PASSWORD")    ?: "android")
         }
     }
+
     buildTypes {
-         debug {
-            if (project.hasProperty('enforceReleaseSigningForDebug')) {
-                signingConfig signingConfigs.debug
-            }
+        debug {
+            // Always use the debug signing config so passwords are present
+            signingConfig signingConfigs.debug
+
             buildConfigField "String", "SUPPORT_EMAIL","\"${support_email}\""
             buildConfigField 'String', 'BASE_URL', "\"${base_url}\""
             buildConfigField 'String', 'MOBILE_APP_KEY', "\"${mobile_app_key}\""
             buildConfigField 'String', 'MOBILE_APP_SECRET', "\"${mobile_app_secret}\""
             buildConfigField 'String', 'CHANNEL_ID', "\"${channel_id}\""
-            buildConfigField 'int', 'MAX_COMPATIBILITY_LEVEL', "5"
+            buildConfigField 'int',    'MAX_COMPATIBILITY_LEVEL', "5"
+            buildConfigField 'String', 'MOBILE_APP_CONSUMER', '"mobile_device"'
+            buildConfigField 'String', "REAL_VERSION_NAME", "\"${real_version_name}\""
+            buildConfigField 'String', "VERSION_NAME", "\"${version_name}\""
+            buildConfigField 'String', "TOU_BASE_URL", "\"${tou_base_url}\""
+        }
+        release {
+            signingConfig signingConfigs.release
+
+            buildConfigField "String", "SUPPORT_EMAIL","\"${support_email}\""
+            buildConfigField 'String', 'BASE_URL', "\"${base_url}\""
+            buildConfigField 'String', 'MOBILE_APP_KEY', "\"${mobile_app_key}\""
+            buildConfigField 'String', 'MOBILE_APP_SECRET', "\"${mobile_app_secret}\""
+            buildConfigField 'String', 'CHANNEL_ID', "\"${channel_id}\""
+            buildConfigField 'int',    'MAX_COMPATIBILITY_LEVEL', "5"
             buildConfigField 'String', 'MOBILE_APP_CONSUMER', '"mobile_device"'
             buildConfigField 'String', "REAL_VERSION_NAME", "\"${real_version_name}\""
             buildConfigField 'String', "VERSION_NAME", "\"${version_name}\""
             buildConfigField 'String', "TOU_BASE_URL", "\"${tou_base_url}\""
 
-        }
-        release {
-            signingConfig signingConfigs.release
-            buildConfigField "String", "SUPPORT_EMAIL","\"${support_email}\""
-            buildConfigField 'String', 'BASE_URL', "\"${base_url}\""
-            buildConfigField 'String', 'MOBILE_APP_KEY', "\"${mobile_app_key}\""
-            buildConfigField 'String', 'MOBILE_APP_SECRET', "\"${mobile_app_secret}\""
-            buildConfigField 'String', 'CHANNEL_ID', "\"${channel_id}\""
-            buildConfigField 'int', 'MAX_COMPATIBILITY_LEVEL', "5"
-            buildConfigField 'String', 'MOBILE_APP_CONSUMER', '"mobile_device"'
-            buildConfigField 'String', "REAL_VERSION_NAME", "\"${real_version_name}\""
-            buildConfigField 'String', "VERSION_NAME", "\"${version_name}\""
-            buildConfigField 'String', "TOU_BASE_URL", "\"${tou_base_url}\""
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
- applicationVariants.configureEach { variant ->
+
+    applicationVariants.configureEach { variant ->
         def artifactName = "${app_name.toLowerCase()}-${variant.getVersionName()}-${variant.buildType.name}"
         variant.outputs.configureEach {
             outputFileName = "${artifactName}.apk"
@@ -89,9 +102,8 @@ android {
     }
 } // android
 
-
 repositories {
-    flatDir{
+    flatDir {
         dirs '../capacitor-cordova-android-plugins/src/main/libs', 'libs'
     }
 }
@@ -102,9 +114,11 @@ dependencies {
     implementation "androidx.coordinatorlayout:coordinatorlayout:$androidxCoordinatorLayoutVersion"
     implementation "androidx.core:core-splashscreen:$coreSplashScreenVersion"
     implementation project(':capacitor-android')
-    testImplementation "junit:junit:$junitVersion"
+
+    testImplementation       "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
+
     implementation project(':capacitor-cordova-android-plugins')
 }
 
