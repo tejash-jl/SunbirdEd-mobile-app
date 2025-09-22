@@ -1424,7 +1424,7 @@ export class ProfilePage implements OnInit {
   }
 
   private getCategories() {
-      this.formAndFrameworkUtilService.invokedGetFrameworkCategoryList(this.profile.framework.id[0] || this.profile.syllabus[0], this.profile.rootOrgId).then((categories) => {
+      this.formAndFrameworkUtilService.invokedGetFrameworkCategoryList(this.profile.framework.id?.[0] || this.profile.syllabus?.[0], this.profile.rootOrgId).then((categories) => {
         this.categories = categories;
         this.isCategoryLoaded = true;
       }).catch(e => console.error(e));

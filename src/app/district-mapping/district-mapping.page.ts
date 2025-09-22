@@ -34,6 +34,7 @@ import { LocationConfig, PreferenceKey, ProfileConstants, RegexPatterns, RouterL
 import { FormConstants } from '../form.constants';
 import { TncUpdateHandlerService } from '../../services/handlers/tnc-update-handler.service';
 import { ExternalIdVerificationService } from '../../services/externalid-verification.service';
+import {CachedItemRequestSourceFrom, ServerProfileDetailsRequest} from "sunbird-sdk";
 
 @Component({
   selector: 'app-district-mapping',
@@ -55,6 +56,7 @@ export class DistrictMappingPage implements OnDestroy {
   locationFormConfig: FieldConfig<any>[] = [];
   hideClearButton : boolean = false;
   profile?: Profile;
+  fullProfile: any = {};
   navigateToCourse = 0;
   isGoogleSignIn = false;
   userData: any;
@@ -107,7 +109,15 @@ export class DistrictMappingPage implements OnDestroy {
 
   async ionViewWillEnter() {
     await this.initializeLoader();
+    await this.loader.present();
     this.profile = await this.profileService.getActiveSessionProfile({ requiredFields: ProfileConstants.REQUIRED_FIELDS }).toPromise();
+    const serverProfileDetailsRequest: ServerProfileDetailsRequest = {
+      userId: this.appGlobalService.getCurrentUser()?.uid || this.profile?.uid,
+      requiredFields: ProfileConstants.REQUIRED_FIELDS,
+      from: CachedItemRequestSourceFrom.SERVER
+    };
+    this.fullProfile = await this.profileService.getServerProfilesDetails(serverProfileDetailsRequest).toPromise();
+    debugger
     const isLoggedIn = this.appGlobalService.isUserLoggedIn();
     this.presetLocation = (await this.locationHandler.getAvailableLocation(
       this.profile.serverProfile ? this.profile.serverProfile : this.profile, isLoggedIn))
@@ -147,6 +157,7 @@ export class DistrictMappingPage implements OnDestroy {
       undefined,
       correlationList
     );
+    await this.loader.dismiss();
   }
 
   async initializeLoader() {
@@ -235,10 +246,7 @@ export class DistrictMappingPage implements OnDestroy {
         lastName: '',
         // profileUserTypes: userTypes,
         framework: {
-          "category":[],
-          "id":[],
-          "language":[],
-          "organisation":[],
+          ...this.fullProfile?.framework,
           "profileConfig":[ JSON.stringify(this.formGroup.value)]
         }
       };
