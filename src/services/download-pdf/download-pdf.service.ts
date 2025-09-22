@@ -3,6 +3,7 @@ import { AndroidPermissionsService } from '../android-permissions/android-permis
 import { AndroidPermission } from '../../services/android-permissions/android-permission';
 import { Content } from '@project-fmps/sunbird-sdk';
 import { CommonUtilService } from '../common-util.service';
+import { HttpClient } from '@angular/common/http';
 
 
 @Injectable({
@@ -12,7 +13,8 @@ export class DownloadPdfService {
   
   constructor(
     private permissionService: AndroidPermissionsService,
-    private commonUtilService: CommonUtilService
+    private commonUtilService: CommonUtilService,
+    private http: HttpClient
   ) { }
 
 
@@ -66,4 +68,39 @@ export class DownloadPdfService {
       });
     });
   }
+
+async downloadCertificateFromSvg(svg: string): Promise<Blob> {
+  const hasPermission = await this.ensureStoragePermission();
+  if (!hasPermission) {
+    throw new Error('Permission denied');
+  }
+
+  const blob = await this.http.post('https://dev.maharat.fmps.ma/certificate/download', {
+    data: svg
+  }, {
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-cache',
+      'Origin': 'https://dev.maharat.fmps.ma'
+    },
+    responseType: 'blob'
+  }).toPromise();
+
+  return blob;
 }
+
+
+
+  private async ensureStoragePermission(): Promise<boolean> {
+    if (await this.commonUtilService.isAndroidVer13()) {
+      return true;
+    }
+
+    const checkedStatus = await this.permissionService.checkPermissions([AndroidPermission.WRITE_EXTERNAL_STORAGE]).toPromise();
+    if (checkedStatus.hasPermission) return true;
+
+    const requestedStatus = await this.permissionService.requestPermissions([AndroidPermission.WRITE_EXTERNAL_STORAGE]).toPromise();
+    return requestedStatus.hasPermission;
+  }
+} 
