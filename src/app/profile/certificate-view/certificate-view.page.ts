@@ -15,9 +15,6 @@ import { tap } from 'rxjs/operators';
 import { CertificateDownloadService } from "@project-sunbird/sb-svg2pdf";
 import { CertificateService, InteractType } from '@project-fmps/sunbird-sdk';
 import { Location } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { DownloadPdfService } from '../../../services/download-pdf/download-pdf.service';
-// import { DownloadPdfService } from '@app/services/download-pdf/download-pdf.service';
 // TODO: Capacitor temp fix - not supported in capacitor
 // import { UnnatiDataService } from '../../../app/manage-learn/core/services/unnati-data.service';
 declare var cordova;
@@ -57,7 +54,6 @@ export class CertificateViewPage implements OnInit, AfterViewInit, OnDestroy {
   paramData;
   constructor(
     @Inject('CERTIFICATE_SERVICE') private certificateService: CertificateService,
-    private downloadPdfService: DownloadPdfService,
     private certificateDownloadService: CertificateDownloadService,
     private appHeaderService: AppHeaderService,
     private commonUtilService: CommonUtilService,
@@ -68,7 +64,6 @@ export class CertificateViewPage implements OnInit, AfterViewInit, OnDestroy {
     public platform: Platform,
     private telemetryGeneratorService: TelemetryGeneratorService,
     private location: Location,
-    private http: HttpClient,
     // TODO: Capacitor temp fix 
     // private apiService : UnnatiDataService
   ) {
@@ -234,79 +229,6 @@ export class CertificateViewPage implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  private async downloadCertificateFromAPI(svgData: string): Promise<Blob> {
-  const url = 'https://dev.maharat.fmps.ma/certificate/download';
-
-  const headers = {
-    'Accept': 'application/json, text/plain, */*',
-    'Content-Type': 'application/json',
-    'Cache-Control': 'no-cache',
-    'Origin': 'https://dev.maharat.fmps.ma'
-  };
-
-  const body = {
-    data: svgData
-  };
-
-  return this.http.post(url, body, {
-    headers,
-    responseType: 'blob'
-  }).toPromise();
-}
-  // private async listenActionEvents(option) {
-  //     const toast = await this.toastController.create({
-  //       message: this.commonUtilService.translateMessage('CERTIFICATE_DOWNLOAD_INFO')
-  //     });
-  //     await toast.present();
-
-  //     try {
-  //       const downloadRequest = await (async () => {
-          
-  //       const baseFileName =  this.pageData ?
-  //         `${this.pageData.certificate.name}_${this.pageData.courseId}_${this.activeUserId}` : 'Project_certificate'+`${this.projectData.project}_${this.activeUserId}`
-  //         const svgElement = this.certificateContainer.nativeElement.querySelector('svg');
-  //       const svgString = svgElement.outerHTML
-  //         switch (option.label) {
-  //           case 'PDF': {
-  //             this.generateDownloadTypeTelemetry('pdf');
-  //             return {
-  //               fileName: baseFileName + '.pdf',
-  //               mimeType: 'application/pdf',
-  //               // blob: await this.certificateDownloadService.buildBlob(
-  //               //   this.certificateContainer.nativeElement.querySelector('svg'),
-  //               //   'pdf'
-  //               // )
-  //               blob: await this.downloadCertificateFromAPI(svgString)
-  //             };
-  //           }
-  //           case 'PNG': {
-  //             this.generateDownloadTypeTelemetry('png');
-  //             return {
-  //               fileName: baseFileName + '.png',
-  //               mimeType: 'image/png',
-  //               blob: await this.certificateDownloadService.buildBlob(
-  //                 this.certificateContainer.nativeElement.querySelector('svg'),
-  //                 'png'
-  //               )
-  //             };
-  //           }
-  //           default: {
-  //             await toast.dismiss();
-  //             throw new Error('INVALID_OPTION');
-  //           }
-  //         }
-  //       })();
-
-  //       const { path } = await this.certificateService.downloadCertificate(downloadRequest).toPromise();
-  //       await FileOpener.open({filePath: path, contentType: downloadRequest.mimeType});
-  //     } catch (e) {
-  //       this.commonUtilService.showToast(this.commonUtilService.translateMessage('SOMETHING_WENT_WRONG'));
-  //       console.error(e);
-  //     } finally {
-  //       await toast.dismiss();
-  //     }
-
-  // }
   private async listenActionEvents(option) {
       const toast = await this.toastController.create({
         message: this.commonUtilService.translateMessage('CERTIFICATE_DOWNLOAD_INFO')
@@ -317,15 +239,16 @@ export class CertificateViewPage implements OnInit, AfterViewInit, OnDestroy {
         const downloadRequest = await (async () => {
         const baseFileName =  this.pageData ?
           `${this.pageData.certificate.name}_${this.pageData.courseId}_${this.activeUserId}` : 'Project_certificate'+`${this.projectData.project}_${this.activeUserId}`
-          const svgElement = this.certificateContainer.nativeElement.querySelector('svg');
-          const svgString = svgElement.outerHTML;
           switch (option.label) {
             case 'PDF': {
               this.generateDownloadTypeTelemetry('pdf');
               return {
                 fileName: baseFileName + '.pdf',
                 mimeType: 'application/pdf',
-                blob: await this.downloadPdfService.downloadCertificateFromSvg(svgString)
+                blob: await this.certificateDownloadService.buildBlob(
+                  this.certificateContainer.nativeElement.querySelector('svg'),
+                  'pdf'
+                )
               };
             }
             case 'PNG': {
@@ -356,6 +279,7 @@ export class CertificateViewPage implements OnInit, AfterViewInit, OnDestroy {
       }
 
   }
+
   private generateDownloadTypeTelemetry(type: string) {
     this.telemetryGeneratorService.generateInteractTelemetry(
       type, '',
