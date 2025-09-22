@@ -13,8 +13,9 @@ import { Platform, PopoverController, ToastController } from '@ionic/angular';
 import { CourseCertificate } from '@project-sunbird/client-services/models';
 import { tap } from 'rxjs/operators';
 import { CertificateDownloadService } from "@project-sunbird/sb-svg2pdf";
-import { CertificateService, InteractType } from '@project-fmps/sunbird-sdk';
+import {ApiService, CertificateService, InteractType} from '@project-fmps/sunbird-sdk';
 import { Location } from '@angular/common';
+import {CsRequest} from '@project-sunbird/client-services/core/http-service';
 // TODO: Capacitor temp fix - not supported in capacitor
 // import { UnnatiDataService } from '../../../app/manage-learn/core/services/unnati-data.service';
 declare var cordova;
@@ -54,6 +55,7 @@ export class CertificateViewPage implements OnInit, AfterViewInit, OnDestroy {
   paramData;
   constructor(
     @Inject('CERTIFICATE_SERVICE') private certificateService: CertificateService,
+    @Inject('API_SERVICE') private apiService: ApiService,
     private certificateDownloadService: CertificateDownloadService,
     private appHeaderService: AppHeaderService,
     private commonUtilService: CommonUtilService,
@@ -76,7 +78,7 @@ export class CertificateViewPage implements OnInit, AfterViewInit, OnDestroy {
         this.projectData = this.paramData;
         let keys = Object.keys(this.projectData.certificate);
         if( this.projectData.certificate &&  this.projectData.certificate.eligible && this.projectData.certificate.osid){
-          await this.getProjectCertificate();
+          // await this.getProjectCertificate();
         }else{
           if((this.projectData.certificate && (keys[this.projectData.certificate.eligible]  && !this.projectData.certificate.eligible) ) || (this.projectData.certificate && this.projectData.certificate.eligible && !this.projectData.certificate.osid)){
             this.message = 'FRMELEMNTS_MSG_PROJECT_SUBMITTED_CERTIFICATE_SOON'
@@ -94,18 +96,29 @@ export class CertificateViewPage implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {}
-  async getProjectCertificate(){
-    // TODO: Capacitor temp fix 
-    // const config ={
-    //   url : urlConstants.API_URLS.PROJECT_CERTIFICATE_DOWNLOAD + this.projectData.certificate.osid,
-    //  headers:{
-    //   template :this.projectData.templateUrl,
-    //   accept:this.acceptType
-    //  }
-    // }
-    // await this.apiService.get(config).pipe(
-    //   tap(this.initCertificateTemplate.bind(this)),
-    // ).toPromise();
+  async getProjectCertificate(): Promise<Blob> {
+    // TODO: Capacitor temp fix
+
+    const apiRequest = new CsRequest.Builder()
+        .withHost('https://dev.maharat.fmps.ma/')
+        .withType('POST')
+        .withPath('/certificate/download')
+        .withBody({
+          data: this.certificateContainer.nativeElement.querySelector('svg').outerHTML,
+        })
+        .build();
+    debugger
+    try {
+      await this.apiService.fetch(apiRequest).toPromise()
+          .then((res) => {
+            debugger
+            console.log(res)
+          });
+    } catch (e) {
+      debugger
+      console.log(e)
+    }
+    return new Blob();
   }
   ngOnDestroy() {
 
@@ -197,6 +210,7 @@ export class CertificateViewPage implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private initCertificateTemplate(template: string) {
+    debugger
     if (template.startsWith('data:image/svg+xml,')) {
       template = decodeURIComponent(template.replace(/data:image\/svg\+xml,/, '')).replace(/\<!--\s*[a-zA-Z0-9\-]*\s*--\>/g, '');
     }
@@ -245,10 +259,7 @@ export class CertificateViewPage implements OnInit, AfterViewInit, OnDestroy {
               return {
                 fileName: baseFileName + '.pdf',
                 mimeType: 'application/pdf',
-                blob: await this.certificateDownloadService.buildBlob(
-                  this.certificateContainer.nativeElement.querySelector('svg'),
-                  'pdf'
-                )
+                blob: await this.getProjectCertificate()
               };
             }
             case 'PNG': {
@@ -320,5 +331,3 @@ export class CertificateViewPage implements OnInit, AfterViewInit, OnDestroy {
     await this.listenActionEvents(data.option);
   }
 }
-
-
