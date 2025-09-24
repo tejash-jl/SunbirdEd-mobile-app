@@ -1,7 +1,8 @@
 import { Directive, DoCheck, ElementRef } from '@angular/core';
 
 @Directive({
-  selector: '[appCustomIonSelect]'
+    selector: '[appCustomIonSelect]',
+    standalone: false
 })
 export class CustomIonSelectDirective implements DoCheck {
 
@@ -11,7 +12,7 @@ export class CustomIonSelectDirective implements DoCheck {
         try {
             this.updateStyle();
         } catch (e) {
-
+            console.log(e);
         }
     }
 

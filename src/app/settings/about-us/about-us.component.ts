@@ -24,9 +24,10 @@ import { map } from 'rxjs/operators';
 const KEY_SUNBIRD_CONFIG_FILE_PATH = 'sunbird_config_file_path';
 
 @Component({
-  selector: 'app-about-us',
-  templateUrl: './about-us.component.html',
-  styleUrls: ['./about-us.component.scss'],
+    selector: 'app-about-us',
+    templateUrl: './about-us.component.html',
+    styleUrls: ['./about-us.component.scss'],
+    standalone: false
 })
 export class AboutUsComponent implements OnInit {
 
@@ -185,10 +186,8 @@ export class AboutUsComponent implements OnInit {
   async openTermsOfUse() {
     this.generateInteractTelemetry(InteractType.TOUCH, InteractSubtype.TERMS_OF_USE_CLICKED);
     const baseUrl = await this.utilityService.getBuildConfigValue('TOU_BASE_URL');
-    const url = baseUrl + RouterLinks.TERM_OF_USE;
     const options
       = 'hardwareback=yes,clearcache=no,zoom=no,toolbar=yes,disallowoverscroll=yes';
-
-    (window as any).cordova.InAppBrowser.open(url, '_blank', options);
+    (window as any).cordova.InAppBrowser.open(baseUrl, '_blank', options);
   }
 }

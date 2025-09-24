@@ -48,7 +48,7 @@
     </div> -->
    <div *ngIf="profile" class="school-details text-center">
     <div *ngIf="profile?.persona || profile?.framework" class="preference-info" aria-level="2">{{ 'CONTENT_PREFERENCE' | translate }}</div>
-    <div class="location-mapping-block">  
+    <div class="location-mapping-block">
         <div *ngFor="let item of profileConfig">
             <strong>{{ item.key }}:</strong> {{ item.value }}
         </div>
