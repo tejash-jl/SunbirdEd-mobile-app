@@ -104,19 +104,16 @@ export class CertificateViewPage implements OnInit, AfterViewInit, OnDestroy {
         .withType('POST')
         .withPath('/certificate/download')
         .withBody({
-          data: this.certificateContainer.nativeElement.querySelector('svg').outerHTML,
+          data: this.certificateContainer.nativeElement.querySelector('svg').outerHTML.toString(),
         })
         .build();
-    debugger
     try {
-      await this.apiService.fetch(apiRequest).toPromise()
+      return await this.apiService.fetch(apiRequest).toPromise()
           .then((res) => {
-            debugger
-            console.log(res)
+            return res.body
           });
     } catch (e) {
-      debugger
-      console.log(e)
+      console.error('Error downloading project certificate:', e);
     }
     return new Blob();
   }
@@ -210,7 +207,6 @@ export class CertificateViewPage implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private initCertificateTemplate(template: string) {
-    debugger
     if (template.startsWith('data:image/svg+xml,')) {
       template = decodeURIComponent(template.replace(/data:image\/svg\+xml,/, '')).replace(/\<!--\s*[a-zA-Z0-9\-]*\s*--\>/g, '');
     }
@@ -257,7 +253,7 @@ export class CertificateViewPage implements OnInit, AfterViewInit, OnDestroy {
             case 'PDF': {
               this.generateDownloadTypeTelemetry('pdf');
               return {
-                fileName: baseFileName + '.pdf',
+                fileName: 'certificate' + '.pdf',
                 mimeType: 'application/pdf',
                 blob: await this.getProjectCertificate()
               };
