@@ -53,9 +53,10 @@ import { PageFilterCallback, PageFilterPage } from '../page-filter/page-filter.p
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-courses',
-  templateUrl: './courses.page.html',
-  styleUrls: ['./courses.page.scss'],
+    selector: 'app-courses',
+    templateUrl: './courses.page.html',
+    styleUrls: ['./courses.page.scss'],
+    standalone: false
 })
 
 

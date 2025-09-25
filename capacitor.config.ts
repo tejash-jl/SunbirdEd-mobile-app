@@ -3,7 +3,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 const config: CapacitorConfig = {
   appId: 'org.sunbird.app',
   appName: 'Sunbird',
-  webDir: "www",
+  webDir: "www/browser",
   loggingBehavior: "none",
   server: {
     androidScheme: 'https',
@@ -11,7 +11,7 @@ const config: CapacitorConfig = {
   plugins: {
     FCMPlugin: {
       "ANDROID_FIREBASE_BOM_VERSION": "26.5.0",
-      "GRADLE_TOOLS_VERSION": "8.0.0",
+      "GRADLE_TOOLS_VERSION": "8.1.1",
       "GOOGLE_SERVICES_VERSION": "4.3.15",
       "ANDROID_DEFAULT_NOTIFICATION_ICON": "@mipmap/ic_launcher"
     },
@@ -30,6 +30,12 @@ const config: CapacitorConfig = {
       smallIcon: 'mipmap-hdpi-icon/ic_launcher',
       sound: "beep.wav",
     },
+    EdgeToEdge: {
+      backgroundColor: "#FFD954",
+    },
+    StatusBar: {
+      overlaysWebView: false,
+  },
   },
 };
 

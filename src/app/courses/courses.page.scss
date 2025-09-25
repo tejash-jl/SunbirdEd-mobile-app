@@ -1,8 +1,7 @@
-@import "src/assets/styles/base/_variables.scss";
-@import "src/assets/styles/_custom-mixins.scss";
-@import "src/assets/styles/fonts.scss";
-@import "src/assets/styles/_variables.scss";
-
+@import "./../../assets/styles/base/_variables.scss";
+@import "./../../assets/styles/_custom-mixins.scss";
+@import "./../../assets/styles/fonts.scss";
+@import "./../../assets/styles/_variables.scss";
 :host {
   .loading-backdrop {
     .backdrop-container {
@@ -26,36 +25,30 @@
     z-index: 1000;
     opacity: 1 !important;
   }
-  
   .inner {
     width: auto;
     height: 100%;
-
     course-card {
       display: table-cell;
     }
   }
-
   .sc-ion-buttons-md-s ion-button {
     height: 0.813rem !important;
     margin-bottom: 12px;
   }
-
   .inprogress-courses {
     .bottom-container {
       background: map-get($colors, gray_white);
     }
   }
-
   .scroll-heading {
     @include padding(10px, null, null, null);
     @extend .NotoSans-bold;
     @extend .font-weight-700;
     font-size: 1.125rem;
-    padding-left: 7px;
+    padding-left:7px;
     font-weight: 600 !important;
   }
-
   .view-all-link {
     font-size: 0.75rem;
     padding-top: 11px;
@@ -65,29 +58,23 @@
     float: right;
     // @include text-align('end');
   }
-
   .course-scroll-holder {
     background-color: map-get($colors, white_fe);
   }
-
   .toolbar-title-md {
     margin-left: -5px !important;
     @include margin(null, null, null, -5px !important);
   }
-
   .course-page-color {
     background: map-get($colors, gray_white);
   }
-
   .padding-11 {
     @include padding(11px);
     overflow: hidden;
   }
-
   .height-130 {
     height: 8.375rem;
   }
-
   .devider-line {
     background: map-get($colors, gray_white);
     height: 0.438rem;
@@ -97,19 +84,16 @@
     display: block;
     @include margin(auto);
   }
-
   ion-select {
     max-width: 75%;
     font-size: $font-size-base;
     color: map-get($colors, vived_blue_ff);
     @extend .font-weight-bold;
   }
-
   /* To give some space between the icons in the header */
   .tool-icon {
     @include margin(10px, 2px !important);
   }
-
   .offline-message {
     background-color: red !important;
     line-height: 2.5rem !important;
@@ -121,7 +105,7 @@
     display: block;
     width: 100%;
   }
-
+  
   div[scrollx=true] {
     overflow-x: auto;
     overflow-y: hidden;
@@ -131,28 +115,27 @@
     background: linear-gradient($green, $green 100px, white 100px, white 100%);
   }
 
-  .course-grid-bg {
+  .course-grid-bg{
     background-color: map-get($colors, pale_green_e0);
   }
 
-  .course-card-pd {
+  .course-card-pd{
     padding: 1px 0 12px;
   }
 
-  .section-header-style {
+  .section-header-style{
     margin-left: 10px;
     font-weight: 700;
     font-size: 1rem;
     padding-top: 14px;
     padding-bottom: 4px;
   }
-
   .animation-background {
     padding: 0 8px 0 8px;
     background-color: map-get($colors, white_f2);
   }
 
-  .sb-textbook-container {
+  .sb-textbook-container{
     padding: 0 8px !important;
   }
 
@@ -218,14 +201,14 @@
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   background-color: #fff;
 }
- 
+
 .enrolled-course-card-header {
   display: flex;
   align-items: center;
   position: relative;
   padding: 12px;
 }
- 
+
 .enrolled-course-label {
   position: absolute;
   top: 8px;
@@ -238,7 +221,7 @@
   border-radius: 4px;
   text-transform: uppercase;
 }
- 
+
 .enrolled-course-left {
   width: 20%;
   min-width: 80px;
@@ -251,7 +234,7 @@
   justify-content: center;
   padding: 10px;
 }
- 
+
 .enrolled-course-logo {
   width: 60px;
   height: 60px;
@@ -260,12 +243,12 @@
   background: #fff;
   padding: 5px;
 }
- 
+
 .enrolled-course-info {
   flex: 1;
   padding-left: 12px;
 }
- 
+
 .enrolled-course-title {
   font-size: 14px;
   font-weight: bold;
@@ -273,24 +256,24 @@
   color: #222;
   font-family: "Times New Roman", Arial, serif;
 }
- 
+
 .enrolled-course-id {
   font-size: 14px;
   color: gray;
 }
- 
+
 .enrolled-section-title {
   font-size: 18px;
   font-weight: 600;
   margin: 12px 0;
   padding: 16px;
 }
- 
+
 .enrolled-course-grid {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  
+
 }
 
 .number-of-courses {
@@ -343,14 +326,14 @@
   }
 }
 /* Hides the selected summary text inside ion-select trigger */
-.chips-only::part(text) { 
-  display: none; 
+.chips-only::part(text) {
+  display: none;
   border: none;
 }
 
 /* Keep the placeholder ("Select") visible */
-.chips-only::part(placeholder) { 
-  opacity: 1; 
+.chips-only::part(placeholder) {
+  opacity: 1;
 }
 .chips-only{
   border: none !important;

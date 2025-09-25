@@ -16,18 +16,18 @@
         </ion-item>
         <p class="share-url">{{shareUrl}}</p>
       </div>
-
+<!-- 
       <ion-item>
         <ion-label>{{shareOptions.file.name | translate}}</ion-label>
         <ion-radio slot="start" value="{{shareOptions.file.value}}"></ion-radio>
       </ion-item>
-      <p class="share-desc" *ngIf="fileSize">{{ 'DOWNLOAD_FILE_SIZE' | translate: {'%s': fileSize | fileSize } }}</p>
+      <p class="share-desc" *ngIf="fileSize">{{ 'DOWNLOAD_FILE_SIZE' | translate: {'%s': fileSize | fileSize } }}</p> -->
 
-      <ion-item *ngIf="!platform.is('ios')">
+      <!-- <ion-item *ngIf="!platform.is('ios')">
         <ion-label>{{shareOptions.save.name | translate}}</ion-label>
         <ion-radio slot="start" value="{{shareOptions.save.value}}"></ion-radio>
       </ion-item>
-      <p class="share-desc">{{'DOWNLOAD_PATH' | translate}}</p>
+      <p class="share-desc">{{'DOWNLOAD_PATH' | translate}}</p> -->
 
     </ion-radio-group>
   </ion-list>

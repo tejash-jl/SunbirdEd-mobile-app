@@ -83,9 +83,10 @@ import { FilePaths } from '../../services/file-path/file';
 declare const cordova;
 
 @Component({
-  selector: 'app-enrolled-course-details-page',
-  templateUrl: './enrolled-course-details-page.html',
-  styleUrls: ['./enrolled-course-details-page.scss'],
+    selector: 'app-enrolled-course-details-page',
+    templateUrl: './enrolled-course-details-page.html',
+    styleUrls: ['./enrolled-course-details-page.scss'],
+    standalone: false
 })
 export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopoverActionsDelegate {
 
@@ -1632,7 +1633,10 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
   }
 
   handleBackButton() {
-    this.backButtonFunc = this.platform.backButton.subscribeWithPriority(10, async () => {
+    if (this.backButtonFunc) {
+      this.backButtonFunc.unsubscribe();
+    }
+    this.backButtonFunc = this.platform.backButton.subscribe(async () => {
       this.telemetryGeneratorService.generateBackClickedTelemetry(
         PageId.COURSE_DETAIL,
         Environment.HOME,
