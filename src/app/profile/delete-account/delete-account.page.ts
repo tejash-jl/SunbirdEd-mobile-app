@@ -10,7 +10,7 @@ import {
     ProfileService,
     GenerateOtpRequest,
     VerifyOtpRequest,
-} from '@project-sunbird/sunbird-sdk';
+} from '@project-fmps/sunbird-sdk';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import {

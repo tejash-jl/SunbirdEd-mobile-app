@@ -37,9 +37,9 @@ android {
         }
         debug {
             storeFile = file("keystore/android_debug_keystore.jks")
-            storePassword System.getenv("DEBUG_SIGNING_STORE_PASSWORD")
-            keyAlias System.getenv("DEBUG_SIGNING_KEY_ALIAS")
-            keyPassword System.getenv("DEBUG_SIGNING_KEY_PASSWORD")
+            storePassword "fmps@1234"
+            keyAlias "fmps-key"
+            keyPassword "fmps@1234"
         }
     }
     buildTypes {
