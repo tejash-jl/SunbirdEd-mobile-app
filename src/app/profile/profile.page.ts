@@ -91,6 +91,8 @@ import { LocationHandler } from '../../services/location-handler';
 import { UtilityService } from '../../services/utility-service';
 import { LogoutHandlerService } from '../../services/handlers/logout-handler.service';
 import { DeleteUserRequest } from '@project-fmps/sunbird-sdk/profile/def/delete-user-request';
+
+
 @Component({
     selector: 'app-profile',
     templateUrl: './profile.page.html',
@@ -98,8 +100,78 @@ import { DeleteUserRequest } from '@project-fmps/sunbird-sdk/profile/def/delete-
     providers: [CertificateDownloadAsPdfService],
     standalone: false
 })
+
 export class ProfilePage implements OnInit {
   private frameworkCategoriesMap: { [code: string]: FrameworkCategory | undefined } = {};
+
+  // ...your existing fields
+
+   competencyData = {
+    "competencyFrameworks": [
+      {
+        "name": "Competency Framework 1",
+        "percentage": "0%",
+        "batchNumber": "Batch of 2024",
+        "levels": [
+          {
+            "name": "Level 1",
+            "percentage": "0%",
+            "courses": [
+              { "course": "Course A", "completion": "0%", "action": "Download Badge" },
+              { "course": "Course B", "completion": "60%", "action": "Download Badge" },
+              { "course": "Course C", "completion": "100%", "action": "Download Badge" },
+              
+            ]
+          },
+          {
+            "name": "Level 2",
+            "percentage": "85%",
+            "action": "Download Badge",
+            "courses": [
+              { "course": "Course D", "completion": "0%", "action": "" },
+              { "course": "Course E", "completion": "80%", "action": "Download Badge" },
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Competency Framework 2",
+        "percentage": "0%",
+        "batchNumber": "Batch of 2024",
+        "levels": [
+          {
+            "name": "Level 1",
+            "percentage": "0%",
+            "courses": [
+              { "course": "Course A", "completion": "0%", "action": "Download Badge" },
+              { "course": "Course B", "completion": "60%", "action": "Download Badge" },
+              { "course": "Course C", "completion": "100%", "action": "Download Badge" },
+              
+            ]
+          },
+          {
+            "name": "Level 2",
+            "percentage": "0%",
+            "courses": [
+              { "course": "Course D", "completion": "0%", "action": "DownloadLink" },
+              { "course": "Course E", "completion": "80%", "action": "DownloadLink" },
+            ]
+          }
+        ]
+      },
+     
+    ]
+  };
+
+  toNum(percent: string): number {
+    const n = Number((percent || '0').toString().replace('%',''));
+    return isNaN(n) ? 0 : n / 100;
+  }
+
+  onDownload(course: Course) {
+    // plug into your existing download flow here
+    // console.log('Download clicked for:', course.course);
+  }
 
   @ViewChild('refresher', { static: false }) refresher: IonRefresher;
 

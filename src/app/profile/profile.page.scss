@@ -49,7 +49,54 @@
       margin-left: 8px;
     }
   }
+    .full-card {
+      margin: 10px !important;
+      /* remove default margin */
+      width: 95.5% !important;
+      /* full width */
   
+      max-width: 100% !important;
+      border-radius: 0;
+      /* remove rounded corners if you want edge-to-edge */
+      box-shadow: none;
+      /* optional: remove card shadow for flat layout */
+  
+      ion-card-content {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  
+    .Competency-info {
+      font-weight: bold !important;
+    }
+  
+    /* Make the accordion content white */
+    .fw-content {
+      background-color: #fff;
+  
+    }
+  
+    .download-link {
+      font-size: 1rem;
+      /* same as <p> default size */
+      line-height: 1.5;
+      /* matches <p> spacing */
+      color: var(--ion-color-primary);
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  
+    ion-accordion ion-item {
+      --background: #fff;
+    }
+  
+    /* Optional: give the nested lists a white background */
+    ion-accordion ion-list {
+      background: #fff;
+    }
+
 
   ion-row {
     @include padding(0 !important);
