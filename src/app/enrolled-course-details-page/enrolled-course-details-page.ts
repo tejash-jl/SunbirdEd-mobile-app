@@ -310,21 +310,7 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
       }
     });
   }
-  private expiryCacheKey(): string {
-    return `COURSE_EXPIRY_DATE_${this.identifier || 'unknown'}`;
-  }
-
-  async clearExpiryCache(): Promise<void> {
-    const key = this.expiryCacheKey();
-    try {
-      // If SharedPreferences has remove(), use it; otherwise overwrite with empty string.
-      if ((this.preferences as any).remove) {
-        await (this.preferences as any).remove(key).toPromise();
-      } else {
-        await this.preferences.putString(key, '').toPromise();
-      }
-    } catch { }
-  }
+ 
   private setExtrasData(extrasState) {
     if (extrasState) {
       this.courseCardData = extrasState.content;
@@ -1840,7 +1826,6 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
    * Ionic life cycle hook
    */
   ionViewWillLeave(): void {
-     this.clearExpiryCache();
     this.isNavigatingWithinCourse = true;
     this.events.publish('header:setzIndexToNormal');
     if (this.eventSubscription) {
@@ -1855,7 +1840,6 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
   }
 
   ngOnDestroy() {
-     this.clearExpiryCache();
     this.events.unsubscribe(EventTopics.ENROL_COURSE_SUCCESS);
     this.events.unsubscribe('courseToc:content-clicked');
     this.events.unsubscribe(EventTopics.UNENROL_COURSE_SUCCESS);
