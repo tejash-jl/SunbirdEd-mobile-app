@@ -310,7 +310,21 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
       }
     });
   }
+  private expiryCacheKey(): string {
+    return `COURSE_EXPIRY_DATE_${this.identifier || 'unknown'}`;
+  }
 
+  async clearExpiryCache(): Promise<void> {
+    const key = this.expiryCacheKey();
+    try {
+      // If SharedPreferences has remove(), use it; otherwise overwrite with empty string.
+      if ((this.preferences as any).remove) {
+        await (this.preferences as any).remove(key).toPromise();
+      } else {
+        await this.preferences.putString(key, '').toPromise();
+      }
+    } catch { }
+  }
   private setExtrasData(extrasState) {
     if (extrasState) {
       this.courseCardData = extrasState.content;
@@ -354,48 +368,65 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
     }
     await this.generateDataForDF();
   }
+  async fetchExpiryDateFromProfileConfig(): Promise<void> {
+    const cacheKey = `COURSE_EXPIRY_DATE_${this.identifier || 'unknown'}`;
 
-  async fetchExpiryDateFromProfileConfig(): Promise<any> {
-    const activeProfile = await this.profileService
-      .getActiveSessionProfile({ requiredFields: ProfileConstants.REQUIRED_FIELDS })
-      .toPromise();
-    try {
-      const profileConfigRaw = activeProfile?.serverProfile?.framework?.profileConfig?.[0];
-
-      let profileConfig: any = {};
+    // If OFFLINE → show cached value (or 'NA' if none) and stop.
+    if (!this.commonUtilService?.networkInfo?.isNetworkAvailable) {
       try {
-        profileConfig = profileConfigRaw ? JSON.parse(profileConfigRaw) : {};
-      } catch (e) {
-        console.warn('Invalid profileConfig JSON; defaulting to {}', e);
-        profileConfig = {};
+        const cached = await this.preferences.getString(cacheKey).toPromise();
+        this.expiryDate = cached && cached.trim() ? cached : 'NA';
+      } catch {
+        this.expiryDate = 'NA';
       }
+      return;
+    }
+
+    // ONLINE → fetch, show, and cache.
+    try {
+      const activeProfile = await this.profileService
+        .getActiveSessionProfile({ requiredFields: ProfileConstants.REQUIRED_FIELDS })
+        .toPromise();
+
+      const profileConfigRaw = (activeProfile as any)?.serverProfile?.framework?.profileConfig?.[0];
+      let profileConfig: any = {};
+      try { profileConfig = profileConfigRaw ? JSON.parse(profileConfigRaw) : {}; } catch { }
 
       const idFmps = profileConfig?.idFmps;
       if (!idFmps) {
-        console.warn('idFmps missing in profileConfig; skipping.');
+        this.expiryDate = 'NA';
+        await this.preferences.putString(cacheKey, 'NA').toPromise();
         return;
       }
 
-      this.contentService
+      const sr: any = await this.contentService
         .searchContent({}, { request: { filters: { code: [idFmps] } } })
-        .toPromise()
-        .then((searchResult: ContentSearchResult) => {
-          this.expiryDate =
-            (searchResult?.contentDataList?.find(
-              (contentItem: any) => contentItem?.childNodes?.includes?.(this.identifier)
-            ) as any)?.expiry_date ?? 'NA';
-        })
-        .catch((err: any) => {
-          console.error('searchContent failed:', err);
-          this.expiryDate = 'NA';
-        });
+        .toPromise();
 
+      // Find the matching node and read either 'expiry_date' or 'expiryDate'
+      const apiDate: string | undefined =
+        ((m: any) => m?.['expiry_date'] ?? m?.['expiryDate'])(
+          (sr?.contentDataList || []).find(
+            (c: any) => Array.isArray(c?.childNodes) && c.childNodes.includes?.(this.identifier)
+          )
+        );
+
+      const finalDate = (typeof apiDate === 'string' && apiDate.trim()) ? apiDate : 'NA';
+      this.expiryDate = finalDate;                             // show API value (or NA)
+      await this.preferences.putString(cacheKey, finalDate).toPromise(); // cache it
     } catch (err) {
-      console.error('profileConfig block failed:', err);
-      this.expiryDate = 'NA';
+      console.error('fetchExpiryDateFromProfileConfig failed:', err);
+      // On error while online, fall back to cache if any, else 'NA'
+      try {
+        const cached = await this.preferences.getString(cacheKey).toPromise();
+        this.expiryDate = cached && cached.trim() ? cached : 'NA';
+      } catch {
+        this.expiryDate = 'NA';
+      }
     }
-
   }
+
+ 
 
 
   async showDeletePopup() {
@@ -1809,6 +1840,7 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
    * Ionic life cycle hook
    */
   ionViewWillLeave(): void {
+     this.clearExpiryCache();
     this.isNavigatingWithinCourse = true;
     this.events.publish('header:setzIndexToNormal');
     if (this.eventSubscription) {
@@ -1823,6 +1855,7 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
   }
 
   ngOnDestroy() {
+     this.clearExpiryCache();
     this.events.unsubscribe(EventTopics.ENROL_COURSE_SUCCESS);
     this.events.unsubscribe('courseToc:content-clicked');
     this.events.unsubscribe(EventTopics.UNENROL_COURSE_SUCCESS);
