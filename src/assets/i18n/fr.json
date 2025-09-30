@@ -1422,5 +1422,6 @@
   "Category":"Catégorie",
   "NO_COURSE_ENROLLED": "Vous n'êtes inscrit à aucun cours",
   "EXPIRY": "Date d’expiration",
-  "LOADING": "Los contenidos se están cargando."
+  "LOADING": "Los contenidos se están cargando.",
+    "COMPETENCY_FRAMEWORKS": "Cadres de compétences"
 }
