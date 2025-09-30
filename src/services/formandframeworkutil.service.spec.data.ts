@@ -411,7 +411,7 @@ export const mockforceUpgradeFormAPIResponse =
                {
                   action :  'yes' ,
                   label :  'Update Now' ,
-                  link :  'https://play.google.com/store/apps/details?id=org.sunbird.app&hl=en'
+                  link :  'https://play.google.com/store/apps/details?id=ma.fmps.maharat&hl=en'
                }
              ]
            }
