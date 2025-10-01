@@ -1422,5 +1422,6 @@
   "Category":"Category",
   "NO_COURSE_ENROLLED":"You are not enrolled to any courses",
   "EXPIRY": "Expiry Date",
-  "LOADING": "Contents are Loading"
+  "LOADING": "Contents are Loading",
+  "COMPETENCY_FRAMEWORKS": "Competency Frameworks"
 }

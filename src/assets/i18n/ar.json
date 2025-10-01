@@ -933,5 +933,6 @@
   "NO_COURSE_ENROLLED": "أنت غير مسجل في أي دورة",
   "EXPIRY": "تاريخ انهاء الدورة",
   "IMPORT_CONTENT":"استيراد المحتوى",
-  "LOADING": "يتم تحميل المحتويات"
+  "LOADING": "يتم تحميل المحتويات",
+  "COMPETENCY_FRAMEWORKS": "أُطر الكفاءات"
 }

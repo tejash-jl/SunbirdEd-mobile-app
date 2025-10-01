@@ -91,15 +91,357 @@ import { LocationHandler } from '../../services/location-handler';
 import { UtilityService } from '../../services/utility-service';
 import { LogoutHandlerService } from '../../services/handlers/logout-handler.service';
 import { DeleteUserRequest } from '@project-fmps/sunbird-sdk/profile/def/delete-user-request';
+
+
 @Component({
-    selector: 'app-profile',
-    templateUrl: './profile.page.html',
-    styleUrls: ['./profile.page.scss'],
-    providers: [CertificateDownloadAsPdfService],
-    standalone: false
+  selector: 'app-profile',
+  templateUrl: './profile.page.html',
+  styleUrls: ['./profile.page.scss'],
+  providers: [CertificateDownloadAsPdfService],
+  standalone: false
 })
+
 export class ProfilePage implements OnInit {
   private frameworkCategoriesMap: { [code: string]: FrameworkCategory | undefined } = {};
+
+  // ...your existing fields
+ 
+  competencyData = {
+    "competencyFrameworks": [
+      {
+        "name": "Competency Framework 1",
+        "percentage": "0%",
+        "batchNumber": "Batch of 2024",
+        "levels": [
+          {
+            "name": "Level 1",
+            "percentage": "0%",
+            "courses": [
+              {
+                "course": "Course A", "completion": "0%", "action": "Download Badge", "certPayload": {
+                  courseName: 'Course with Learner Profile',
+                  batch: {
+                    identifier: '0143980624020029442',
+                    endDate: null,
+                    createdBy: 'a07eec15-fe56-46ed-adbd-1722c4a4a930',
+                    name: 'Fmps batch1',
+                    batchId: '0143980624020029442',
+                    enrollmentType: 'open',
+                    startDate: '2025-09-11T00:00:00.000Z',
+                    status: 1
+                  },
+                  dateTime: 1758098350731,
+                  courseId: 'do_214398056153006080178',
+                  issuedCertificate: {
+                    identifier: '1-e8d054a9-a7e2-4ffd-bb42-67677a928c70',
+                    lastIssuedOn: '2025-09-17T08:39:11.439+0000',
+                    name: '1 logo 1 signature',
+                    templateUrl: 'https://downloadableartifacts.blob.core.windows.net/release600/Certificate-FMPS.svg',
+                    token: '',
+                    type: 'TrainingCertificate'
+                  },
+                  status: 2,
+                  style: 'completed-status-text',
+                  label: 'COMPLETED'
+                }
+              },
+              {
+                "course": "Course B", "completion": "60%", "action": "Download Badge",
+                "certPayload": {
+                  courseName: 'Course with Learner Profile',
+                  batch: {
+                    identifier: '0143980624020029442',
+                    endDate: null,
+                    createdBy: 'a07eec15-fe56-46ed-adbd-1722c4a4a930',
+                    name: 'Fmps batch1',
+                    batchId: '0143980624020029442',
+                    enrollmentType: 'open',
+                    startDate: '2025-09-11T00:00:00.000Z',
+                    status: 1
+                  },
+                  dateTime: 1758098350731,
+                  courseId: 'do_214398056153006080178',
+                  issuedCertificate: {
+                    identifier: '1-e8d054a9-a7e2-4ffd-bb42-67677a928c70',
+                    lastIssuedOn: '2025-09-17T08:39:11.439+0000',
+                    name: '1 logo 1 signature',
+                    templateUrl: 'https://downloadableartifacts.blob.core.windows.net/release600/Certificate-FMPS.svg',
+                    token: '',
+                    type: 'TrainingCertificate'
+                  },
+                  status: 2,
+                  style: 'completed-status-text',
+                  label: 'COMPLETED'
+                }
+              },
+              {
+                "course": "Course C", "completion": "100%", "action": "Download Badge", "certPayload": {
+                  courseName: 'Course with Learner Profile',
+                  batch: {
+                    identifier: '0143980624020029442',
+                    endDate: null,
+                    createdBy: 'a07eec15-fe56-46ed-adbd-1722c4a4a930',
+                    name: 'Fmps batch1',
+                    batchId: '0143980624020029442',
+                    enrollmentType: 'open',
+                    startDate: '2025-09-11T00:00:00.000Z',
+                    status: 1
+                  },
+                  dateTime: 1758098350731,
+                  courseId: 'do_214398056153006080178',
+                  issuedCertificate: {
+                    identifier: '1-e8d054a9-a7e2-4ffd-bb42-67677a928c70',
+                    lastIssuedOn: '2025-09-17T08:39:11.439+0000',
+                    name: '1 logo 1 signature',
+                    templateUrl: 'https://downloadableartifacts.blob.core.windows.net/release600/Certificate-FMPS.svg',
+                    token: '',
+                    type: 'TrainingCertificate'
+                  },
+                  status: 2,
+                  style: 'completed-status-text',
+                  label: 'COMPLETED'
+                }
+              },
+
+            ]
+          },
+          {
+            "name": "Level 2",
+            "percentage": "85%",
+            "action": "Download Badge",
+            "certPayload": {
+              courseName: 'Course with Learner Profile',
+              batch: {
+                identifier: '0143980624020029442',
+                endDate: null,
+                createdBy: 'a07eec15-fe56-46ed-adbd-1722c4a4a930',
+                name: 'Fmps batch1',
+                batchId: '0143980624020029442',
+                enrollmentType: 'open',
+                startDate: '2025-09-11T00:00:00.000Z',
+                status: 1
+              },
+              dateTime: 1758098350731,
+              courseId: 'do_214398056153006080178',
+              issuedCertificate: {
+                identifier: '1-e8d054a9-a7e2-4ffd-bb42-67677a928c70',
+                lastIssuedOn: '2025-09-17T08:39:11.439+0000',
+                name: '1 logo 1 signature',
+                templateUrl: 'https://downloadableartifacts.blob.core.windows.net/release600/Certificate-FMPS.svg',
+                token: '',
+                type: 'TrainingCertificate'
+              },
+              status: 2,
+              style: 'completed-status-text',
+              label: 'COMPLETED'
+            },
+            "courses": [
+              { "course": "Course D", "completion": "0%", "action": "" },
+              {
+                "course": "Course E", "completion": "80%", "action": "Download Badge", "certPayload": {
+                  courseName: 'Course with Learner Profile',
+                  batch: {
+                    identifier: '0143980624020029442',
+                    endDate: null,
+                    createdBy: 'a07eec15-fe56-46ed-adbd-1722c4a4a930',
+                    name: 'Fmps batch1',
+                    batchId: '0143980624020029442',
+                    enrollmentType: 'open',
+                    startDate: '2025-09-11T00:00:00.000Z',
+                    status: 1
+                  },
+                  dateTime: 1758098350731,
+                  courseId: 'do_214398056153006080178',
+                  issuedCertificate: {
+                    identifier: '1-e8d054a9-a7e2-4ffd-bb42-67677a928c70',
+                    lastIssuedOn: '2025-09-17T08:39:11.439+0000',
+                    name: '1 logo 1 signature',
+                    templateUrl: 'https://downloadableartifacts.blob.core.windows.net/release600/Certificate-FMPS.svg',
+                    token: '',
+                    type: 'TrainingCertificate'
+                  },
+                  status: 2,
+                  style: 'completed-status-text',
+                  label: 'COMPLETED'
+                }
+              },
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Competency Framework 2",
+        "percentage": "0%",
+        "batchNumber": "Batch of 2024",
+        "levels": [
+          {
+            "name": "Level 1",
+            "percentage": "0%",
+            "courses": [
+              {
+                "course": "Course A", "completion": "0%", "action": "Download Badge", "certPayload": {
+                  courseName: 'Course with Learner Profile',
+                  batch: {
+                    identifier: '0143980624020029442',
+                    endDate: null,
+                    createdBy: 'a07eec15-fe56-46ed-adbd-1722c4a4a930',
+                    name: 'Fmps batch1',
+                    batchId: '0143980624020029442',
+                    enrollmentType: 'open',
+                    startDate: '2025-09-11T00:00:00.000Z',
+                    status: 1
+                  },
+                  dateTime: 1758098350731,
+                  courseId: 'do_214398056153006080178',
+                  issuedCertificate: {
+                    identifier: '1-e8d054a9-a7e2-4ffd-bb42-67677a928c70',
+                    lastIssuedOn: '2025-09-17T08:39:11.439+0000',
+                    name: '1 logo 1 signature',
+                    templateUrl: 'https://downloadableartifacts.blob.core.windows.net/release600/Certificate-FMPS.svg',
+                    token: '',
+                    type: 'TrainingCertificate'
+                  },
+                  status: 2,
+                  style: 'completed-status-text',
+                  label: 'COMPLETED'
+                }
+              },
+              {
+                "course": "Course B", "completion": "60%", "action": "Download Badge", "certPayload": {
+                  courseName: 'Course with Learner Profile',
+                  batch: {
+                    identifier: '0143980624020029442',
+                    endDate: null,
+                    createdBy: 'a07eec15-fe56-46ed-adbd-1722c4a4a930',
+                    name: 'Fmps batch1',
+                    batchId: '0143980624020029442',
+                    enrollmentType: 'open',
+                    startDate: '2025-09-11T00:00:00.000Z',
+                    status: 1
+                  },
+                  dateTime: 1758098350731,
+                  courseId: 'do_214398056153006080178',
+                  issuedCertificate: {
+                    identifier: '1-e8d054a9-a7e2-4ffd-bb42-67677a928c70',
+                    lastIssuedOn: '2025-09-17T08:39:11.439+0000',
+                    name: '1 logo 1 signature',
+                    templateUrl: 'https://downloadableartifacts.blob.core.windows.net/release600/Certificate-FMPS.svg',
+                    token: '',
+                    type: 'TrainingCertificate'
+                  },
+                  status: 2,
+                  style: 'completed-status-text',
+                  label: 'COMPLETED'
+                }
+              },
+              {
+                "course": "Course C", "completion": "100%", "action": "Download Badge", "certPayload": {
+                  courseName: 'Course with Learner Profile',
+                  batch: {
+                    identifier: '0143980624020029442',
+                    endDate: null,
+                    createdBy: 'a07eec15-fe56-46ed-adbd-1722c4a4a930',
+                    name: 'Fmps batch1',
+                    batchId: '0143980624020029442',
+                    enrollmentType: 'open',
+                    startDate: '2025-09-11T00:00:00.000Z',
+                    status: 1
+                  },
+                  dateTime: 1758098350731,
+                  courseId: 'do_214398056153006080178',
+                  issuedCertificate: {
+                    identifier: '1-e8d054a9-a7e2-4ffd-bb42-67677a928c70',
+                    lastIssuedOn: '2025-09-17T08:39:11.439+0000',
+                    name: '1 logo 1 signature',
+                    templateUrl: 'https://downloadableartifacts.blob.core.windows.net/release600/Certificate-FMPS.svg',
+                    token: '',
+                    type: 'TrainingCertificate'
+                  },
+                  status: 2,
+                  style: 'completed-status-text',
+                  label: 'COMPLETED'
+                }
+              },
+
+            ]
+          },
+          {
+            "name": "Level 2",
+            "percentage": "0%",
+            "courses": [
+              {
+                "course": "Course D", "completion": "0%", "action": "DownloadLink", "certPayload": {
+                  courseName: 'Course with Learner Profile',
+                  batch: {
+                    identifier: '0143980624020029442',
+                    endDate: null,
+                    createdBy: 'a07eec15-fe56-46ed-adbd-1722c4a4a930',
+                    name: 'Fmps batch1',
+                    batchId: '0143980624020029442',
+                    enrollmentType: 'open',
+                    startDate: '2025-09-11T00:00:00.000Z',
+                    status: 1
+                  },
+                  dateTime: 1758098350731,
+                  courseId: 'do_214398056153006080178',
+                  issuedCertificate: {
+                    identifier: '1-e8d054a9-a7e2-4ffd-bb42-67677a928c70',
+                    lastIssuedOn: '2025-09-17T08:39:11.439+0000',
+                    name: '1 logo 1 signature',
+                    templateUrl: 'https://downloadableartifacts.blob.core.windows.net/release600/Certificate-FMPS.svg',
+                    token: '',
+                    type: 'TrainingCertificate'
+                  },
+                  status: 2,
+                  style: 'completed-status-text',
+                  label: 'COMPLETED'
+                }
+              },
+              {
+                "course": "Course E", "completion": "80%", "action": "DownloadLink", "certPayload": {
+                  courseName: 'Course with Learner Profile',
+                  batch: {
+                    identifier: '0143980624020029442',
+                    endDate: null,
+                    createdBy: 'a07eec15-fe56-46ed-adbd-1722c4a4a930',
+                    name: 'Fmps batch1',
+                    batchId: '0143980624020029442',
+                    enrollmentType: 'open',
+                    startDate: '2025-09-11T00:00:00.000Z',
+                    status: 1
+                  },
+                  dateTime: 1758098350731,
+                  courseId: 'do_214398056153006080178',
+                  issuedCertificate: {
+                    identifier: '1-e8d054a9-a7e2-4ffd-bb42-67677a928c70',
+                    lastIssuedOn: '2025-09-17T08:39:11.439+0000',
+                    name: '1 logo 1 signature',
+                    templateUrl: 'https://downloadableartifacts.blob.core.windows.net/release600/Certificate-FMPS.svg',
+                    token: '',
+                    type: 'TrainingCertificate'
+                  },
+                  status: 2,
+                  style: 'completed-status-text',
+                  label: 'COMPLETED'
+                }
+              },
+            ]
+          }
+        ]
+      },
+
+    ]
+  };
+
+  toNum(percent: string): number {
+    const n = Number((percent || '0').toString().replace('%', ''));
+    return isNaN(n) ? 0 : n / 100;
+  }
+
+  onDownload(course: Course) {
+    // plug into your existing download flow here
+    // console.log('Download clicked for:', course.course);
+  }
 
   @ViewChild('refresher', { static: false }) refresher: IonRefresher;
 
@@ -123,7 +465,7 @@ export class ProfilePage implements OnInit {
   gradeLevelList = [];
   subjectList = [];
   profileConfig: any = [];
-      loader?: HTMLIonLoadingElement;
+  loader?: HTMLIonLoadingElement;
 
 
   imageUri = 'assets/imgs/ic_profile_default.png';
@@ -172,8 +514,8 @@ export class ProfilePage implements OnInit {
   learnerPassbookCount: any;
   enrolledCourseList = [];
   categories = [];
-  projects=[];
-  projectsCount =0;
+  projects = [];
+  projectsCount = 0;
   // TODO: Capacitor temp fix 
   // projectStatus =statusType;
   isCategoryLoaded = false;
@@ -254,7 +596,7 @@ export class ProfilePage implements OnInit {
   }
 
   async ionViewWillEnter() {
-   // this.getCategories();
+    // this.getCategories();
     this.events.subscribe('update_header', async () => {
       await this.headerService.showHeaderWithHomeButton();
     });
@@ -349,7 +691,7 @@ export class ProfilePage implements OnInit {
                 let segmentDetails = JSON.parse(JSON.stringify(profileData.framework));
                 Object.keys(segmentDetails).forEach((key) => {
                   if (key !== 'id' && Array.isArray(segmentDetails[key])) {
-                  segmentDetails[key] = segmentDetails[key].map( x => x.replace(/\s/g, '').toLowerCase());
+                    segmentDetails[key] = segmentDetails[key].map(x => x.replace(/\s/g, '').toLowerCase());
                   }
                 });
                 window['segmentation'].SBTagService.pushTag(segmentDetails, TagPrefixConstants.USER_ATRIBUTE, true);
@@ -366,11 +708,11 @@ export class ProfilePage implements OnInit {
                 const role: string = (!that.profile.profileUserType.type ||
                   (that.profile.profileUserType.type
                     && that.profile.profileUserType.type === ProfileType.OTHER.toUpperCase())) ? '' : that.profile.profileUserType.type;
-                that.profile['persona'] =  await that.profileHandler.getPersonaConfig(role.toLowerCase());
+                that.profile['persona'] = await that.profileHandler.getPersonaConfig(role.toLowerCase());
                 that.userLocation = that.commonUtilService.getUserLocation(that.profile);
 
                 that.profile['subPersona'] = await that.profileHandler.getSubPersona(this.profile,
-                      role.toLowerCase(), this.userLocation);
+                  role.toLowerCase(), this.userLocation);
                 that.profileService.getActiveSessionProfile({ requiredFields: ProfileConstants.REQUIRED_FIELDS }).toPromise()
                   .then((activeProfile) => {
                     that.formAndFrameworkUtilService.updateLoggedInUser(profileData, activeProfile)
@@ -385,16 +727,16 @@ export class ProfilePage implements OnInit {
                     that.isCustodianOrgId = (that.profile.rootOrg.rootOrgId === this.custodianOrgId);
                     that.isStateValidated = that.profile.stateValidated;
                     let parsedConfig: any = {};
-                  try {
-                    if (
-                      activeProfile?.serverProfile?.framework?.profileConfig?.[0]
-                    ) {
-                      parsedConfig = JSON.parse(activeProfile.serverProfile.framework.profileConfig[0]);
+                    try {
+                      if (
+                        activeProfile?.serverProfile?.framework?.profileConfig?.[0]
+                      ) {
+                        parsedConfig = JSON.parse(activeProfile.serverProfile.framework.profileConfig[0]);
+                      }
+                    } catch (e) {
+                      console.error("Error parsing profileConfig:", e);
+                      parsedConfig = {};
                     }
-                  } catch (e) {
-                    console.error("Error parsing profileConfig:", e);
-                    parsedConfig = {};
-                  }
                     // let parsedConfig = JSON.parse(activeProfile.serverProfile.framework.profileConfig[0]);
                     this.profileConfig = Object.entries(parsedConfig).map(([key, value]) => ({
                       key: key.charAt(0).toUpperCase() + key.slice(1),
@@ -402,9 +744,9 @@ export class ProfilePage implements OnInit {
                     }));
                     resolve();
                   }).catch(e => console.error(e));
-                  if(profileData && profileData.framework && Object.keys(profileData.framework).length == 0 && this.isCustodianOrgId) {
-                    await this.getFrameworkDetails();
-                  }
+                if (profileData && profileData.framework && Object.keys(profileData.framework).length == 0 && this.isCustodianOrgId) {
+                  await this.getFrameworkDetails();
+                }
               });
             }).catch(err => {
               if (refresher) {
@@ -492,9 +834,9 @@ export class ProfilePage implements OnInit {
         await this.getLearnerPassbook();
         this.learnerPassbookLimit = this.learnerPassbook.length;
         break;
-        case 'myImprovements':
-          this.myImprovementsLimit = this.projects.length;
-          break;
+      case 'myImprovements':
+        this.myImprovementsLimit = this.projects.length;
+        break;
     }
     this.telemetryGeneratorService.generateInteractTelemetry(
       InteractType.TOUCH,
@@ -545,7 +887,7 @@ export class ProfilePage implements OnInit {
         }
         if (refreshCourseList) {
           await loader.dismiss();
-        } 
+        }
       })
       .catch((error: any) => {
         console.error('error while loading enrolled courses', error);
@@ -570,10 +912,10 @@ export class ProfilePage implements OnInit {
         style: 'completed-status-text',
         label: 'COMPLETED'
       };
-      if(course.status === 0 || course.status === 1) {
+      if (course.status === 0 || course.status === 1) {
         oneCert.style = 'ongoing-status-text';
         oneCert.label = 'ONGOING';
-        if(course.batch && course.batch.status === 2) {
+        if (course.batch && course.batch.status === 2) {
           oneCert.style = 'ongoing-status-text';
           oneCert.label = 'BATCH_EXPIRED';
         }
@@ -617,7 +959,7 @@ export class ProfilePage implements OnInit {
     });
   }
 
-  async launchDeleteUrl() {  
+  async launchDeleteUrl() {
     // Check if user has ORG_ADMIN role before allowing delete
     if (this.userRoles && this.userRoles.includes('ORG_ADMIN')) {
       this.commonUtilService.showToast('Your role does not allow you to delete your account. Please contact support!');
@@ -634,83 +976,83 @@ export class ProfilePage implements OnInit {
       undefined,
       ID.DELETE_CLICKED);
 
-      const baseUrl = await this.utilityService.getBuildConfigValue('BASE_URL');
-      const deeplinkValue = await this.utilityService.getBuildConfigValue('URL_SCHEME');  
-      const formattedBaseUrl = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';      
-      const deleteEndpoint = 'guest-profile/delete-user'; 
+    const baseUrl = await this.utilityService.getBuildConfigValue('BASE_URL');
+    const deeplinkValue = await this.utilityService.getBuildConfigValue('URL_SCHEME');
+    const formattedBaseUrl = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
+    const deleteEndpoint = 'guest-profile/delete-user';
 
-        var data = {type: '', value : ''}; 
-        if(this.profile.maskedEmail) {
-          data.type = 'email'; 
-          data.value = this.profile.maskedEmail;
-        } else if (this.profile.maskedPhone) {
-          data.type = 'phone'; 
-          data.value = this.profile.maskedPhone;
-        }
+    var data = { type: '', value: '' };
+    if (this.profile.maskedEmail) {
+      data.type = 'email';
+      data.value = this.profile.maskedEmail;
+    } else if (this.profile.maskedPhone) {
+      data.type = 'phone';
+      data.value = this.profile.maskedPhone;
+    }
 
-        const modifiedDeeplinkValue = deeplinkValue + '://mobile';
-        const url = new URL(formattedBaseUrl + deleteEndpoint);
-        url.searchParams.append('deeplink', modifiedDeeplinkValue);
-        url.searchParams.append('userId', this.profile.userId);
-        url.searchParams.append('type', data.type);
-        url.searchParams.append('value', data.value);
+    const modifiedDeeplinkValue = deeplinkValue + '://mobile';
+    const url = new URL(formattedBaseUrl + deleteEndpoint);
+    url.searchParams.append('deeplink', modifiedDeeplinkValue);
+    url.searchParams.append('userId', this.profile.userId);
+    url.searchParams.append('type', data.type);
+    url.searchParams.append('value', data.value);
 
-        customtabs.launchInBrowser(
-          url.toString(),
-          (callbackUrl) => {
-            const params = new URLSearchParams(callbackUrl); // Parse the callbackUrl as URLSearchParams
-            const userId = params.get('userId'); // Get the value of 'userId' parameter
-            this.profileService.getActiveProfileSession().toPromise()   //getting active profile uid
-            .then(async (profile) => {
-                try {
-                    if(profile.uid === userId) {       //if active profile uid and user is deleted
-                      this.loader = this.commonUtilService.getLoader();
-                    if (this.loader) {
-                        this.logoutHandler.onLogout(); 
-                            let req: DeleteUserRequest;
-                            if(profile.uid) {
-                            req = {
-                             userId: profile.uid
-                            };
+    customtabs.launchInBrowser(
+      url.toString(),
+      (callbackUrl) => {
+        const params = new URLSearchParams(callbackUrl); // Parse the callbackUrl as URLSearchParams
+        const userId = params.get('userId'); // Get the value of 'userId' parameter
+        this.profileService.getActiveProfileSession().toPromise()   //getting active profile uid
+          .then(async (profile) => {
+            try {
+              if (profile.uid === userId) {       //if active profile uid and user is deleted
+                this.loader = this.commonUtilService.getLoader();
+                if (this.loader) {
+                  this.logoutHandler.onLogout();
+                  let req: DeleteUserRequest;
+                  if (profile.uid) {
+                    req = {
+                      userId: profile.uid
+                    };
+                  }
+                  else {
+                    console.log('profile does not exists');
+                  }
+                  await this.profileService.deleteUser(req).toPromise()
+                    .then((result) => {
+                      if (result) {
+                        console.log('profile deleted succesfully');
+                        this.profileService.deleteProfileData(profile.uid).toPromise()       //deleting local data
+                          .then((result) => {
+                            if (result) {
+                              console.log('Profile data deleted successfully');
+                            } else {
+                              console.log('Unable to delete profile data');
                             }
-                            else{
-                              console.log('profile does not exists');
-                            }
-                            await this.profileService.deleteUser(req).toPromise()
-                            .then((result) => {
-                              if(result) {
-                                 console.log('profile deleted succesfully');
-                                 this.profileService.deleteProfileData(profile.uid).toPromise()       //deleting local data
-                                 .then((result) => {
-                                     if (result) {
-                                         console.log('Profile data deleted successfully');
-                                     } else {
-                                         console.log('Unable to delete profile data');
-                                     }
-                                 });  
-                              }
-                              else {
-                                console.log('unable to delete profile');                        
-                              }
-                            })
+                          });
                       }
-                    }
-                    else {
-                      console.log('userID does not match')
-                    }
-                    } catch (error) {
-                        console.error('Error occurred while deleting profile', error);
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error occurred while getting active profile session:', error);
-                }); 
-              },
-              (error) => {
-                console.error('Error launching Custom Tab:', error);
+                      else {
+                        console.log('unable to delete profile');
+                      }
+                    })
+                }
               }
-        );           
-}
+              else {
+                console.log('userID does not match')
+              }
+            } catch (error) {
+              console.error('Error occurred while deleting profile', error);
+            }
+          })
+          .catch((error) => {
+            console.error('Error occurred while getting active profile session:', error);
+          });
+      },
+      (error) => {
+        console.error('Error launching Custom Tab:', error);
+      }
+    );
+  }
 
 
   async getLearnerPassbook() {
@@ -720,7 +1062,7 @@ export class ProfilePage implements OnInit {
       const getCertsReq: CSGetLearnerCerificateRequest = {
         userId: this.profile.userId || this.profile.id,
         schemaName: 'certificate',
-        size: this.learnerPassbookCount? this.learnerPassbookCount : null
+        size: this.learnerPassbookCount ? this.learnerPassbookCount : null
       };
 
 
@@ -763,10 +1105,11 @@ export class ProfilePage implements OnInit {
     }
   }
 
-  async downloadCertificate(data,type?){
-    if(type && type == 'project'){
+  async downloadCertificate(data, type?) {
+    if (type && type == 'project') {
       await this.projectCertificateDownload(data);
-    }else{
+    } else {
+      console.log('data', data);
       await this.downloadTrainingCertificate(data)
     }
   }
@@ -775,7 +1118,7 @@ export class ProfilePage implements OnInit {
       this.commonUtilService.showToast('OFFLINE_CERTIFICATE_MESSAGE', false, '', 3000, 'top');
       return;
     }
-    if(await this.commonUtilService.isAndroidVer13()) {
+    if (await this.commonUtilService.isAndroidVer13()) {
       await this.navigateToCertificateViewPage(project);
     } else {
       await this.checkForPermissions().then(async (result) => {
@@ -789,7 +1132,7 @@ export class ProfilePage implements OnInit {
   }
 
   async navigateToCertificateViewPage(project: any) {
-    const request = { type:'project',name:project.title, project: project._id, certificate: project.certificate, templateUrl : project.certificate.templateUrl };
+    const request = { type: 'project', name: project.title, project: project._id, certificate: project.certificate, templateUrl: project.certificate.templateUrl };
     if (this.platform.is('ios')) {
       (window as any).cordova.InAppBrowser.open(request.certificate['templateUrl'], '_blank', "toolbarposition=top");
     } else {
@@ -818,20 +1161,21 @@ export class ProfilePage implements OnInit {
       telemetryObject,
       values);
 
-      if(await this.commonUtilService.isAndroidVer13()) {
-        await this.navigateToDownlaodCertificateView(course);
-      } else {
-        await this.checkForPermissions().then(async (result) => {
-          if (result) {
-            await this.navigateToDownlaodCertificateView(course)
-          } else {
-            await this.commonUtilService.showSettingsPageToast('FILE_MANAGER_PERMISSION_DESCRIPTION', this.appName, PageId.PROFILE, true);
-          }
-        });
-      }
+    if (await this.commonUtilService.isAndroidVer13()) {
+      await this.navigateToDownlaodCertificateView(course);
+    } else {
+      await this.checkForPermissions().then(async (result) => {
+        if (result) {
+          await this.navigateToDownlaodCertificateView(course)
+        } else {
+          await this.commonUtilService.showSettingsPageToast('FILE_MANAGER_PERMISSION_DESCRIPTION', this.appName, PageId.PROFILE, true);
+        }
+      });
+    }
   }
 
   async navigateToDownlaodCertificateView(course) {
+    console.log('course', course);
     if (course.issuedCertificate) {
       const request = { courseId: course.courseId, certificate: course.issuedCertificate };
       if (!this.commonUtilService.networkInfo.isNetworkAvailable) {
@@ -999,8 +1343,8 @@ export class ProfilePage implements OnInit {
     };
 
     this.validateAndEditContact()
-    .then((_) => this.showEditContactPopup(componentProps))
-    .catch(err => console.log(err) );
+      .then((_) => this.showEditContactPopup(componentProps))
+      .catch(err => console.log(err));
   }
 
   async editEmail() {
@@ -1013,40 +1357,40 @@ export class ProfilePage implements OnInit {
     };
 
     this.validateAndEditContact()
-    .then((_) => this.showEditContactPopup(componentProps))
-    .catch(e => {
-      if (e && e.response && e.response.body && e.response.body.params && e.response.body.params.err &&
-        e.response.body.params.err === 'UOS_OTPCRT0059') {
-        this.commonUtilService.showToast('ERROR_OTP_LIMIT_EXCEEDED');
-      } else if (e.message !== 'CANCEL') {
-        this.commonUtilService.showToast('SOMETHING_WENT_WRONG');
-      }
-    });
+      .then((_) => this.showEditContactPopup(componentProps))
+      .catch(e => {
+        if (e && e.response && e.response.body && e.response.body.params && e.response.body.params.err &&
+          e.response.body.params.err === 'UOS_OTPCRT0059') {
+          this.commonUtilService.showToast('ERROR_OTP_LIMIT_EXCEEDED');
+        } else if (e.message !== 'CANCEL') {
+          this.commonUtilService.showToast('SOMETHING_WENT_WRONG');
+        }
+      });
   }
 
   private async validateAndEditContact(): Promise<boolean> {
-        const request: GenerateOtpRequest = {
-            key: this.profile.email || this.profile.phone || this.profile.recoveryEmail,
-            userId: this.profile.userId,
-            templateId: OTPTemplates.EDIT_CONTACT_OTP_TEMPLATE,
-            type: ''
-        };
-        if ((this.profile.email && !this.profile.phone) ||
-        (!this.profile.email && !this.profile.phone && this.profile.recoveryEmail)) {
-            request.type = ProfileConstants.CONTACT_TYPE_EMAIL;
-        } else if (this.profile.phone || this.profile.recoveryPhone) {
-            request.type = ProfileConstants.CONTACT_TYPE_PHONE;
-        }
+    const request: GenerateOtpRequest = {
+      key: this.profile.email || this.profile.phone || this.profile.recoveryEmail,
+      userId: this.profile.userId,
+      templateId: OTPTemplates.EDIT_CONTACT_OTP_TEMPLATE,
+      type: ''
+    };
+    if ((this.profile.email && !this.profile.phone) ||
+      (!this.profile.email && !this.profile.phone && this.profile.recoveryEmail)) {
+      request.type = ProfileConstants.CONTACT_TYPE_EMAIL;
+    } else if (this.profile.phone || this.profile.recoveryPhone) {
+      request.type = ProfileConstants.CONTACT_TYPE_PHONE;
+    }
 
-        const resp = await this.profileService.generateOTP(request).toPromise();
-        if (resp) {
-            const response = await this.callOTPPopover(request.type, request.key, false);
-            if (response && response.OTPSuccess) {
-                return Promise.resolve(true);
-            } else {
-                return Promise.reject(true);
-            }
-        }
+    const resp = await this.profileService.generateOTP(request).toPromise();
+    if (resp) {
+      const response = await this.callOTPPopover(request.type, request.key, false);
+      if (response && response.OTPSuccess) {
+        return Promise.resolve(true);
+      } else {
+        return Promise.reject(true);
+      }
+    }
   }
 
   private async showEditContactPopup(componentProps) {
@@ -1070,9 +1414,9 @@ export class ProfilePage implements OnInit {
         key,
         phone: this.profile.phone,
         title: !updateContact ? this.commonUtilService.translateMessage('AUTHRISE_USER_OTP_TITLE') :
-            this.commonUtilService.translateMessage('AUTHRISE_USER_OTP_DESCRIPTION'),
+          this.commonUtilService.translateMessage('AUTHRISE_USER_OTP_DESCRIPTION'),
         description: !updateContact ? this.commonUtilService.translateMessage('AUTHRISE_USER_OTP_DESCRIPTION') :
-            this.commonUtilService.translateMessage('VERIFY_PHONE_OTP_DESCRIPTION'),
+          this.commonUtilService.translateMessage('VERIFY_PHONE_OTP_DESCRIPTION'),
         type: ProfileConstants.CONTACT_TYPE_PHONE,
         userId: this.profile.userId
       };
@@ -1086,9 +1430,9 @@ export class ProfilePage implements OnInit {
         key,
         phone: this.profile.email,
         title: !updateContact ? this.commonUtilService.translateMessage('AUTHRISE_USER_OTP_TITLE') :
-            this.commonUtilService.translateMessage('VERIFY_EMAIL_OTP_TITLE'),
+          this.commonUtilService.translateMessage('VERIFY_EMAIL_OTP_TITLE'),
         description: !updateContact ? this.commonUtilService.translateMessage('AUTHRISE_USER_OTP_DESCRIPTION') :
-            this.commonUtilService.translateMessage('VERIFY_EMAIL_OTP_DESCRIPTION'),
+          this.commonUtilService.translateMessage('VERIFY_EMAIL_OTP_DESCRIPTION'),
         type: ProfileConstants.CONTACT_TYPE_EMAIL,
         userId: this.profile.userId
       };
@@ -1208,10 +1552,10 @@ export class ProfilePage implements OnInit {
   async editRecoveryId() {
 
     this.telemetryGeneratorService.generateInteractTelemetry(
-        InteractType.TOUCH,
-        InteractSubtype.RECOVERY_ACCOUNT_ID_CLICKED,
-        Environment.USER,
-        PageId.PROFILE
+      InteractType.TOUCH,
+      InteractSubtype.RECOVERY_ACCOUNT_ID_CLICKED,
+      Environment.USER,
+      PageId.PROFILE
     );
 
     const componentProps = {
@@ -1220,7 +1564,7 @@ export class ProfilePage implements OnInit {
     };
 
     this.validateAndEditContact()
-    .then(async (_) => {
+      .then(async (_) => {
         const popover = await this.popoverCtrl.create({
           component: AccountRecoveryInfoComponent,
           componentProps,
@@ -1235,14 +1579,14 @@ export class ProfilePage implements OnInit {
           };
           await this.updateProfile(req, 'RECOVERY_ACCOUNT_UPDATE_SUCCESS');
         }
-    })
-    .catch(err => console.log(err) );
+      })
+      .catch(err => console.log(err));
   }
 
   async openEnrolledCourse(training) {
     try {
       const content = this.enrolledCourseList.find((course) => (course.courseId === training.courseId)
-          && training.batch.batchId === course.batch.batchId);
+        && training.batch.batchId === course.batch.batchId);
       await this.navService.navigateToTrackableCollection(
         {
           content
@@ -1254,7 +1598,7 @@ export class ProfilePage implements OnInit {
   }
 
   private async checkForPermissions(): Promise<boolean | undefined> {
-    if(this.platform.is('ios')) {
+    if (this.platform.is('ios')) {
       return new Promise<boolean | undefined>(async (resolve, reject) => {
         resolve(true);
       });
@@ -1362,12 +1706,12 @@ export class ProfilePage implements OnInit {
       const tenantPersonaList = await this.formAndFrameworkUtilService.getFormFields(
         FormConstants.TENANT_PERSONAINFO, this.profile.rootOrg.rootOrgId);
       const tenantConfig: any = tenantPersonaList.find(config => config.code === 'tenant');
-      const searchOrganizationReq: OrganizationSearchCriteria<{ orgName: string, rootOrgId: string}> = {
+      const searchOrganizationReq: OrganizationSearchCriteria<{ orgName: string, rootOrgId: string }> = {
         filters: {
-            isTenant: true
+          isTenant: true
         },
         fields: ['orgName', 'rootOrgId']
-    };
+      };
       const organisations = (await this.frameworkService.searchOrganization(searchOrganizationReq).toPromise()).content;
       let index = 0;
       const organisationList = organisations.map((org) => ({
@@ -1381,8 +1725,8 @@ export class ProfilePage implements OnInit {
         tenantConfig.templateOptions.options.find(tenant => tenant.value === this.selfDeclarationInfo.orgId);
 
       this.personaTenantDeclaration = this.commonUtilService.translateMessage('FRMELEMNTS_LBL_SHARE_DATA_WITH', {
-          '%tenant': (tenantDetails && tenantDetails.label) || ''
-        });
+        '%tenant': (tenantDetails && tenantDetails.label) || ''
+      });
 
       if (this.selfDeclarationInfo.orgId) {
         const formConfig = await this.formAndFrameworkUtilService.getFormFields(
@@ -1408,15 +1752,15 @@ export class ProfilePage implements OnInit {
       user_name: fullName,
       sunbird_id: this.profile.userName
     });
-    if((await Share.canShare()).value) {
-      await Share.share({title: "Share user details", text: translatedMsg});
+    if ((await Share.canShare()).value) {
+      await Share.share({ title: "Share user details", text: translatedMsg });
     }
   }
 
   private async getFrameworkDetails() {
     const guestUser = await this.commonUtilService.getGuestUserConfig();
     let id = "";
-      id = guestUser.syllabus[0];
+    id = guestUser.syllabus[0];
     const frameworkDetailsRequest: FrameworkDetailsRequest = {
       frameworkId: id,
       requiredCategories: FrameworkCategoryCodesGroup.DEFAULT_FRAMEWORK_CATEGORIES
@@ -1443,9 +1787,9 @@ export class ProfilePage implements OnInit {
           this.profile.framework.subject = this.subjectList;
         }, 0);
       });
-      this.profile.userLocations = await this.locationHandler.getAvailableLocation(guestUser, true);
-      this.userLocation = this.commonUtilService.getUserLocation(this.profile);
-      this.profile['persona'] =  await this.profileHandler.getPersonaConfig(guestUser.profileType.toLowerCase());
+    this.profile.userLocations = await this.locationHandler.getAvailableLocation(guestUser, true);
+    this.userLocation = this.commonUtilService.getUserLocation(this.profile);
+    this.profile['persona'] = await this.profileHandler.getPersonaConfig(guestUser.profileType.toLowerCase());
   }
 
   getFieldDisplayValues(field: Array<any>, categoryCode: string, lowerCase?: boolean): any[] {
@@ -1456,7 +1800,7 @@ export class ProfilePage implements OnInit {
     }
 
     this.frameworkCategoriesMap[categoryCode].terms.forEach(element => {
-      if (field.includes(element.code) || field.includes(element.name.replace(/[^a-zA-Z0-9]/g,'').toLowerCase())) {
+      if (field.includes(element.code) || field.includes(element.name.replace(/[^a-zA-Z0-9]/g, '').toLowerCase())) {
         if (lowerCase) {
           displayValues.push(element.name.toLowerCase());
         } else {
@@ -1469,10 +1813,10 @@ export class ProfilePage implements OnInit {
   }
 
   private getCategories() {
-      this.formAndFrameworkUtilService.invokedGetFrameworkCategoryList(this.profile.framework.id?.[0] || this.profile.syllabus?.[0], this.profile.rootOrgId).then((categories) => {
-        this.categories = categories;
-        this.isCategoryLoaded = true;
-      }).catch(e => console.error(e));
+    this.formAndFrameworkUtilService.invokedGetFrameworkCategoryList(this.profile.framework.id?.[0] || this.profile.syllabus?.[0], this.profile.rootOrgId).then((categories) => {
+      this.categories = categories;
+      this.isCategoryLoaded = true;
+    }).catch(e => console.error(e));
   }
 
   private getDeleteAccountButtonVisibility() {
@@ -1497,7 +1841,7 @@ export class ProfilePage implements OnInit {
       });
   }
 
-  getProjectsCertificate(){
+  getProjectsCertificate() {
     // TODO: Capacitor temp fix 
     // const config ={
     //   url : urlConstants.API_URLS.PROJECT_CERTIFICATES
