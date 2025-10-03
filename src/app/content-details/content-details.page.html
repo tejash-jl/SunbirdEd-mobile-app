@@ -172,6 +172,7 @@
                         <span class="btn-progress-highlight" [ngStyle]="{'width': this.downloadProgress + '%'}"></span>
                       </span>
                     </button> -->
+                    
             <!-- Hide download button if the title contains “ass” or “Ass” (e.g., assessment/assignment) -->
             <button *ngIf="!contentDownloadable[content?.identifier] &&
                               !(content?.contentData?.name?.toLowerCase()?.includes('ass'))" (click)="openConfirmPopUp()"
