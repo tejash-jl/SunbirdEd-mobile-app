@@ -10,7 +10,7 @@ import org.sunbird.config.BuildConfigUtil;
  * Created by swayangjit on 12/4/19.
  */
 public class SunbirdApplication extends MultiDexApplication {
-    public static final String PACKAGE_NAME = "org.sunbird.app";
+    public static final String PACKAGE_NAME = "ma.fmps.maharat";
 
     @Override
     public void onCreate() {

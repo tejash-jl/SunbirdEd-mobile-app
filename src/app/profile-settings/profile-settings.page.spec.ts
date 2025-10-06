@@ -36,7 +36,7 @@ jest.mock('@capacitor/app', () => {
     return {
       ...jest.requireActual('@capacitor/app'),
         App: {
-            getInfo: jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9}))
+            getInfo: jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9}))
         }
     }
 })
@@ -188,7 +188,7 @@ describe('ProfileSettingsPage', () => {
             mockAppGlobalService.getRequiredCategories = jest.fn(() => (FrameworkCategoryCodesGroup.DEFAULT_FRAMEWORK_CATEGORIES))
             mockFrameworkService.getDefaultChannelDetails = jest.fn(() => of({defaultFramework: ''}))as any
             mockFormAndFrameworkUtilService.invokedGetFrameworkCategoryList = jest.fn(() => Promise.resolve([{index: 2, identifier:'board', itemList: []}, {index: 1, identifier:'medium', itemList: []}]))
-            App.getInfo = jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9})) as any;
+            App.getInfo = jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9})) as any;
             mockProfileService.getActiveSessionProfile = jest.fn(() => of({profileType: ''})) as any;
             // jest.spyOn(profileSettingsPage, 'fetchSyllabusList').mockImplementation(() => {
             //     return Promise.resolve();
@@ -245,7 +245,7 @@ describe('ProfileSettingsPage', () => {
             // jest.spyOn(profileSettingsPage, 'handleActiveScanner').mockImplementation(() => {
             //     return;
             // });
-            App.getInfo = jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9})) as any;
+            App.getInfo = jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9})) as any;
             mockFrameworkService.getDefaultChannelDetails = jest.fn(() => of({defaultFramework: ''}))as any
             mockFormAndFrameworkUtilService.invokedGetFrameworkCategoryList = jest.fn(() => Promise.resolve([{index: 2, identifier:'syllabus', itemList: []}, {index: 1, identifier:'grade', itemList: []}]))
             mockProfileService.getActiveSessionProfile = jest.fn(() => of({profileType: ''})) as any;

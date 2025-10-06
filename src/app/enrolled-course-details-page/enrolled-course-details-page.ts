@@ -319,7 +319,7 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
       }
     });
   }
- 
+
   private setExtrasData(extrasState) {
     if (extrasState) {
       this.courseCardData = extrasState.content;
@@ -415,7 +415,7 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
     const matchingNode =
       list.find((c) => Array.isArray(c?.childNodes) && c.childNodes.includes?.(this.identifier));
 
-    const apiDate: string | undefined = 
+    const apiDate: string | undefined =
     matchingNode?.expiry_date ?? matchingNode?.expiryDate;
 
     const finalDate = (typeof apiDate === 'string' && apiDate.trim()) ? apiDate : 'NA';
@@ -433,7 +433,7 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
     }
   }
 }
- 
+
 
 
   async showDeletePopup() {
