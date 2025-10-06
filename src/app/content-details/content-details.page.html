@@ -162,14 +162,28 @@
 
         <div class="sb-btn-tile-group">
           <div *ngIf="content && !this.limitedShareContentFlag">
-            <button *ngIf="!contentDownloadable[content?.identifier]" (click)="openConfirmPopUp()"
-              [ngClass]="!(content?.contentData?.downloadUrl) ? 'download-disabled' : null"
-              [disabled]="isDownloadStarted || (isContentDownloading$ | async) || (content.mimeType === 'video/webm' && platform.is('ios'))" fill="clear" icon-only
+            <!-- <button *ngIf="!contentDownloadable[content?.identifier]" (click)="openConfirmPopUp()"
+                      [ngClass]="!(content?.contentData?.downloadUrl) ? 'download-disabled' : null"
+                      [disabled]="isDownloadStarted || (isContentDownloading$ | async) || (content.mimeType === 'video/webm' && platform.is('ios'))" fill="clear" icon-only
+                      class="sb-btn-tile">
+                      <img src="assets/imgs/outline_download.svg" alt="download content" class="mb-4">
+                      <span *ngIf="!isDownloadStarted" class="sb-btn-footer-text">{{'DOWNLOAD' | translate}}</span>
+                      <span *ngIf="isDownloadStarted && showDownload" class="btn-popover-progress-container">
+                        <span class="btn-progress-highlight" [ngStyle]="{'width': this.downloadProgress + '%'}"></span>
+                      </span>
+                    </button> -->
+                    
+            <!-- Hide download button if the title contains “ass” or “Ass” (e.g., assessment/assignment) -->
+            <button *ngIf="!contentDownloadable[content?.identifier] &&
+                              !(content?.contentData?.name?.toLowerCase()?.includes('ass'))" (click)="openConfirmPopUp()"
+              [ngClass]="!(content?.contentData?.downloadUrl) ? 'download-disabled' : null" [disabled]="isDownloadStarted ||
+                                    (isContentDownloading$ | async) ||
+                                    (content.mimeType === 'video/webm' && platform.is('ios'))" fill="clear" icon-only
               class="sb-btn-tile">
               <img src="assets/imgs/outline_download.svg" alt="download content" class="mb-4">
-              <span *ngIf="!isDownloadStarted" class="sb-btn-footer-text">{{'DOWNLOAD' | translate}}</span>
+              <span *ngIf="!isDownloadStarted" class="sb-btn-footer-text">{{ 'DOWNLOAD' | translate }}</span>
               <span *ngIf="isDownloadStarted && showDownload" class="btn-popover-progress-container">
-                <span class="btn-progress-highlight" [ngStyle]="{'width': this.downloadProgress + '%'}"></span>
+                <span class="btn-progress-highlight" [ngStyle]="{ 'width': downloadProgress + '%' }"></span>
               </span>
             </button>
           </div>
