@@ -211,13 +211,13 @@ describe('AppRatingAlertComponent', () => {
     describe('rateOnStore', () => {
         it('should generate interact event with apperance count 1 and dismiss the popup', () => {
             // arrange
-            App.getInfo = jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9}))
+            App.getInfo = jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9}))
             appRatingAlertComponent.appRate = 4;
             // act
             appRatingAlertComponent.rateOnStore();
             // assert
             setTimeout(() => {
-                expect(mockUtilityService.openPlayStore).toHaveBeenCalledWith('ma.fmps.maharat');
+                expect(mockUtilityService.openPlayStore).toHaveBeenCalledWith('org.sunbird.app');
                 expect(mockTelemetryGeneratorService.generateInteractTelemetry).toHaveBeenCalledWith(
                     InteractType.TOUCH,
                     InteractSubtype.PLAY_STORE_BUTTON_CLICKED,

@@ -49,7 +49,7 @@ describe('UtilityService', () => {
             utilityService.getBuildConfigValue('SOME_KEY').then(() => {
                 // assert
                 expect(window['sbutility']['getBuildConfigValue']).
-                    toHaveBeenCalledWith('ma.fmps.maharat', 'SOME_KEY', expect.any(Function), expect.any(Function));
+                    toHaveBeenCalledWith('org.sunbird.app', 'SOME_KEY', expect.any(Function), expect.any(Function));
                 done();
             });
         });
@@ -81,7 +81,7 @@ describe('UtilityService', () => {
             utilityService.getBuildConfigValue('SOME_KEY').catch(() => {
                 // assert
                 expect(window['sbutility']['getBuildConfigValue']).
-                    toHaveBeenCalledWith('ma.fmps.maharat', 'SOME_KEY', expect.any(Function), expect.any(Function));
+                    toHaveBeenCalledWith('org.sunbird.app', 'SOME_KEY', expect.any(Function), expect.any(Function));
                 done();
             });
         });

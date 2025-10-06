@@ -40,7 +40,7 @@ jest.mock('@capacitor/app', () => {
     return {
       ...jest.requireActual('@capacitor/app'),
         App: {
-            getInfo: jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9}))
+            getInfo: jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9}))
         }
     }
 })
@@ -72,7 +72,7 @@ describe('AppGlobalService', () => {
         putString: jest.fn(() => of(undefined))
     };
     const mockUtilityService: Partial<UtilityService> = {
-        getBuildConfigValue: jest.fn(() => Promise.resolve('ma.fmps.maharat'))
+        getBuildConfigValue: jest.fn(() => Promise.resolve('org.sunbird.app'))
     };
     window.console.error = jest.fn();
     beforeAll(() => {

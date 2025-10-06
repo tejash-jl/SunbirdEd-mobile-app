@@ -10,7 +10,7 @@ export class UtilityService {
     getBuildConfigValue(property): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             try {
-                sbutility.getBuildConfigValue('ma.fmps.maharat', property, (entry: string) => {
+                sbutility.getBuildConfigValue('org.sunbird.app', property, (entry: string) => {
                     resolve(entry);
                 }, err => {
                     // if(property) {

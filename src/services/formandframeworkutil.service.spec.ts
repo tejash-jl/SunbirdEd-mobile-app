@@ -39,7 +39,7 @@ jest.mock('@capacitor/app', () => {
   return {
     ...jest.requireActual('@capacitor/app'),
       App: {
-          getInfo: jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9}))
+          getInfo: jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9}))
       }
   }
 })
@@ -738,7 +738,7 @@ describe('FormAndFrameworkUtilService', () => {
           {
             actionButtons: [{
               action: 'yes', label: 'Update Now',
-              link: 'https://play.google.com/store/apps/details?id=ma.fmps.maharat&hl=en'
+              link: 'https://play.google.com/store/apps/details?id=org.sunbird.app&hl=en'
             }],
             desc: '', title: 'Sample_title', type: 'forced',
             currentAppVersionCode: 48,

@@ -152,7 +152,7 @@ describe('ContentShareHandlerService', () => {
             };
             mockStorageService.getStorageDestinationDirectoryPath = jest.fn(() => ('dirpath'));
             mockContentService.exportContent = jest.fn(() => of(contentExportResponse));
-            App.getInfo = jest.fn(() =>  Promise.resolve({build: 'ma.fmps.maharat', name: '', id: '', version: '' })) as any;
+            App.getInfo = jest.fn(() =>  Promise.resolve({build: 'org.sunbird.app', name: '', id: '', version: '' })) as any;
             mockCommonUtilService.translateMessage = jest.fn((key, fields) => {
                 switch (key) {
                     case 'SHARE_CONTENT_FILE':
@@ -228,7 +228,7 @@ describe('ContentShareHandlerService', () => {
             };
             mockStorageService.getStorageDestinationDirectoryPath = jest.fn(() => ('dirpath'));
             mockContentService.exportContent = jest.fn(() => of(contentExportResponse));
-            App.getInfo = jest.fn(() => Promise.resolve({build: 'ma.fmps.maharat'}));
+            App.getInfo = jest.fn(() => Promise.resolve({build: 'org.sunbird.app'}));
             mockCommonUtilService.translateMessage = jest.fn((key, fields) => {
                 switch (key) {
                     case 'SHARE_CONTENT_FILE':
@@ -291,7 +291,7 @@ describe('ContentShareHandlerService', () => {
                 }
             };
             mockTelemetryGeneratorService.generateInteractTelemetry = jest.fn();
-            App.getInfo = jest.fn(() => Promise.resolve({build: 'ma.fmps.maharat'}));
+            App.getInfo = jest.fn(() => Promise.resolve({build: 'org.sunbird.app'}));
             mockCommonUtilService.translateMessage = jest.fn((key, fields) => {
                 switch (key) {
                     case 'SHARE_CONTENT_LINK':
@@ -348,7 +348,7 @@ describe('ContentShareHandlerService', () => {
                 }
             };
             mockTelemetryGeneratorService.generateInteractTelemetry = jest.fn();
-            App.getInfo = jest.fn(() => Promise.resolve('ma.fmps.maharat'));
+            App.getInfo = jest.fn(() => Promise.resolve('org.sunbird.app'));
             mockCommonUtilService.translateMessage = jest.fn((key, fields) => {
                 switch (key) {
                     case 'SHARE_CONTENT_LINK':
@@ -407,7 +407,7 @@ describe('ContentShareHandlerService', () => {
                 }
             };
             mockTelemetryGeneratorService.generateInteractTelemetry = jest.fn();
-            App.getInfo = jest.fn(() => Promise.resolve('ma.fmps.maharat'));
+            App.getInfo = jest.fn(() => Promise.resolve('org.sunbird.app'));
             mockCommonUtilService.translateMessage = jest.fn((key, fields) => {
                 switch (key) {
                     case 'SHARE_CONTENT_LINK':
@@ -465,7 +465,7 @@ describe('ContentShareHandlerService', () => {
                 }
             };
             mockTelemetryGeneratorService.generateInteractTelemetry = jest.fn();
-            App.getInfo = jest.fn(() => Promise.resolve('ma.fmps.maharat'));
+            App.getInfo = jest.fn(() => Promise.resolve('org.sunbird.app'));
             mockCommonUtilService.translateMessage = jest.fn((key, fields) => {
                 switch (key) {
                     case 'SHARE_CONTENT_LINK':
@@ -523,7 +523,7 @@ describe('ContentShareHandlerService', () => {
                 }
             };
             mockTelemetryGeneratorService.generateInteractTelemetry = jest.fn();
-            App.getInfo = jest.fn(() => Promise.resolve('ma.fmps.maharat'));
+            App.getInfo = jest.fn(() => Promise.resolve('org.sunbird.app'));
             mockCommonUtilService.translateMessage = jest.fn((key, fields) => {
                 switch (key) {
                     case 'SHARE_CONTENT_LINK':
@@ -581,7 +581,7 @@ describe('ContentShareHandlerService', () => {
                 }
             };
             mockTelemetryGeneratorService.generateInteractTelemetry = jest.fn();
-            App.getInfo = jest.fn(() => Promise.resolve('ma.fmps.maharat'));
+            App.getInfo = jest.fn(() => Promise.resolve('org.sunbird.app'));
             mockCommonUtilService.translateMessage = jest.fn((key, fields) => {
                 switch (key) {
                     case 'SHARE_CONTENT_LINK':

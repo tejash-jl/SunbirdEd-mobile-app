@@ -13,7 +13,7 @@
         android:usesCleartextTraffic="true">
         <activity
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode"
-            android:name="ma.fmps.maharat.MainActivity"
+            android:name="org.sunbird.app.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBarLaunch"
             android:launchMode="singleInstance"

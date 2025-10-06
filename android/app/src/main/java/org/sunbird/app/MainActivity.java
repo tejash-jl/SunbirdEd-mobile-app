@@ -1,4 +1,4 @@
-package ma.fmps.maharat;
+package org.sunbird.app;
 
 import com.getcapacitor.BridgeActivity;
 import android.content.BroadcastReceiver;

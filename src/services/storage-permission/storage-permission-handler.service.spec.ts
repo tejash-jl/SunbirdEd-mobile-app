@@ -9,7 +9,7 @@ jest.mock('@capacitor/app', () => {
     return {
       ...jest.requireActual('@capacitor/app'),
         App: {
-            getInfo: jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9}))
+            getInfo: jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9}))
         }
     }
 })
@@ -86,7 +86,7 @@ describe('ContentShareHandlerService', () => {
             mockCommonUtilService.showSettingsPageToast = jest.fn();
             mockCommonUtilService.getGivenPermissionStatus = jest.fn(() => Promise.resolve({isPermissionAlwaysDenied: false}))
             mockCommonUtilService.translateMessage = jest.fn(v => v);
-            App.getInfo = jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9}))
+            App.getInfo = jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9}))
             mockCommonUtilService.buildPermissionPopover = jest.fn(async (callback) => {
                 await callback(mockCommonUtilService.translateMessage('NOT_NOW'));
                 return {
@@ -109,7 +109,7 @@ describe('ContentShareHandlerService', () => {
             mockCommonUtilService.showSettingsPageToast = jest.fn();
             mockCommonUtilService.getGivenPermissionStatus = jest.fn(() => Promise.resolve({isPermissionAlwaysDenied: false}))
             mockCommonUtilService.translateMessage = jest.fn(v => v);
-            App.getInfo = jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9}))
+            App.getInfo = jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9}))
             mockCommonUtilService.buildPermissionPopover = jest.fn(async (callback) => {
                 await callback(mockCommonUtilService.translateMessage('ALLOW'));
                 return {
@@ -130,7 +130,7 @@ describe('ContentShareHandlerService', () => {
             mockCommonUtilService.showSettingsPageToast = jest.fn();
             mockCommonUtilService.getGivenPermissionStatus = jest.fn(() => Promise.resolve({isPermissionAlwaysDenied: false}))
             mockCommonUtilService.translateMessage = jest.fn(v => v);
-            App.getInfo = jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9}))
+            App.getInfo = jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9}))
             mockCommonUtilService.buildPermissionPopover = jest.fn(async (callback) => {
                 await callback(mockCommonUtilService.translateMessage('ALLOW'));
                 return {
@@ -156,7 +156,7 @@ describe('ContentShareHandlerService', () => {
             mockCommonUtilService.showSettingsPageToast = jest.fn();
             mockCommonUtilService.getGivenPermissionStatus = jest.fn(() => Promise.resolve({isPermissionAlwaysDenied: false}))
             mockCommonUtilService.translateMessage = jest.fn(v => v);
-            App.getInfo = jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9}))
+            App.getInfo = jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9}))
             mockCommonUtilService.buildPermissionPopover = jest.fn(async (callback) => {
                 await callback(mockCommonUtilService.translateMessage('ALLOW'));
                 return {
@@ -181,7 +181,7 @@ describe('ContentShareHandlerService', () => {
 
         it('should handle else case for selected button is undefined or empty', (done) => {
             // arrange
-            App.getInfo = jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9}))
+            App.getInfo = jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9}))
             mockCommonUtilService.showSettingsPageToast = jest.fn();
             mockCommonUtilService.getGivenPermissionStatus = jest.fn(() => Promise.resolve({isPermissionAlwaysDenied: false}))
             mockCommonUtilService.translateMessage = jest.fn(v => v);

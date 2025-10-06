@@ -81,6 +81,14 @@ import { FilePaths } from '../../services/file-path/file';
 // import {ContentSearchApiHandler} from "@project-fmps/sunbird-sdk/content/handlers/import/content-search-api-handler";
 
 declare const cordova;
+// Minimal shape to avoid `as any` when reading profileConfig
+interface ActiveProfileWithServerProfile {
+  serverProfile?: {
+    framework?: {
+      profileConfig?: string[];
+    };
+  };
+}
 
 @Component({
     selector: 'app-enrolled-course-details-page',
@@ -88,6 +96,7 @@ declare const cordova;
     styleUrls: ['./enrolled-course-details-page.scss'],
     standalone: false
 })
+
 export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopoverActionsDelegate {
 
 
@@ -310,7 +319,7 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
       }
     });
   }
-
+ 
   private setExtrasData(extrasState) {
     if (extrasState) {
       this.courseCardData = extrasState.content;
@@ -354,48 +363,77 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
     }
     await this.generateDataForDF();
   }
+  async fetchExpiryDateFromProfileConfig(): Promise<void> {
+  const cacheKey = `COURSE_EXPIRY_DATE_${this.identifier || 'unknown'}`;
 
-  async fetchExpiryDateFromProfileConfig(): Promise<any> {
+  // If OFFLINE → show cached value (or 'NA' if none) and stop.
+  if (!this.commonUtilService?.networkInfo?.isNetworkAvailable) {
+    try {
+      const cached = await this.preferences.getString(cacheKey).toPromise();
+      this.expiryDate = cached && cached.trim() ? cached : 'NA';
+    } catch (err) {
+      console.error('Reading cached expiry failed:', err);
+      this.expiryDate = 'NA';
+    }
+    return;
+  }
+
+  // ONLINE → fetch, show, and cache.
+  try {
     const activeProfile = await this.profileService
       .getActiveSessionProfile({ requiredFields: ProfileConstants.REQUIRED_FIELDS })
       .toPromise();
+
+    // Avoid `as any` by using the minimal interface
+    const ap = activeProfile as ActiveProfileWithServerProfile;
+    const profileConfigRaw = ap?.serverProfile?.framework?.profileConfig?.[0];
+
+    // Parse JSON with error logging (no empty catch)
+    let profileConfig: any = {};
     try {
-      const profileConfigRaw = activeProfile?.serverProfile?.framework?.profileConfig?.[0];
-
-      let profileConfig: any = {};
-      try {
-        profileConfig = profileConfigRaw ? JSON.parse(profileConfigRaw) : {};
-      } catch (e) {
-        console.warn('Invalid profileConfig JSON; defaulting to {}', e);
-        profileConfig = {};
-      }
-
-      const idFmps = profileConfig?.idFmps;
-      if (!idFmps) {
-        console.warn('idFmps missing in profileConfig; skipping.');
-        return;
-      }
-
-      this.contentService
-        .searchContent({}, { request: { filters: { code: [idFmps] } } })
-        .toPromise()
-        .then((searchResult: ContentSearchResult) => {
-          this.expiryDate =
-            (searchResult?.contentDataList?.find(
-              (contentItem: any) => contentItem?.childNodes?.includes?.(this.identifier)
-            ) as any)?.expiry_date ?? 'NA';
-        })
-        .catch((err: any) => {
-          console.error('searchContent failed:', err);
-          this.expiryDate = 'NA';
-        });
-
+      profileConfig = profileConfigRaw ? JSON.parse(profileConfigRaw) : {};
     } catch (err) {
-      console.error('profileConfig block failed:', err);
-      this.expiryDate = 'NA';
+      console.error('Error parsing profileConfigRaw JSON:', err);
+      profileConfig = {};
     }
 
+    const idFmps = profileConfig?.idFmps;
+    if (!idFmps) {
+      this.expiryDate = 'NA';
+      await this.preferences.putString(cacheKey, 'NA').toPromise();
+      return;
+    }
+
+    const sr: any = await this.contentService
+      .searchContent({}, { request: { filters: { code: [idFmps] } } })
+      .toPromise();
+
+    // Readable matching & date extraction
+    const list: Array<{ childNodes?: string[]; expiry_date?: string; expiryDate?: string }> =
+      sr?.contentDataList || [];
+
+    const matchingNode =
+      list.find((c) => Array.isArray(c?.childNodes) && c.childNodes.includes?.(this.identifier));
+
+    const apiDate: string | undefined = 
+    matchingNode?.expiry_date ?? matchingNode?.expiryDate;
+
+    const finalDate = (typeof apiDate === 'string' && apiDate.trim()) ? apiDate : 'NA';
+    this.expiryDate = finalDate;                                      // show value (or NA)
+    await this.preferences.putString(cacheKey, finalDate).toPromise(); // cache it
+  } catch (err) {
+    console.error('fetchExpiryDateFromProfileConfig failed:', err);
+    // Online but failed → fall back to cache (or NA)
+    try {
+      const cached = await this.preferences.getString(cacheKey).toPromise();
+      this.expiryDate = cached && cached.trim() ? cached : 'NA';
+    } catch (e) {
+      console.error('Reading cached expiry after failure failed:', e);
+      this.expiryDate = 'NA';
+    }
   }
+}
+ 
 
 
   async showDeletePopup() {
