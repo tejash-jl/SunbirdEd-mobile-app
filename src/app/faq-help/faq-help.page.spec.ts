@@ -122,7 +122,7 @@ describe('FaqHelpPage', () => {
     describe('ngOnInit', () => {
         it('intialise view setting cureLang', () => {
             // arrange
-            App.getInfo = jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9}))
+            App.getInfo = jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9}))
             window.addEventListener = jest.fn((as, listener, sd) => listener({
                 isTrusted:true,
                 data: {

@@ -27,7 +27,7 @@ jest.mock('@capacitor/app', () => {
   return {
     ...jest.requireActual('@capacitor/app'),
       App: {
-          getInfo: jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9}))
+          getInfo: jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9}))
       }
   }
 })

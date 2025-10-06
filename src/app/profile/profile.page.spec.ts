@@ -41,7 +41,7 @@ jest.mock('@capacitor/app', () => {
     return {
       ...jest.requireActual('@capacitor/app'),
         App: {
-            getInfo: jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9}))
+            getInfo: jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9}))
         }
     }
 })
@@ -598,7 +598,7 @@ describe('Profile.page', () => {
             dismiss: dismissFn,
         }));
         mockAuthService.getSession = jest.fn(() => of(''))
-        App.getInfo = jest.fn(() => Promise.resolve({id: 'org.sunbird.app', name: 'Sunbird', build: '', version: 9})) as any
+        App.getInfo = jest.fn(() => Promise.resolve({id: 'ma.fmps.maharat', name: 'Sunbird', build: '', version: 9})) as any
         mockFormAndFrameworkUtilService.invokedGetFrameworkCategoryList = jest.fn(() => Promise.resolve({
             supportedFrameworkConfig: [
                 {
