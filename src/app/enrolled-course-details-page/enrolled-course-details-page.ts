@@ -433,65 +433,6 @@ export class EnrolledCourseDetailsPage implements OnInit, OnDestroy, ConsentPopo
     }
   }
 }
-
-  // async fetchExpiryDateFromProfileConfig(): Promise<void> {
-  //   const cacheKey = `COURSE_EXPIRY_DATE_${this.identifier || 'unknown'}`;
-
-  //   // If OFFLINE → show cached value (or 'NA' if none) and stop.
-  //   if (!this.commonUtilService?.networkInfo?.isNetworkAvailable) {
-  //     try {
-  //       const cached = await this.preferences.getString(cacheKey).toPromise();
-  //       this.expiryDate = cached && cached.trim() ? cached : 'NA';
-  //     } catch {
-  //       this.expiryDate = 'NA';
-  //     }
-  //     return;
-  //   }
-
-  //   // ONLINE → fetch, show, and cache.
-  //   try {
-  //     const activeProfile = await this.profileService
-  //       .getActiveSessionProfile({ requiredFields: ProfileConstants.REQUIRED_FIELDS })
-  //       .toPromise();
-
-  //     const profileConfigRaw = (activeProfile as any)?.serverProfile?.framework?.profileConfig?.[0];
-  //     let profileConfig: any = {};
-  //     try { profileConfig = profileConfigRaw ? JSON.parse(profileConfigRaw) : {}; } catch { }
-
-  //     const idFmps = profileConfig?.idFmps;
-  //     if (!idFmps) {
-  //       this.expiryDate = 'NA';
-  //       await this.preferences.putString(cacheKey, 'NA').toPromise();
-  //       return;
-  //     }
-
-  //     const sr: any = await this.contentService
-  //       .searchContent({}, { request: { filters: { code: [idFmps] } } })
-  //       .toPromise();
-
-  //     // Find the matching node and read either 'expiry_date' or 'expiryDate'
-  //     const apiDate: string | undefined =
-  //       ((m: any) => m?.['expiry_date'] ?? m?.['expiryDate'])(
-  //         (sr?.contentDataList || []).find(
-  //           (c: any) => Array.isArray(c?.childNodes) && c.childNodes.includes?.(this.identifier)
-  //         )
-  //       );
-
-  //     const finalDate = (typeof apiDate === 'string' && apiDate.trim()) ? apiDate : 'NA';
-  //     this.expiryDate = finalDate;                             // show API value (or NA)
-  //     await this.preferences.putString(cacheKey, finalDate).toPromise(); // cache it
-  //   } catch (err) {
-  //     console.error('fetchExpiryDateFromProfileConfig failed:', err);
-  //     // On error while online, fall back to cache if any, else 'NA'
-  //     try {
-  //       const cached = await this.preferences.getString(cacheKey).toPromise();
-  //       this.expiryDate = cached && cached.trim() ? cached : 'NA';
-  //     } catch {
-  //       this.expiryDate = 'NA';
-  //     }
-  //   }
-  // }
-
  
 
 
