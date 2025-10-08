@@ -113,12 +113,12 @@
         </div>
     </div> -->
 
-    <ion-card class="full-card">
+    <!-- <ion-card class="full-card">
         <ion-card-header>
             <ion-card-title class="Competency-info">{{'COMPETENCY_FRAMEWORKS' | translate}}</ion-card-title>
         </ion-card-header>
     
-        <ion-card-content> <!-- ✅ use card-content instead of ion-content -->
+        <ion-card-content> 
             <ion-accordion-group>
                 <ion-accordion *ngFor="let fw of competencyData.competencyFrameworks; let fi = index" [value]="fi">
                     <ion-item slot="header">
@@ -136,9 +136,7 @@
                                     <ion-label>
                                         <strong>{{ lvl.name }}</strong>
                                         <p>{{ lvl.percentage }}</p>
-                                        <!-- <a href="javascript:void(0)" (click)="downloadTrainingCertificate(1)" class="download-link">
-                                            {{ lvl.action }}
-                                        </a> -->
+                                       
                                     </ion-label>
                                     <ion-button
                                         fill="clear"
@@ -169,7 +167,7 @@
                 </ion-accordion>
             </ion-accordion-group>
         </ion-card-content>
-    </ion-card>
+    </ion-card> -->
 
 
     <div class="self-declare-teacher-details" *ngIf="isCustodianOrgId &&  profile?.declarations?.length">
