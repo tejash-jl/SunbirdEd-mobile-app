@@ -206,8 +206,8 @@ export class PlayerPage implements OnInit, OnDestroy, PlayerActionHandlerDelegat
         this.config['uid'] = this.config['context'].actor.id;
         this.config['metadata'].basePath = '/_capacitor_file_' + this.config['metadata'].basePath;
         this.config['contentId'] = this.config['metadata'].identifier;
-        this.config['context'] = this.config['contentId'] 
-        
+        this.config['context']['contentId'] = this.config['contentId']
+        this.config['metadata'].contentData.streamingUrl = this.config['metadata'].contentData.streamingUrl.replace(/\/[^\/]*\.zip$/, '');
 
         if (this.config['metadata'].isAvailableLocally) {
           this.config['metadata'].contentData.streamingUrl = '/_capacitor_file_' + this.config['metadata'].contentData.streamingUrl;
@@ -220,6 +220,33 @@ export class PlayerPage implements OnInit, OnDestroy, PlayerActionHandlerDelegat
               && utilityPlayerConfig.v1.whitelistUrl.length) {
               this.config['config']['whiteListUrl'] = utilityPlayerConfig.v1.whitelistUrl;
             }
+          }
+        }
+        this.config.context.resourceBundles = {
+          "lbl": {
+            "goTo": "Go To",
+            "previous": "Previous",
+            "yourScoreIs": "Your score is",
+            "redoTheAssessment": "You can redo the assessment to improve your score.",
+            "responsesHaveBeenRecorded": "Your responses have been recorded.",
+            "redo": "Redo",
+            "exit": "Exit",
+            "next": "Next",
+            "youJustCompleted": "You Just Completed",
+            "author": "Author",
+            "score": "SCORE",
+            "time": "TIME",
+            "submitToContinue": "Submit to continue.",
+            "totalQuestions": "Total questions:",
+            "questionsAnswered": "Questions answered:",
+            "questionsSkipped": "Questions skipped:",
+            "submit": "Submit",
+            "loading": "Loading",
+            "print": "Print",
+            "download": "Download",
+            "share": "Share",
+            "upNext": "Up Next",
+            "reply": "Reply"
           }
         }
         if (this.previewElement?.nativeElement) {

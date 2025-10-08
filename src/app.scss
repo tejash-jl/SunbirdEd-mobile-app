@@ -28,7 +28,7 @@ html,
 body {
   height: 100%;
   font-size: $font-size-base;
-  @extend .NotoSans;
+  //@extend .NotoSans;
   --ion-default-font: "Times New Roman", Arial, serif;
   --ion-font-family: "Times New Roman", Arial, serif;
 }

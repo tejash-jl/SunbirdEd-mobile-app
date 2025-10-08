@@ -314,26 +314,26 @@ export class CertificateViewPage implements OnInit, AfterViewInit, OnDestroy {
       Environment.USER,
       PageId.CERTIFICATE_VIEW
     );
-    const certificatePopover = await this.popoverCtrl.create({
-      component: ApplicationHeaderKebabMenuComponent,
-      event,
-      showBackdrop: false,
-      componentProps: {
-        options: [
-          { label: 'PDF', value: {} },
-          { label: 'PNG', value: {} },
-        ]
-      },
-      cssClass: 'certificate-popup'
-    });
-    this.onPopupOpen = true;
-    await certificatePopover.present();
-    const { data } = await certificatePopover.onDidDismiss();
-    this.onPopupOpen = false;
-    if (!data) {
-      return;
-    }
-    await this.listenActionEvents(data.option);
+    // const certificatePopover = await this.popoverCtrl.create({
+    //   component: ApplicationHeaderKebabMenuComponent,
+    //   event,
+    //   showBackdrop: false,
+    //   componentProps: {
+    //     options: [
+    //       { label: 'PDF', value: {} },
+    //       { label: 'PNG', value: {} },
+    //     ]
+    //   },
+    //   cssClass: 'certificate-popup'
+    // });
+    // this.onPopupOpen = true;
+    // await certificatePopover.present();
+    // const { data } = await certificatePopover.onDidDismiss();
+    // this.onPopupOpen = false;
+    // if (!data) {
+    //   return;
+    // }
+    await this.listenActionEvents({label: 'PDF'});
   }
 }
 
