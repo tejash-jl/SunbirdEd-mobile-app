@@ -53,7 +53,7 @@ import {
   FrameworkDetailsRequest,
   OrganizationSearchCriteria,
   SystemSettingsService,
-  GetSystemSettingsRequest
+  GetSystemSettingsRequest, ApiService
 } from '@project-fmps/sunbird-sdk';
 import { Environment, InteractSubtype, InteractType, PageId, ID } from '../../services/telemetry-constants';
 import { Router } from '@angular/router';
@@ -91,6 +91,7 @@ import { LocationHandler } from '../../services/location-handler';
 import { UtilityService } from '../../services/utility-service';
 import { LogoutHandlerService } from '../../services/handlers/logout-handler.service';
 import { DeleteUserRequest } from '@project-fmps/sunbird-sdk/profile/def/delete-user-request';
+import {CsRequest} from '@project-sunbird/client-services/core/http-service';
 
 
 @Component({
@@ -522,6 +523,7 @@ export class ProfilePage implements OnInit {
   constructor(
     @Inject('PROFILE_SERVICE') private profileService: ProfileService,
     @Inject('AUTH_SERVICE') private authService: AuthService,
+    @Inject('API_SERVICE') private apiService: ApiService,
     @Inject('CONTENT_SERVICE') private contentService: ContentService,
     @Inject('COURSE_SERVICE') private courseService: CourseService,
     @Inject('FORM_SERVICE') private formService: FormService,
@@ -593,6 +595,27 @@ export class ProfilePage implements OnInit {
   async ngOnInit() {
     await this.doRefresh();
     this.appName = await (await App.getInfo()).name;
+    const apiRequest = new CsRequest.Builder()
+        .withHost('https://dev.maharat.fmps.ma/')
+        .withType('POST')
+        .withPath('/certificate/download')
+        .withBearerToken(true)
+        .withUserToken(true)
+        .withBody({
+
+        })
+        .build();
+    debugger
+    try {
+      await this.apiService.fetch(apiRequest).toPromise()
+          .then((res) => {
+            debugger
+            console.log(res)
+          });
+    } catch (e) {
+      debugger
+      console.log(e)
+    }
   }
 
   async ionViewWillEnter() {
