@@ -1,96 +1,87 @@
-import { Component, NgZone, OnInit, Inject, ViewChild } from '@angular/core';
-import {
-  PopoverController,
-  ToastController,
-  IonRefresher,
-  Platform,
-} from '@ionic/angular';
-import { Events } from '../../util/events';
+import {Component, Inject, NgZone, OnInit, ViewChild} from '@angular/core';
+import {IonRefresher, Platform, PopoverController, ToastController,} from '@ionic/angular';
+import {Events} from '../../util/events';
 import {
   ContentCard,
-  ProfileConstants,
-  RouterLinks,
   ContentFilterConfig,
   EventTopics,
   OTPTemplates,
+  ProfileConstants,
+  RouterLinks,
   SystemSettingsIds
 } from '../../app/app.constant';
-import { FormAndFrameworkUtilService } from '../../services/formandframeworkutil.service';
-import { AppGlobalService } from '../../services/app-global-service.service';
-import { CommonUtilService } from '../../services/common-util.service';
-import { TelemetryGeneratorService } from '../../services/telemetry-generator.service';
-import { AppHeaderService } from '../../services/app-header.service';
+import {FormAndFrameworkUtilService} from '../../services/formandframeworkutil.service';
+import {AppGlobalService} from '../../services/app-global-service.service';
+import {CommonUtilService} from '../../services/common-util.service';
+import {TelemetryGeneratorService} from '../../services/telemetry-generator.service';
+import {AppHeaderService} from '../../services/app-header.service';
 import {
+  ApiService,
   AuthService,
+  Batch,
+  CachedItemRequestSourceFrom,
+  CertificateAlreadyDownloaded,
+  CertificateService,
   ContentSearchCriteria,
   ContentSearchResult,
   ContentService,
   ContentSortCriteria,
   Course,
-  CourseService,
-  OAuthSession,
-  ProfileService,
-  SearchType,
-  ServerProfileDetailsRequest,
-  SortOrder,
-  TelemetryObject,
-  UpdateServerProfileInfoRequest,
-  CachedItemRequestSourceFrom,
   CourseCertificate,
-  CertificateAlreadyDownloaded,
-  NetworkError,
-  FormService,
-  FrameworkService,
-  ProfileType,
-  Batch,
-  GetLearnerCerificateRequest,
-  GenerateOtpRequest,
-  CertificateService,
+  CourseService,
   CSGetLearnerCerificateRequest,
   CsLearnerCertificate,
+  FormService,
   Framework,
   FrameworkCategoryCodesGroup,
   FrameworkDetailsRequest,
+  FrameworkService,
+  GenerateOtpRequest,
+  GetLearnerCerificateRequest,
+  GetSystemSettingsRequest,
+  NetworkError,
+  OAuthSession,
   OrganizationSearchCriteria,
+  ProfileService,
+  ProfileType,
+  SearchType,
+  ServerProfileDetailsRequest,
+  SortOrder,
   SystemSettingsService,
-  GetSystemSettingsRequest, ApiService
+  TelemetryObject,
+  UpdateServerProfileInfoRequest
 } from '@project-fmps/sunbird-sdk';
-import { Environment, InteractSubtype, InteractType, PageId, ID } from '../../services/telemetry-constants';
-import { Router } from '@angular/router';
-import { EditContactVerifyPopupComponent } from '../../app/components/popups/edit-contact-verify-popup/edit-contact-verify-popup.component';
+import {Environment, ID, InteractSubtype, InteractType, PageId} from '../../services/telemetry-constants';
+import {Router} from '@angular/router';
+import {EditContactVerifyPopupComponent} from '../../app/components/popups/edit-contact-verify-popup/edit-contact-verify-popup.component';
 import {
   EditContactDetailsPopupComponent
 } from '../../app/components/popups/edit-contact-details-popup/edit-contact-details-popup.component';
-import {
-  AccountRecoveryInfoComponent
-} from '../components/popups/account-recovery-id/account-recovery-id-popup.component';
-import { Share } from '@capacitor/share';
-import { AndroidPermissionsService } from '../../services/android-permissions/android-permissions.service';
-import {
-  AndroidPermissionsStatus,
-  AndroidPermission
-} from '../../services/android-permissions/android-permission';
-import { App } from '@capacitor/app';
-import { SbProgressLoader } from '../../services/sb-progress-loader.service';
-import { FileOpener } from '@capacitor-community/file-opener';
-import { TranslateService } from '@ngx-translate/core';
-import { FieldConfig } from 'common-form-elements';
-import { CertificateDownloadAsPdfService } from "@project-sunbird/sb-svg2pdf";
-import { NavigationService } from '../../services/navigation-handler.service';
-import { ContentUtil } from '../../util/content-util';
-import { CsPrimaryCategory } from '@project-sunbird/client-services/services/content';
-import { FormConstants } from '../form.constants';
-import { ProfileHandler } from '../../services/profile-handler';
-import { SegmentationTagService, TagPrefixConstants } from '../../services/segmentation-tag/segmentation-tag.service';
-import { FrameworkCategory } from '@project-sunbird/client-services/models/channel';
-import { LocationHandler } from '../../services/location-handler';
-// TODO: Capacitor temp fix 
+import {AccountRecoveryInfoComponent} from '../components/popups/account-recovery-id/account-recovery-id-popup.component';
+import {Share} from '@capacitor/share';
+import {AndroidPermissionsService} from '../../services/android-permissions/android-permissions.service';
+import {AndroidPermission, AndroidPermissionsStatus} from '../../services/android-permissions/android-permission';
+import {App} from '@capacitor/app';
+import {SbProgressLoader} from '../../services/sb-progress-loader.service';
+import {FileOpener} from '@capacitor-community/file-opener';
+import {TranslateService} from '@ngx-translate/core';
+import {FieldConfig} from 'common-form-elements';
+import {CertificateDownloadAsPdfService} from '@project-sunbird/sb-svg2pdf';
+import {NavigationService} from '../../services/navigation-handler.service';
+import {ContentUtil} from '../../util/content-util';
+import {CsPrimaryCategory} from '@project-sunbird/client-services/services/content';
+import {FormConstants} from '../form.constants';
+import {ProfileHandler} from '../../services/profile-handler';
+import {SegmentationTagService, TagPrefixConstants} from '../../services/segmentation-tag/segmentation-tag.service';
+import {FrameworkCategory} from '@project-sunbird/client-services/models/channel';
+import {LocationHandler} from '../../services/location-handler';
+// TODO: Capacitor temp fix
 // import { urlConstants } from '../manage-learn/core/constants/urlConstants';
 // import { UnnatiDataService } from '../manage-learn/core/services/unnati-data.service';
 // import { statusType } from '../manage-learn/core';
-import { UtilityService } from '../../services/utility-service';
-import { LogoutHandlerService } from '../../services/handlers/logout-handler.service';
-import { DeleteUserRequest } from '@project-fmps/sunbird-sdk/profile/def/delete-user-request';
+import {UtilityService} from '../../services/utility-service';
+import {LogoutHandlerService} from '../../services/handlers/logout-handler.service';
+import {DeleteUserRequest} from '@project-fmps/sunbird-sdk/profile/def/delete-user-request';
 import {CsRequest} from '@project-sunbird/client-services/core/http-service';
 
 
@@ -611,21 +602,283 @@ enrollTree: any[] = [];
   async ngOnInit() {
     await this.doRefresh();
     this.appName = await (await App.getInfo()).name;
-    
-    this.enrollementList();
+    this.fetchUserEnrollments();
   }
-  
+
+  userEnrollmentData = [];
+  userCourseEnrollments = [];
+  frameworks = [];
+  fetchUserEnrollments(): void {
+    debugger
+    const enrollReq = this.createRequest('POST', '/api/activity/v1/user/enrollment/list');
+
+      this.apiService.fetch(enrollReq).subscribe(
+        (response: any) => {
+          this.userEnrollmentData = response?.result?.response?.enrollments || [];
+
+          this.processCompetencyFrameworks();
+        },
+        (error: any) => {
+          console.error('Error fetching content data:', error);
+          // this.toasterService.error(this.resourceService.frmelmnts?.lbl?.failedToFetchFrameworkData || "Failed to fetch batches");
+        }
+    );
+  }
+  processCompetencyFrameworks(): void {
+    const competencyEnrollments = this.userEnrollmentData.filter(enrollment =>
+        enrollment.activitytype === 'Competency Framework'
+    );
+
+    if (competencyEnrollments.length === 0) {
+      this.frameworks = [];
+      return;
+    }
+    const activityIds = [...new Set(competencyEnrollments.map(enrollment => enrollment.activityid))] as string[];
+    this.frameworks = [];
+    this.fetchMultipleContentData(activityIds, competencyEnrollments);
+  }
+
+  fetchMultipleContentData(activityIds: string[], frameworkEnrollments: any[]): void {
+    let completedRequests = 0;
+    const totalRequests = activityIds.length;
+
+    activityIds.forEach(activityId => {
+      this.fetchSingleContentData(activityId, frameworkEnrollments, () => {
+        completedRequests++;
+      });
+    });
+  }
+
+  fetchSingleContentData(contentId: string, frameworkEnrollments: any[], onComplete?: () => void): void {
+    const hierarchyOptions = this.createRequest('GET', `/action/content/v3/hierarchy/${contentId}`);
+    const batchOptions = this.createRequest('GET', `/api/activity/v1/batch/list/${contentId}`);
+
+    Promise.all([
+        this.apiService.fetch(hierarchyOptions).toPromise(),
+        this.apiService.fetch(batchOptions).toPromise()
+    ]).then(([hierarchyResponse, batchResponse]) => {
+      const contentData = hierarchyResponse?.body.result?.content;
+      const batchList = batchResponse?.body.result?.response || [];
+      if (contentData) {
+        const frameworkSpecificEnrollments = frameworkEnrollments.filter(enrollment =>
+            enrollment.activityid === contentData.identifier
+        );
+        const allFrameworkEnrollments = frameworkSpecificEnrollments.filter(enrollment =>
+            enrollment.activityid === contentData.identifier
+        );
+        if (allFrameworkEnrollments.length > 0) {
+          allFrameworkEnrollments.forEach((enrollment, index) => {
+            const frameworkProgress = enrollment.progress || 0;
+            let batchInfo = 'Default Batch';
+            const enrollmentBatchId = enrollment.batchId;
+            let batchName = 'Unknown Batch';
+            let batchDate = '';
+            const matchingBatch = batchList.find(batch => batch.batchId === enrollmentBatchId);
+            if (matchingBatch) {
+              batchName = matchingBatch.name || matchingBatch.batchName || 'Unknown Batch';
+              const rawDate = matchingBatch.startDate || matchingBatch.createdDate || '';
+              if (rawDate) {
+                try {
+                  const dateObj = new Date(rawDate);
+                  if (!isNaN(dateObj.getTime())) {
+
+                    batchDate = dateObj.toISOString().split('T')[0];
+                  } else {
+                    batchDate = rawDate;
+                  }
+                } catch (error) {
+                  batchDate = rawDate;
+                }
+              }
+            } else {
+              if (contentData.children) {
+                contentData.children.forEach(level => {
+                  if (level.children) {
+                    level.children.forEach(course => {
+                      if (course.batches && course.batches.length > 0) {
+                        const hierarchyBatch = course.batches.find(batch => batch.batchId === enrollmentBatchId);
+                        if (hierarchyBatch) {
+                          batchName = hierarchyBatch.name || batchName;
+                          const rawDate = hierarchyBatch.startDate || '';
+                          if (rawDate) {
+                            try {
+                              const dateObj = new Date(rawDate);
+                              if (!isNaN(dateObj.getTime())) {
+                                batchDate = dateObj.toISOString().split('T')[0];
+                              } else {
+                                batchDate = rawDate;
+                              }
+                            } catch (error) {
+                              console.log('Error formatting hierarchy date:', error);
+                              batchDate = rawDate;
+                            }
+                          }
+                        }
+                      }
+                    });
+                  }
+                });
+              }
+            }
+            if (batchDate) {
+              batchInfo = `${batchName}_${batchDate}`;
+            } else {
+              batchInfo = batchName;
+            }
+            const batchRelatedEnrollments = this.userEnrollmentData.filter(e =>
+                e.batchId === enrollment.batchId || e.batchId?.startsWith(enrollment.batchId + ':')
+            );
+            const levels = this.processLevelsFromContent(contentData.children || [], batchRelatedEnrollments);
+            const frameworkCompletion = frameworkProgress > 0 ? frameworkProgress : this.calculateFrameworkCompletion(levels);
+            const frameworkData = {
+              frameworkId: `${contentData.identifier}_${enrollment.batchId}`,
+              frameworkName: `${contentData.name}`,
+              completion: frameworkCompletion,
+              downloadable: true,
+              batchName: batchInfo,
+              batchId: enrollment.batchId,
+              originalFrameworkId: contentData.identifier,
+              levels: levels
+            };
+            this.frameworks.push(frameworkData);
+          });
+        } else {
+          // No enrollments found - create default entry without progress
+          const levels = this.processLevelsFromContent(contentData.children || [], this.userEnrollmentData);
+          const frameworkData = {
+            frameworkId: contentData.identifier,
+            frameworkName: contentData.name,
+            completion: 0,
+            downloadable: true,
+            batchName: 'No Enrollment',
+            levels: levels
+          };
+          this.frameworks.push(frameworkData);
+        }
+      }
+
+      if (onComplete) {
+        onComplete();
+      }
+    }).catch((error: any) => {
+      console.error('Error fetching content or batch data for ID:', contentId, error);
+      // this.toasterService.error(this.resourceService.frmelmnts?.lbl?.failedToFetchFrameworkData || "Failed to fetch framework data");
+
+      if (onComplete) {
+        onComplete();
+      }
+    });
+  }
+
+  processLevelsFromContent(children: any[], enrollments: any[]): any[] {
+    const levels = children.filter(child => child.primaryCategory === "Competency Level");
+    return levels.map(level => {
+      const levelEnrollment = this.findEnrollmentByBatchPattern(enrollments, level.identifier, 'Competency Level');
+      let levelProgress = 0;
+      if (levelEnrollment) {
+        levelProgress = levelEnrollment.progress || 0;
+      }
+      const courses = this.processCoursesFromLevel(level.children || [], enrollments);
+      const levelCompletion = levelProgress > 0 ? levelProgress : this.calculateLevelCompletion(courses);
+
+      const levelData = {
+        levelId: level.identifier,
+        levelName: level.name,
+        completion: levelCompletion,
+        downloadable: true,
+        courses: courses
+      };
+      return levelData;
+    });
+  }
+
+  processCoursesFromLevel(levelChildren: any[], enrollments: any[]): any[] {
+    const allCourses = [];
+    const courses = levelChildren.filter(child => child.primaryCategory === "Course");
+    courses.forEach(course => {
+      let completion = 0;
+      const courseEnrollmentFromLearner = this.userCourseEnrollments.find(enrollment =>
+          enrollment.contentId === course.identifier || enrollment.courseId === course.identifier
+      );
+
+      if (courseEnrollmentFromLearner) {
+        completion = courseEnrollmentFromLearner.completionPercentage || courseEnrollmentFromLearner.progress || 0;
+      } else {
+        const courseEnrollment = enrollments.find(enrollment => {
+          const isDirectMatch = enrollment.activityid === course.identifier;
+          const isBatchMatch = enrollment.batchId && enrollment.batchId.includes(course.identifier);
+
+          const match = isDirectMatch || isBatchMatch;
+          return match;
+        });
+
+        if (courseEnrollment) {
+          completion = courseEnrollment.progress || courseEnrollment.completionPercentage || courseEnrollment.completion || 0;
+        } else {
+          if (course.batches && course.batches.length > 0) {
+            const batchEnrollment = enrollments.find(enrollment => {
+              return course.batches.some(batch => enrollment.batchId === batch.batchId);
+            });
+
+            if (batchEnrollment) {
+              completion = batchEnrollment.progress || batchEnrollment.completionPercentage || batchEnrollment.completion || 0;
+            }
+          }
+        }
+      }
+
+      const courseData = {
+        courseId: course.identifier,
+        courseName: course.name,
+        completion: completion,
+        downloadable: true
+      };
+      allCourses.push(courseData);
+    });
+    return allCourses;
+  }
+
+  calculateFrameworkCompletion(levels: any[]): number {
+    if (!levels || levels.length === 0) return 0;
+
+    const totalCompletion = levels.reduce((sum, level) => sum + level.completion, 0);
+    return Math.round(totalCompletion / levels.length);
+  }
+
+  calculateLevelCompletion(courses: any[]): number {
+    if (!courses || courses.length === 0) return 0;
+
+    const totalCompletion = courses.reduce((sum, course) => sum + course.completion, 0);
+    return Math.round(totalCompletion / courses.length);
+  }
+
+  /**
+   * Helper method to find enrollment by batch ID patterns
+   * Handles both simple batchIds and compound batchIds like "frameworkBatchId:activityId"
+   */
+  findEnrollmentByBatchPattern(enrollments: any[], activityId: string, activityType: string): any {
+    return enrollments.find(enrollment => {
+      if (enrollment.activitytype !== activityType) {
+        return false;
+      }
+
+      // Direct activity ID match
+      if (enrollment.activityid === activityId) {
+        return true;
+      }
+
+      // Check if batchId contains the activity ID (for compound batch IDs)
+      if (enrollment.batchId && enrollment.batchId.includes(activityId)) {
+        return true;
+      }
+
+      return false;
+    });
+  }
 
   async enrollementList(): Promise<void> {
     // 1) First API: enrollments
-    const enrollReq = new CsRequest.Builder()
-      .withHost('https://dev.maharat.fmps.ma')
-      .withType('POST')
-      .withPath('/api/activity/v1/user/enrollment/list')
-      .withBearerToken(true)
-      .withUserToken(true)
-      .withBody({})
-      .build();
+    const enrollReq = this.createRequest('POST', '/api/activity/v1/user/enrollment/list');
 
     try {
       const enrollRes: any = await this.apiService.fetch(enrollReq).toPromise();
@@ -759,6 +1012,16 @@ enrollTree: any[] = [];
   }
 
 
+  private createRequest(method: string, url: string) {
+    return new CsRequest.Builder()
+        // .withHost('https://dev.maharat.fmps.ma')
+        .withType(method)
+        .withPath(url)
+        .withBearerToken(true)
+        .withUserToken(true)
+        .withBody({})
+        .build();
+  }
 
   async ionViewWillEnter() {
     // this.getCategories();
@@ -806,7 +1069,7 @@ enrollTree: any[] = [];
           await this.getEnrolledCourses(refresher);
           await this.searchContent();
           await this.getSelfDeclaredDetails();
-          await   this.enrollementList();
+          await this.fetchUserEnrollments();
           this.getProjectsCertificate();
           console.log('enrollTree in doRefresh', this.enrollTree);
         });
