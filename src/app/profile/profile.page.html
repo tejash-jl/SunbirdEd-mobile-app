@@ -113,52 +113,119 @@
         </div>
     </div> -->
 
-    <!-- <ion-card class="full-card">
+ 
+
+    <ion-card class="full-card enroll-card">
         <ion-card-header>
             <ion-card-title class="Competency-info">{{'COMPETENCY_FRAMEWORKS' | translate}}</ion-card-title>
         </ion-card-header>
     
-        <ion-card-content> 
-            <ion-accordion-group>
-                <ion-accordion *ngFor="let fw of competencyData.competencyFrameworks; let fi = index" [value]="fi">
-                    <ion-item slot="header">
-                        <ion-label>
-                            <h2>{{ fw.name }}</h2>
-                            <p>Batch: {{ fw.batchNumber }}</p>
-                        </ion-label>
-                        <ion-badge slot="end">{{ fw.percentage }}</ion-badge>
+        <ion-card-content>
+    
+    
+            <!-- <ion-item lines="full" color="light" class="enroll-header">
+          <ion-grid class="ion-no-padding">
+            <ion-row class="enroll-row">
+              <ion-col size="5" size-md="5" class="col-framework"><strong>Framework</strong></ion-col>
+              <ion-col size="3" size-md="2" class="col-completion ion-text-center"><strong>Completion</strong></ion-col>
+              <ion-col size="2" size-md="2" class="col-actions ion-text-center"><strong>Actions</strong></ion-col>
+              <ion-col size="12" size-md="3" class="col-batch"><strong>Batch</strong></ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item> -->
+    
+            <ion-accordion-group *ngIf="enrollTree?.length; else emptyState">
+    
+                <!-- Top-level: Frameworks -->
+                <ion-accordion *ngFor="let fw of enrollTree; let fi = index" [value]="fi">
+                    <ion-item slot="header" class="enroll-item">
+                        <ion-grid class="ion-no-padding">
+                            <ion-row class="enroll-row">
+                                <ion-col size="5" size-md="5" class="col-framework">
+                                    <h2 class="title-clip ion-no-margin">{{ fw?.Framework }}</h2>
+                                </ion-col>
+    
+                                <ion-col size="3" size-md="2" class="col-completion ion-text-center">
+                                    <div class="pct">{{ (fw?.Completion ?? 0) }}%</div>
+                                    <ion-progress-bar [value]="(fw?.Completion || 0) / 100"></ion-progress-bar>
+                                </ion-col>
+    
+                                <ion-col size="2" size-md="2" class="col-actions">
+                                    <ion-button class="download-btn" fill="outline" size="small" expand="block"
+                                        (click)="onDownload($event, fw?.Actions?.downloadUrl)">
+                                        <ion-icon name="download-outline" slot="start"></ion-icon>
+                                        Download
+                                    </ion-button>
+                                </ion-col>
+    
+                                <ion-col size="12" size-md="3" class="col-batch">
+                                    <ion-chip class="batch-chip" *ngIf="fw?.Batch">{{ fw?.Batch }}</ion-chip>
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
                     </ion-item>
     
+                    <!-- Framework content: Levels -->
                     <div slot="content" class="fw-content">
-                        <ion-accordion-group>
-                            <ion-accordion *ngFor="let lvl of fw.levels; let li = index" [value]="fi + '-' + li">
-                                <ion-item slot="header">
-                                    <ion-label>
-                                        <strong>{{ lvl.name }}</strong>
-                                        <p>{{ lvl.percentage }}</p>
-                                       
-                                    </ion-label>
-                                    <ion-button
-                                        fill="clear"
-                                        size="small"
-                                        slot="end"
-                                        (click)="$event.stopPropagation(); navigateToDownlaodCertificateView(lvl.certPayload)"
-                                    >
-                                        {{ lvl.action }}
-                                    </ion-button>
-                                    <ion-progress-bar style="width:160px"
-                                        [value]="toNum(lvl.percentage)"></ion-progress-bar>
+                        <ion-accordion-group *ngIf="fw?.children?.length">
+    
+                            <ion-accordion *ngFor="let lvl of fw.children; let li = index" [value]="fi + '-' + li">
+                                <ion-item slot="header" class="enroll-item level">
+                                    <ion-grid class="ion-no-padding">
+                                        <ion-row class="enroll-row">
+                                            <ion-col size="5" size-md="5" class="col-framework">
+                                                <strong class="title-clip">{{ lvl?.Framework }}</strong>
+                                            </ion-col>
+    
+                                            <ion-col size="3" size-md="2" class="col-completion ion-text-center">
+                                                <div class="pct">{{ (lvl?.Completion ?? 0) }}%</div>
+                                                <ion-progress-bar [value]="(lvl?.Completion || 0) / 100"></ion-progress-bar>
+                                            </ion-col>
+    
+                                            <ion-col size="2" size-md="2" class="col-actions">
+                                                <ion-button class="download-btn" fill="outline" size="small" expand="block"
+                                                    (click)="onDownload($event, lvl?.Actions?.downloadUrl)">
+                                                    <ion-icon name="download-outline" slot="start"></ion-icon>
+                                                    Download
+                                                </ion-button>
+                                            </ion-col>
+    
+                                            <ion-col size="12" size-md="3" class="col-batch">
+                                                <ion-chip class="batch-chip" *ngIf="lvl?.Batch">{{ lvl?.Batch }}</ion-chip>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
                                 </ion-item>
     
-                                <ion-list slot="content">
-                                    <ion-item *ngFor="let c of lvl.courses">
-                                        <ion-label>
-                                            <h3>{{ c.course }}</h3>
-                                            <p>Completion: {{ c.completion }}</p>
-                                        </ion-label>
-                                        <ion-button fill="clear" size="small" (click)="navigateToDownlaodCertificateView(c.certPayload)">
-                                            {{ c.action }}
-                                        </ion-button>
+                                <!-- Level content: Courses -->
+                                <ion-list slot="content" class="course-list">
+                                    <ion-item *ngFor="let c of lvl?.children" class="enroll-item course">
+                                        <ion-grid class="ion-no-padding" style="width:100%">
+                                            <ion-row class="enroll-row">
+                                                <ion-col size="5" size-md="5" class="col-framework">
+                                                    <h3 class="title-clip ion-no-margin">{{ c?.Framework }}</h3>
+                                                </ion-col>
+    
+                                                <ion-col size="3" size-md="2" class="col-completion ion-text-center">
+                                                    <div class="pct">{{ (c?.Completion ?? 0) }}%</div>
+                                                    <ion-progress-bar
+                                                        [value]="(c?.Completion || 0) / 100"></ion-progress-bar>
+                                                </ion-col>
+    
+                                                <ion-col size="2" size-md="2" class="col-actions">
+                                                    <ion-button class="download-btn" fill="outline" size="small"
+                                                        expand="block"
+                                                        (click)="onDownload($event, c?.Actions?.downloadUrl)">
+                                                        <ion-icon name="download-outline" slot="start"></ion-icon>
+                                                        Download
+                                                    </ion-button>
+                                                </ion-col>
+    
+                                                <ion-col size="12" size-md="3" class="col-batch">
+                                                    <ion-chip class="batch-chip" *ngIf="c?.Batch">{{ c?.Batch }}</ion-chip>
+                                                </ion-col>
+                                            </ion-row>
+                                        </ion-grid>
                                     </ion-item>
                                 </ion-list>
                             </ion-accordion>
@@ -166,9 +233,15 @@
                     </div>
                 </ion-accordion>
             </ion-accordion-group>
+    
+            <ng-template #emptyState>
+                <ion-item lines="none">
+                    <ion-label color="medium">No enrollments found.</ion-label>
+                </ion-item>
+            </ng-template>
+    
         </ion-card-content>
-    </ion-card> -->
-
+    </ion-card>
 
     <div class="self-declare-teacher-details" *ngIf="isCustodianOrgId &&  profile?.declarations?.length">
         <p class="declare-info">{{'MY_DETAILS' | translate | titlecase }}</p>

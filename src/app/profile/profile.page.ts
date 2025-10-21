@@ -439,9 +439,25 @@ export class ProfilePage implements OnInit {
     return isNaN(n) ? 0 : n / 100;
   }
 
-  onDownload(course: Course) {
-    // plug into your existing download flow here
-    // console.log('Download clicked for:', course.course);
+  // onDownload(course: Course) {
+  //   // plug into your existing download flow here
+  //   // console.log('Download clicked for:', course.course);
+  // }
+  
+  onDownload(ev: Event, url?: string) {
+    ev.preventDefault();
+    ev.stopPropagation();
+
+    if (!url) {
+      console.warn('No downloadUrl provided');
+      return;
+    }
+
+    // Web approach: open in new tab. If server sets Content-Disposition, it triggers download.
+    window.open(url, '_blank', 'noopener,noreferrer');
+
+    // Capacitor alternative (if you want in-app open):
+    // Browser.open({ url }); // import { Browser } from '@capacitor/browser';
   }
 
   @ViewChild('refresher', { static: false }) refresher: IonRefresher;
@@ -467,8 +483,8 @@ export class ProfilePage implements OnInit {
   subjectList = [];
   profileConfig: any = [];
   loader?: HTMLIonLoadingElement;
-
-
+enrollTree: any[] = [];
+ 
   imageUri = 'assets/imgs/ic_profile_default.png';
 
   readonly DEFAULT_PAGINATION_LIMIT = 3;
@@ -595,28 +611,154 @@ export class ProfilePage implements OnInit {
   async ngOnInit() {
     await this.doRefresh();
     this.appName = await (await App.getInfo()).name;
-    const apiRequest = new CsRequest.Builder()
-        .withHost('https://dev.maharat.fmps.ma/')
-        .withType('POST')
-        .withPath('/api/activity/v1/user/enrollment/list')
-        .withBearerToken(true)
-        .withUserToken(true)
-        .withBody({
+    
+    this.enrollementList();
+  }
+  
 
-        })
-        .build();
-    debugger
+  async enrollementList(): Promise<void> {
+    // 1) First API: enrollments
+    const enrollReq = new CsRequest.Builder()
+      .withHost('https://dev.maharat.fmps.ma')
+      .withType('POST')
+      .withPath('/api/activity/v1/user/enrollment/list')
+      .withBearerToken(true)
+      .withUserToken(true)
+      .withBody({})
+      .build();
+
     try {
-      await this.apiService.fetch(apiRequest).toPromise()
-          .then((res) => {
-            debugger
-            console.log(res)
-          });
+      const enrollRes: any = await this.apiService.fetch(enrollReq).toPromise();
+      const enrollments: any[] = enrollRes?.body?.result?.response?.enrollments ?? [];
+      console.log('first api response:', enrollments);
+
+      // Map progress by activity id (percentage assumed as 0-100 or 0-1; using raw value)
+      const progressById = new Map<string, number>();
+      for (const e of enrollments) {
+        if (e?.activityid != null) progressById.set(e.activityid, Number(e.progress ?? 0));
+      }
+
+      // Unique activity IDs to call hierarchy API
+      const activityIds: string[] = Array.from(
+        new Set(
+          enrollments.map((e: any) => e?.activityid).filter((id: any) => typeof id === 'string' && id.length > 0)
+        )
+      );
+      if (!activityIds.length) {
+        console.log('No activity IDs found.');
+        this.enrollTree = [];
+        return;
+      }
+
+      // 2) Second API for each id, then build rows
+      const calls = activityIds.map(async (id) => {
+        const req = new CsRequest.Builder()
+          .withHost('https://dev.maharat.fmps.ma')
+          .withType('GET')
+          .withPath(`/action/content/v3/hierarchy/${encodeURIComponent(id)}`)
+          .withBearerToken(true)
+          .withUserToken(true)
+          .build();
+
+        try {
+          const res: any = await this.apiService.fetch(req).toPromise();
+          const content = res?.body?.result?.content;
+          if (!content) return null;
+
+          // We only build the 3-level display when this node is a Framework (as per your spec)
+          const isFramework = (content.primaryCategory === 'Competency Framework') || (content.contentType === 'Resource' && content.name);
+          if (!isFramework) return null;
+
+          // Helper: date "YYYY-MM-DD" from createdOn
+          const toYMD = (iso: string) => {
+            // "2025-09-29T07:04:33.578+0000" → "2025-09-29"
+            if (!iso || typeof iso !== 'string') return '';
+            return iso.substring(0, 10);
+          };
+
+          // Parent row (Framework)
+          const parentId: string = content.identifier;
+          const parentName: string = content.name;
+          const parentCreatedOn: string = content.createdOn;
+          const parentDownload: string = content.downloadUrl || '';
+          const parentProgress: number = progressById.get(parentId) ?? 0;
+          const batchName = parentName && parentCreatedOn ? `${parentName}_${toYMD(parentCreatedOn)}` : '';
+
+          const parentRow = {
+            Framework: parentName,                       // column 1
+            Completion: parentProgress,                  // column 2 (percentage from first API, matched by identifier)
+            Actions: { downloadUrl: parentDownload },    // column 3
+            Batch: batchName,                            // column 4 (name_date)
+            children: [] as any[],
+          };
+
+          // Child Level (e.g., "L1")
+          const levelNode = Array.isArray(content.children)
+            ? content.children.find((c: any) =>
+              (c.primaryCategory === 'Competency Level') || (c.name && c.identifier && c.contentType === 'Collection')
+            )
+            : null;
+
+          if (levelNode) {
+            const levelId: string = levelNode.identifier;
+            const levelName: string = levelNode.name;
+            const levelDownload: string = levelNode.downloadUrl || '';
+            const levelProgress: number = progressById.get(levelId) ?? 0;
+
+            const levelRow = {
+              Framework: levelName,
+              Completion: levelProgress,
+              Actions: { downloadUrl: levelDownload },
+              Batch: '', // not requested for level; keep blank or compute if needed
+              children: [] as any[],
+            };
+
+            // Grandchild Course (e.g., "Course (E139)")
+            const courseNode = Array.isArray(levelNode.children)
+              ? levelNode.children.find((c: any) =>
+                (c.primaryCategory === 'Course' || c.contentType === 'Course') && c.name && c.identifier
+              )
+              : null;
+
+            if (courseNode) {
+              const courseId: string = courseNode.identifier;
+              const courseName: string = courseNode.name;
+              const courseDownload: string = courseNode.downloadUrl || '';
+              const courseProgress: number = progressById.get(courseId) ?? 0;
+
+              const courseRow = {
+                Framework: courseName,
+                Completion: courseProgress,
+                Actions: { downloadUrl: courseDownload },
+                Batch: '',
+              };
+
+              levelRow.children.push(courseRow);
+            }
+
+            parentRow.children.push(levelRow);
+          }
+
+          return parentRow;
+        } catch (err) {
+          console.error(`Hierarchy fetch failed for ${id}:`, err);
+          return null;
+        }
+      });
+
+      const built = await Promise.all(calls);
+      // Keep only non-null rows
+      this.enrollTree = built.filter(Boolean) as any[];
+
+      // PRINT final JSON
+      console.log('Final JSON:', JSON.stringify(this.enrollTree, null, 2));
     } catch (e) {
-      debugger
-      console.log(e)
+      console.error('Enrollment fetch failed:', e);
+      this.enrollTree = [];
     }
   }
+
+
 
   async ionViewWillEnter() {
     // this.getCategories();
@@ -664,7 +806,9 @@ export class ProfilePage implements OnInit {
           await this.getEnrolledCourses(refresher);
           await this.searchContent();
           await this.getSelfDeclaredDetails();
+          await   this.enrollementList();
           this.getProjectsCertificate();
+          console.log('enrollTree in doRefresh', this.enrollTree);
         });
       })
       .catch(async error => {

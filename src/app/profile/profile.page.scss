@@ -500,6 +500,224 @@
   }
 
 }
+
+
 .project-submitted{
   color : var(--app-green) !important;
+}
+
+
+
+.enroll-card {
+  --smoke-white: #f5f5f5;
+
+  /* Remove default inner paddings on header rows */
+  .enroll-header,
+  .enroll-item {
+    --inner-padding-start: 0;
+    --inner-padding-end: 0;
+    --padding-start: 0;
+    --padding-end: 0;
+  }
+
+  /* Remove left indent in accordion content */
+  .fw-content,
+  ion-list[slot='content'],
+  ion-item[slot='content'] {
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+  }
+
+  /* Nested items: no extra indentation */
+  ion-accordion-group ion-accordion ion-item {
+    --inner-padding-start: 0;
+    --inner-padding-end: 0;
+  }
+
+  .enroll-row {
+    align-items: center;
+    row-gap: 8px;
+  }
+
+  .title-clip {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+  }
+
+  /* Columns */
+  .col-framework {
+    min-width: 0;
+  }
+
+  .col-completion {
+    min-width: 140px;
+    text-align: center;
+
+    .pct {
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+
+    ion-progress-bar {
+      width: 100%;
+      height: 8px;
+      border-radius: 6px;
+      --background: var(--ion-color-light);
+      --progress-background: var(--ion-color-primary);
+    }
+  }
+
+  .col-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 130px;
+
+    .download-btn {
+      width: 120px;
+      max-width: 100%;
+    }
+  }
+
+  .col-batch {
+    min-width: 160px;
+
+    .batch-chip {
+      max-width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  /* ================= Sub-card visuals + PADDING ================= */
+
+  /* Level header (sub-card header). Use slot selector to be precise */
+  ion-accordion .enroll-item.level[slot='header'] {
+    --background: var(--smoke-white);
+    background: var(--smoke-white);
+    border-radius: 12px;
+    margin: 6px 8px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .06);
+
+    /* ✅ Padding (both outer & inner tracks) */
+    --padding-top: 14px;
+    --padding-bottom: 14px;
+    --padding-start: 14px;
+    --padding-end: 14px;
+    --inner-padding-start: 14px;
+    --inner-padding-end: 14px;
+
+    /* Ensure grid content breathes */
+    ion-grid {
+      padding: 6px 0;
+    }
+  }
+
+  /* Course rows (sub-card body items) */
+  .course-list ion-item {
+    --background: var(--smoke-white);
+    background: var(--smoke-white);
+    border-radius: 10px;
+    margin: 6px 8px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+
+    /* ✅ Padding */
+    --padding-top: 14px;
+    --padding-bottom: 14px;
+    --padding-start: 14px;
+    --padding-end: 14px;
+    --inner-padding-start: 14px;
+    --inner-padding-end: 14px;
+
+    ion-grid {
+      padding: 4px 0;
+    }
+  }
+
+  .course-list ion-item+ion-item {
+    margin-top: 8px;
+  }
+
+  /* ================== Responsive ================== */
+  @media (max-width: 480px) {
+    .col-framework {
+      order: 1;
+    }
+
+    .col-completion {
+      order: 2;
+    }
+
+    .col-actions {
+      order: 3;
+    }
+
+    .col-batch {
+      order: 4;
+    }
+
+    .col-actions,
+    .col-batch {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+
+    .col-actions .download-btn {
+      width: 100%;
+    }
+
+    .col-completion ion-progress-bar {
+      height: 6px;
+    }
+
+    .enroll-item {
+      --min-height: 44px;
+    }
+
+    /* Slightly softer radii on tiny screens */
+    ion-accordion .enroll-item.level[slot='header'] {
+      border-radius: 10px;
+    }
+
+    .course-list ion-item {
+      border-radius: 8px;
+    }
+  }
+
+  @media (min-width: 481px) and (max-width: 767px) {
+    .col-batch .batch-chip {
+      white-space: normal;
+      line-height: 1.2;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .col-completion ion-progress-bar {
+      height: 8px;
+    }
+  }
+
+  /* ================== Dark mode ================== */
+  @media (prefers-color-scheme: dark) {
+    :host {
+      --smoke-white: #2a2a2a;
+    }
+
+    ion-accordion .enroll-item.level[slot='header'],
+    .course-list ion-item {
+      box-shadow: none;
+    }
+  }
+
+  /* ===== Optional hard override if something still resets padding =====
+  ion-accordion .enroll-item.level[slot='header']::part(native),
+  .course-list ion-item::part(native) {
+    padding: 14px !important;
+  }
+  */
 }
