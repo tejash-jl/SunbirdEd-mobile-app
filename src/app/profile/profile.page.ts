@@ -598,7 +598,7 @@ export class ProfilePage implements OnInit {
     const apiRequest = new CsRequest.Builder()
         .withHost('https://dev.maharat.fmps.ma/')
         .withType('POST')
-        .withPath('/certificate/download')
+        .withPath('/api/activity/v1/user/enrollment/list')
         .withBearerToken(true)
         .withUserToken(true)
         .withBody({
