@@ -614,7 +614,7 @@ enrollTree: any[] = [];
 
       this.apiService.fetch(enrollReq).subscribe(
         (response: any) => {
-          this.userEnrollmentData = response?.result?.response?.enrollments || [];
+          this.userEnrollmentData = response?.body.result?.response?.enrollments || [];
 
           this.processCompetencyFrameworks();
         },
