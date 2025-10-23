@@ -631,10 +631,13 @@ enrollTree: any[] = [];
 
     if (competencyEnrollments.length === 0) {
       this.frameworks = [];
+       console.log(this.frameworks+"this.frameworks")
       return;
     }
     const activityIds = [...new Set(competencyEnrollments.map(enrollment => enrollment.activityid))] as string[];
     this.frameworks = [];
+    console.log(this.frameworks+"this.frameworks")
+    
     this.fetchMultipleContentData(activityIds, competencyEnrollments);
   }
 
@@ -769,7 +772,15 @@ enrollTree: any[] = [];
       }
     });
   }
+onDownloadItem(ev: Event, item: any, kind: 'framework' | 'level' | 'course') {
+  // prevent accordion toggle when clicking button
+  ev.preventDefault();
+  ev.stopPropagation();
 
+  console.log('[Download clicked]', { kind, item });
+
+  return null; // nothing else happens
+}
   processLevelsFromContent(children: any[], enrollments: any[]): any[] {
     const levels = children.filter(child => child.primaryCategory === "Competency Level");
     return levels.map(level => {
