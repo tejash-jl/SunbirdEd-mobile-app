@@ -83,6 +83,7 @@ import {UtilityService} from '../../services/utility-service';
 import {LogoutHandlerService} from '../../services/handlers/logout-handler.service';
 import {DeleteUserRequest} from '@project-fmps/sunbird-sdk/profile/def/delete-user-request';
 import {CsRequest} from '@project-sunbird/client-services/core/http-service';
+import { Preferences } from '@capacitor/preferences';
 
 
 @Component({
@@ -598,8 +599,56 @@ enrollTree: any[] = [];
     });
 
   }
+  // STEP 2: offline cache helpers for this.frameworks
+
+  private FW_CACHE_KEY(): string {
+    // keep cache per logged-in user
+    const uid = this.profile?.userId || this.profile?.id || this.loggedInUserId || 'anon';
+    return `fw_cache_${uid}`;
+  }
+
+  private async saveFrameworksCache(data: any[]): Promise<void> {
+    try {
+      await Preferences.set({
+        key: this.FW_CACHE_KEY(),
+        value: JSON.stringify({ savedAt: Date.now(), frameworks: data || [] })
+      });
+    } catch (e) {
+      console.warn('[FW] cache save failed', e);
+    }
+  }
+
+  private async loadFrameworksCache(): Promise<any[] | null> {
+    try {
+      const { value } = await Preferences.get({ key: this.FW_CACHE_KEY() });
+      if (!value) return null;
+      const parsed = JSON.parse(value);
+      return Array.isArray(parsed?.frameworks) ? parsed.frameworks : null;
+    } catch (e) {
+      console.warn('[FW] cache read failed', e);
+      return null;
+    }
+  }
+
+  private async restoreFrameworksFromCacheIfAny(): Promise<boolean> {
+    // const cached = await this.loadFrameworksCache();
+    // if (cached && cached.length) {
+    //   this.frameworks = cached;
+    //   return true;
+    // }
+    // return false;
+    const cached = await this.loadFrameworksCache();
+    if (cached && cached.length) {
+      this.frameworks = cached;
+      this.frameworkSeen = new Set(cached.map(f => f.frameworkId)); // <— ADD THIS
+      return true;
+    }
+    return false;
+  }
 
   async ngOnInit() {
+    await this.restoreFrameworksFromCacheIfAny();
+
     await this.doRefresh();
     this.appName = await (await App.getInfo()).name;
     this.fetchUserEnrollments();
@@ -608,40 +657,94 @@ enrollTree: any[] = [];
   userEnrollmentData = [];
   userCourseEnrollments = [];
   frameworks = [];
+  private frameworkSeen = new Set<string>();
   fetchUserEnrollments(): void {
+    // STEP 4: if offline, use cache and exit
+    if (!this.commonUtilService?.networkInfo?.isNetworkAvailable) {
+      this.restoreFrameworksFromCacheIfAny();
+      return;
+    }
     debugger
     const enrollReq = this.createRequest('POST', '/api/activity/v1/user/enrollment/list');
 
-      this.apiService.fetch(enrollReq).subscribe(
-        (response: any) => {
-          this.userEnrollmentData = response?.body.result?.response?.enrollments || [];
+    this.apiService.fetch(enrollReq).subscribe(
+      (response: any) => {
+        this.userEnrollmentData = response?.body.result?.response?.enrollments || [];
 
-          this.processCompetencyFrameworks();
-        },
-        (error: any) => {
-          console.error('Error fetching content data:', error);
-          // this.toasterService.error(this.resourceService.frmelmnts?.lbl?.failedToFetchFrameworkData || "Failed to fetch batches");
-        }
+        this.processCompetencyFrameworks();
+      },
+      (error: any) => {
+        console.error('Error fetching content data:', error);
+        // this.toasterService.error(this.resourceService.frmelmnts?.lbl?.failedToFetchFrameworkData || "Failed to fetch batches");
+      }
     );
   }
   processCompetencyFrameworks(): void {
-    const competencyEnrollments = this.userEnrollmentData.filter(enrollment =>
-        enrollment.activitytype === 'Competency Framework'
-    );
+    // const competencyEnrollments = this.userEnrollmentData.filter(enrollment =>
+    //     enrollment.activitytype === 'Competency Framework'
+    // );
 
-    if (competencyEnrollments.length === 0) {
+    // if (competencyEnrollments.length === 0) {
+    //   this.frameworks = [];
+    //    console.log(this.frameworks+"this.frameworks")
+    //   return;
+    // }
+    // const activityIds = [...new Set(competencyEnrollments.map(enrollment => enrollment.activityid))] as string[];
+    // this.frameworks = [];
+    // console.log(this.frameworks+"this.frameworks")
+
+    // this.fetchMultipleContentData(activityIds, competencyEnrollments);
+    const competencyEnrollments = this.userEnrollmentData
+      .filter(e => e.activitytype === 'Competency Framework');
+
+    if (!competencyEnrollments.length) {
       this.frameworks = [];
-       console.log(this.frameworks+"this.frameworks")
+      this.frameworkSeen.clear();     // <— keep Set in sync when empty
       return;
     }
-    const activityIds = [...new Set(competencyEnrollments.map(enrollment => enrollment.activityid))] as string[];
+
+    // ✅ CLEAR HERE (single source of truth for clearing before rebuild)
     this.frameworks = [];
-    console.log(this.frameworks+"this.frameworks")
-    
+    this.frameworkSeen.clear();       // <— ADD THIS
+
+    const activityIds = [...new Set(
+      competencyEnrollments.map(e => e.activityid)
+    )] as string[];
+
     this.fetchMultipleContentData(activityIds, competencyEnrollments);
   }
 
   fetchMultipleContentData(activityIds: string[], frameworkEnrollments: any[]): void {
+    // STEP 5: wait for all child calls, then cache frameworks
+    const tasks = activityIds.map((activityId) =>
+      new Promise<void>((resolve) => {
+        this.fetchSingleContentData(activityId, frameworkEnrollments, () => resolve());
+      })
+    );
+
+    // Promise.all(tasks)
+    //   .then(async () => {
+    //     // optional: sort if you want stable order
+    //     // this.frameworks.sort((a, b) => a.frameworkName.localeCompare(b.frameworkName));
+    //     await this.saveFrameworksCache(this.frameworks);
+    //   })
+    //   .catch(async (e) => {
+    //     console.error('[FW] building frameworks failed:', e);
+    //     if (!this.frameworks?.length) {
+    //       await this.restoreFrameworksFromCacheIfAny();
+    //     }
+    //   });
+    Promise.all(tasks)
+      .then(async () => {
+        await this.saveFrameworksCache(this.frameworks); // good placement
+      })
+      .catch(async (e) => {
+        console.error('[FW] building frameworks failed:', e);
+        if (!this.frameworks?.length) {
+          await this.restoreFrameworksFromCacheIfAny();
+        }
+      });
+
     let completedRequests = 0;
     const totalRequests = activityIds.length;
 
@@ -743,7 +846,8 @@ enrollTree: any[] = [];
               originalFrameworkId: contentData.identifier,
               levels: levels
             };
-            this.frameworks.push(frameworkData);
+            // this.frameworks.push(frameworkData);
+            this.pushFrameworkUnique(frameworkData);
           });
         } else {
           // No enrollments found - create default entry without progress
@@ -756,7 +860,8 @@ enrollTree: any[] = [];
             batchName: 'No Enrollment',
             levels: levels
           };
-          this.frameworks.push(frameworkData);
+          // this.frameworks.push(frameworkData);
+          this.pushFrameworkUnique(frameworkData);
         }
       }
 
@@ -1022,7 +1127,13 @@ onDownloadItem(ev: Event, item: any, kind: 'framework' | 'level' | 'course') {
     }
   }
 
-
+private pushFrameworkUnique(fw: { frameworkId: string } & any) {
+  if (this.frameworkSeen.has(fw.frameworkId)) {
+    return;                         // already added -> skip
+  }
+  this.frameworks.push(fw);
+  this.frameworkSeen.add(fw.frameworkId);
+}
   private createRequest(method: string, url: string) {
     return new CsRequest.Builder()
         // .withHost('https://dev.maharat.fmps.ma')
