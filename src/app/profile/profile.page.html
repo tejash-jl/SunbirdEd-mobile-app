@@ -113,60 +113,53 @@
         </div>
     </div> -->
 
-    <ion-card class="full-card enroll-card">
+   
+
+    <!-- Show this section ONLY if there are enrollments -->
+    <ion-card class="full-card enroll-card" *ngIf="(frameworks?.length ?? 0) > 0">
         <ion-card-header>
             <ion-card-title class="Competency-info">
                 {{ 'COMPETENCY_FRAMEWORKS' | translate }}
             </ion-card-title>
         </ion-card-header>
-    
+
         <ion-card-content>
-            <ion-accordion-group *ngIf="frameworks?.length; else emptyState">
-    
+            <ion-accordion-group>
                 <!-- Frameworks -->
                 <ion-accordion *ngFor="let fw of frameworks; let fi = index" [value]="fi">
                     <!-- Framework header (vertical stack) -->
                     <ion-item slot="header" class="enroll-item stack-card">
                         <div class="stack">
-                            <!-- frameworkName -->
                             <h2 class="title-clip ion-no-margin">{{ fw?.frameworkName }}</h2>
-    
-                            <!-- completion -->
+
                             <div>
                                 <div class="pct">{{ (fw?.completion ?? 0) }}%</div>
                                 <ion-progress-bar [value]="(fw?.completion || 0) / 100"></ion-progress-bar>
                             </div>
-    
-                            <!-- download button (always enabled) -->
+
                             <ion-button class="download-btn" fill="outline" size="small"
                                 (click)="onDownloadItem('framework', fw)">
                                 <ion-icon name="download-outline" slot="start"></ion-icon>
                                 Download the badge
                             </ion-button>
-    
-                            <!-- batchName -->
+
                             <ion-chip class="batch-chip" *ngIf="fw?.batchName">{{ fw?.batchName }}</ion-chip>
                         </div>
                     </ion-item>
-    
+
                     <!-- Levels -->
                     <div slot="content" class="fw-content">
                         <ion-accordion-group *ngIf="fw?.levels?.length">
-    
                             <ion-accordion *ngFor="let lvl of fw.levels; let li = index" [value]="fi + '-' + li">
-                                <!-- Level header (vertical) -->
                                 <ion-item slot="header" class="enroll-item stack-card level">
                                     <div class="stack">
-                                        <!-- levelName -->
                                         <strong class="title-clip">{{ lvl?.levelName }}</strong>
-    
-                                        <!-- completion -->
+
                                         <div>
                                             <div class="pct">{{ (lvl?.completion ?? 0) }}%</div>
                                             <ion-progress-bar [value]="(lvl?.completion || 0) / 100"></ion-progress-bar>
                                         </div>
-    
-                                        <!-- download button (always enabled) -->
+
                                         <ion-button class="download-btn" fill="outline" size="small"
                                             (click)="onDownloadItem('level', lvl)">
                                             <ion-icon name="download-outline" slot="start"></ion-icon>
@@ -174,21 +167,17 @@
                                         </ion-button>
                                     </div>
                                 </ion-item>
-    
-                                <!-- Courses (vertical rows) -->
+
                                 <ion-list slot="content" class="course-list">
                                     <ion-item *ngFor="let c of lvl?.courses" class="enroll-item stack-card course">
                                         <div class="stack" style="width:100%">
-                                            <!-- courseName -->
                                             <h3 class="title-clip ion-no-margin">{{ c?.courseName }}</h3>
-    
-                                            <!-- completion -->
+
                                             <div>
                                                 <div class="pct">{{ (c?.completion ?? 0) }}%</div>
                                                 <ion-progress-bar [value]="(c?.completion || 0) / 100"></ion-progress-bar>
                                             </div>
-    
-                                            <!-- download button (always enabled) -->
+
                                             <ion-button class="download-btn" fill="outline" size="small"
                                                 (click)="onDownloadItem('course', c)">
                                                 <ion-icon name="download-outline" slot="start"></ion-icon>
@@ -198,22 +187,12 @@
                                     </ion-item>
                                 </ion-list>
                             </ion-accordion>
-    
                         </ion-accordion-group>
                     </div>
                 </ion-accordion>
-    
             </ion-accordion-group>
-    
-            <ng-template #emptyState>
-                <ion-item lines="none">
-                    <ion-label color="medium">No enrollments found.</ion-label>
-                </ion-item>
-            </ng-template>
         </ion-card-content>
     </ion-card>
-
-
 
 
 
