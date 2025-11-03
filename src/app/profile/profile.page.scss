@@ -500,6 +500,159 @@
   }
 
 }
+
+
 .project-submitted{
   color : var(--app-green) !important;
 }
+
+
+
+.enroll-card {
+  /* ---- spacing tokens ---- */
+  --card-padding-x: 14px;
+  --card-padding-y: 14px;
+  --card-gap: 10px;
+  --card-margin-x: 12px;
+  --card-margin-y: 10px;
+  --card-radius: 12px;
+  --progress-height: 8px;
+
+  /* reset ion paddings for rows used as headers/content */
+  .enroll-item {
+    --inner-padding-start: 0;
+    --inner-padding-end: 0;
+    --padding-start: 0;
+    --padding-end: 0;
+    --background: transparent;
+    background: transparent;
+  }
+
+  /* ensure content inside accordion is flush */
+  .fw-content,
+  ion-list[slot='content'],
+  ion-item[slot='content'] {
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+    --inner-padding-start: 0;
+    --inner-padding-end: 0;
+  }
+
+  /* unified “card within card” block used for framework/level/course rows */
+  .stack-card {
+    margin: var(--card-margin-y) var(--card-margin-x);
+    border-radius: var(--card-radius);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .06);
+    --background: var(--ion-card-background, var(--ion-item-background, transparent));
+    width: 100%;
+
+    /* make ion-item behave like a simple container */
+    --padding-top: var(--card-padding-y);
+    --padding-bottom: var(--card-padding-y);
+    --padding-start: var(--card-padding-x);
+    --padding-end: var(--card-padding-x);
+    --inner-padding-start: var(--card-padding-x);
+    --inner-padding-end: var(--card-padding-x);
+
+    ion-grid {
+      padding: 0;
+    }
+  }
+
+  /* variants used for nested rows (avoid extra background) */
+  .stack-card.level,
+  .stack-card.course {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .04);
+    --background: transparent;
+    background: transparent;
+  }
+
+  /* vertical stacking helper */
+  .stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--card-gap);
+    width: 100%;
+  }
+
+  /* text clamp + tidy headings */
+  .title-clip,
+  h2,
+  h3,
+  strong {
+    margin: 0;
+    line-height: 1.25;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+  }
+
+  .pct {
+    font-size: 13px;
+    opacity: 0.9;
+    margin-bottom: 6px;
+  }
+
+  ion-progress-bar {
+    width: 100%;
+    height: var(--progress-height);
+    border-radius: 6px;
+    --background: var(--ion-color-light);
+    --progress-background: var(--ion-color-primary);
+  }
+
+  .download-btn {
+    align-self: flex-start;
+    /* keep button left-aligned in the vertical stack */
+    margin: 0;
+  }
+
+  .batch-chip {
+    align-self: flex-start;
+    margin: 0;
+    max-width: 100%;
+  }
+
+  .course-list ion-item+ion-item {
+    margin-top: var(--card-margin-y);
+  }
+
+  /* make accordions look tight */
+  ion-accordion-group {
+    --transition-duration: 180ms;
+  }
+
+  ion-accordion {
+    --ion-item-background: transparent;
+    background: transparent;
+
+    /* remove default bottom borders that can appear on items */
+    ion-item {
+      --border-color: transparent;
+      --inner-border-width: 0;
+    }
+  }
+
+  /* card heading */
+  .Competency-info {
+    font-weight: 600;
+  }
+
+  /* mobile tweaks */
+  @media (max-width: 480px) {
+    --card-radius: 10px;
+    --progress-height: 6px;
+  }
+
+  /* dark mode */
+  @media (prefers-color-scheme: dark) {
+    .stack-card {
+      box-shadow: none;
+      border: 1px solid rgba(255, 255, 255, .06);
+    }
+  }
+}
+

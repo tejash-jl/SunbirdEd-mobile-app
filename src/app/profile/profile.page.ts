@@ -1,96 +1,89 @@
-import { Component, NgZone, OnInit, Inject, ViewChild } from '@angular/core';
-import {
-  PopoverController,
-  ToastController,
-  IonRefresher,
-  Platform,
-} from '@ionic/angular';
-import { Events } from '../../util/events';
+import {Component, Inject, NgZone, OnInit, ViewChild} from '@angular/core';
+import {IonRefresher, Platform, PopoverController, ToastController,} from '@ionic/angular';
+import {Events} from '../../util/events';
 import {
   ContentCard,
-  ProfileConstants,
-  RouterLinks,
   ContentFilterConfig,
   EventTopics,
   OTPTemplates,
+  ProfileConstants,
+  RouterLinks,
   SystemSettingsIds
 } from '../../app/app.constant';
-import { FormAndFrameworkUtilService } from '../../services/formandframeworkutil.service';
-import { AppGlobalService } from '../../services/app-global-service.service';
-import { CommonUtilService } from '../../services/common-util.service';
-import { TelemetryGeneratorService } from '../../services/telemetry-generator.service';
-import { AppHeaderService } from '../../services/app-header.service';
+import {FormAndFrameworkUtilService} from '../../services/formandframeworkutil.service';
+import {AppGlobalService} from '../../services/app-global-service.service';
+import {CommonUtilService} from '../../services/common-util.service';
+import {TelemetryGeneratorService} from '../../services/telemetry-generator.service';
+import {AppHeaderService} from '../../services/app-header.service';
 import {
+  ApiService,
   AuthService,
+  Batch,
+  CachedItemRequestSourceFrom,
+  CertificateAlreadyDownloaded,
+  CertificateService,
   ContentSearchCriteria,
   ContentSearchResult,
   ContentService,
   ContentSortCriteria,
   Course,
-  CourseService,
-  OAuthSession,
-  ProfileService,
-  SearchType,
-  ServerProfileDetailsRequest,
-  SortOrder,
-  TelemetryObject,
-  UpdateServerProfileInfoRequest,
-  CachedItemRequestSourceFrom,
   CourseCertificate,
-  CertificateAlreadyDownloaded,
-  NetworkError,
-  FormService,
-  FrameworkService,
-  ProfileType,
-  Batch,
-  GetLearnerCerificateRequest,
-  GenerateOtpRequest,
-  CertificateService,
+  CourseService,
   CSGetLearnerCerificateRequest,
   CsLearnerCertificate,
+  FormService,
   Framework,
   FrameworkCategoryCodesGroup,
   FrameworkDetailsRequest,
+  FrameworkService,
+  GenerateOtpRequest,
+  GetLearnerCerificateRequest,
+  GetSystemSettingsRequest,
+  NetworkError,
+  OAuthSession,
   OrganizationSearchCriteria,
+  ProfileService,
+  ProfileType,
+  SearchType,
+  ServerProfileDetailsRequest,
+  SortOrder,
   SystemSettingsService,
-  GetSystemSettingsRequest
+  TelemetryObject,
+  UpdateServerProfileInfoRequest
 } from '@project-fmps/sunbird-sdk';
-import { Environment, InteractSubtype, InteractType, PageId, ID } from '../../services/telemetry-constants';
-import { Router } from '@angular/router';
-import { EditContactVerifyPopupComponent } from '../../app/components/popups/edit-contact-verify-popup/edit-contact-verify-popup.component';
+import {Environment, ID, InteractSubtype, InteractType, PageId} from '../../services/telemetry-constants';
+import {Router} from '@angular/router';
+import {EditContactVerifyPopupComponent} from '../../app/components/popups/edit-contact-verify-popup/edit-contact-verify-popup.component';
 import {
   EditContactDetailsPopupComponent
 } from '../../app/components/popups/edit-contact-details-popup/edit-contact-details-popup.component';
-import {
-  AccountRecoveryInfoComponent
-} from '../components/popups/account-recovery-id/account-recovery-id-popup.component';
-import { Share } from '@capacitor/share';
-import { AndroidPermissionsService } from '../../services/android-permissions/android-permissions.service';
-import {
-  AndroidPermissionsStatus,
-  AndroidPermission
-} from '../../services/android-permissions/android-permission';
-import { App } from '@capacitor/app';
-import { SbProgressLoader } from '../../services/sb-progress-loader.service';
-import { FileOpener } from '@capacitor-community/file-opener';
-import { TranslateService } from '@ngx-translate/core';
-import { FieldConfig } from 'common-form-elements';
-import { CertificateDownloadAsPdfService } from "@project-sunbird/sb-svg2pdf";
-import { NavigationService } from '../../services/navigation-handler.service';
-import { ContentUtil } from '../../util/content-util';
-import { CsPrimaryCategory } from '@project-sunbird/client-services/services/content';
-import { FormConstants } from '../form.constants';
-import { ProfileHandler } from '../../services/profile-handler';
-import { SegmentationTagService, TagPrefixConstants } from '../../services/segmentation-tag/segmentation-tag.service';
-import { FrameworkCategory } from '@project-sunbird/client-services/models/channel';
-import { LocationHandler } from '../../services/location-handler';
-// TODO: Capacitor temp fix 
+import {AccountRecoveryInfoComponent} from '../components/popups/account-recovery-id/account-recovery-id-popup.component';
+import {Share} from '@capacitor/share';
+import {AndroidPermissionsService} from '../../services/android-permissions/android-permissions.service';
+import {AndroidPermission, AndroidPermissionsStatus} from '../../services/android-permissions/android-permission';
+import {App} from '@capacitor/app';
+import {SbProgressLoader} from '../../services/sb-progress-loader.service';
+import {FileOpener} from '@capacitor-community/file-opener';
+import {TranslateService} from '@ngx-translate/core';
+import {FieldConfig} from 'common-form-elements';
+import {CertificateDownloadAsPdfService} from '@project-sunbird/sb-svg2pdf';
+import {NavigationService} from '../../services/navigation-handler.service';
+import {ContentUtil} from '../../util/content-util';
+import {CsPrimaryCategory} from '@project-sunbird/client-services/services/content';
+import {FormConstants} from '../form.constants';
+import {ProfileHandler} from '../../services/profile-handler';
+import {SegmentationTagService, TagPrefixConstants} from '../../services/segmentation-tag/segmentation-tag.service';
+import {FrameworkCategory} from '@project-sunbird/client-services/models/channel';
+import {LocationHandler} from '../../services/location-handler';
+// TODO: Capacitor temp fix
 // import { urlConstants } from '../manage-learn/core/constants/urlConstants';
 // import { UnnatiDataService } from '../manage-learn/core/services/unnati-data.service';
 // import { statusType } from '../manage-learn/core';
-import { UtilityService } from '../../services/utility-service';
-import { LogoutHandlerService } from '../../services/handlers/logout-handler.service';
-import { DeleteUserRequest } from '@project-fmps/sunbird-sdk/profile/def/delete-user-request';
+import {UtilityService} from '../../services/utility-service';
+import {LogoutHandlerService} from '../../services/handlers/logout-handler.service';
+import {DeleteUserRequest} from '@project-fmps/sunbird-sdk/profile/def/delete-user-request';
+import {CsRequest} from '@project-sunbird/client-services/core/http-service';
+import { Preferences } from '@capacitor/preferences';
 
 
 @Component({
@@ -438,9 +431,25 @@ export class ProfilePage implements OnInit {
     return isNaN(n) ? 0 : n / 100;
   }
 
-  onDownload(course: Course) {
-    // plug into your existing download flow here
-    // console.log('Download clicked for:', course.course);
+  // onDownload(course: Course) {
+  //   // plug into your existing download flow here
+  //   // console.log('Download clicked for:', course.course);
+  // }
+  
+  onDownload(ev: Event, url?: string) {
+    ev.preventDefault();
+    ev.stopPropagation();
+
+    if (!url) {
+      console.warn('No downloadUrl provided');
+      return;
+    }
+
+    // Web approach: open in new tab. If server sets Content-Disposition, it triggers download.
+    window.open(url, '_blank', 'noopener,noreferrer');
+
+    // Capacitor alternative (if you want in-app open):
+    // Browser.open({ url }); // import { Browser } from '@capacitor/browser';
   }
 
   @ViewChild('refresher', { static: false }) refresher: IonRefresher;
@@ -466,8 +475,8 @@ export class ProfilePage implements OnInit {
   subjectList = [];
   profileConfig: any = [];
   loader?: HTMLIonLoadingElement;
-
-
+enrollTree: any[] = [];
+ 
   imageUri = 'assets/imgs/ic_profile_default.png';
 
   readonly DEFAULT_PAGINATION_LIMIT = 3;
@@ -522,6 +531,7 @@ export class ProfilePage implements OnInit {
   constructor(
     @Inject('PROFILE_SERVICE') private profileService: ProfileService,
     @Inject('AUTH_SERVICE') private authService: AuthService,
+    @Inject('API_SERVICE') private apiService: ApiService,
     @Inject('CONTENT_SERVICE') private contentService: ContentService,
     @Inject('COURSE_SERVICE') private courseService: CourseService,
     @Inject('FORM_SERVICE') private formService: FormService,
@@ -589,10 +599,550 @@ export class ProfilePage implements OnInit {
     });
 
   }
+  // STEP 2: offline cache helpers for this.frameworks
+
+  private FW_CACHE_KEY(): string {
+    // keep cache per logged-in user
+    const uid = this.profile?.userId || this.profile?.id || this.loggedInUserId || 'anon';
+    return `fw_cache_${uid}`;
+  }
+
+  private async saveFrameworksCache(data: any[]): Promise<void> {
+    try {
+      await Preferences.set({
+        key: this.FW_CACHE_KEY(),
+        value: JSON.stringify({ savedAt: Date.now(), frameworks: data || [] })
+      });
+    } catch (e) {
+      console.warn('[FW] cache save failed', e);
+    }
+  }
+
+  private async loadFrameworksCache(): Promise<any[] | null> {
+    try {
+      const { value } = await Preferences.get({ key: this.FW_CACHE_KEY() });
+      if (!value) return null;
+      const parsed = JSON.parse(value);
+      return Array.isArray(parsed?.frameworks) ? parsed.frameworks : null;
+    } catch (e) {
+      console.warn('[FW] cache read failed', e);
+      return null;
+    }
+  }
+
+  private async restoreFrameworksFromCacheIfAny(): Promise<boolean> {
+    // const cached = await this.loadFrameworksCache();
+    // if (cached && cached.length) {
+    //   this.frameworks = cached;
+    //   return true;
+    // }
+    // return false;
+    const cached = await this.loadFrameworksCache();
+    if (cached && cached.length) {
+      this.frameworks = cached;
+      this.frameworkSeen = new Set(cached.map(f => f.frameworkId)); // <— ADD THIS
+      return true;
+    }
+    return false;
+  }
 
   async ngOnInit() {
+    await this.restoreFrameworksFromCacheIfAny();
+
     await this.doRefresh();
     this.appName = await (await App.getInfo()).name;
+    this.fetchUserEnrollments();
+  }
+
+  userEnrollmentData = [];
+  userCourseEnrollments = [];
+  frameworks = [];
+  private frameworkSeen = new Set<string>();
+  fetchUserEnrollments(): void {
+    // STEP 4: if offline, use cache and exit
+    if (!this.commonUtilService?.networkInfo?.isNetworkAvailable) {
+      this.restoreFrameworksFromCacheIfAny();
+      return;
+    }
+    debugger
+    const enrollReq = this.createRequest('POST', '/api/activity/v1/user/enrollment/list');
+
+    this.apiService.fetch(enrollReq).subscribe(
+      (response: any) => {
+        this.userEnrollmentData = response?.body.result?.response?.enrollments || [];
+
+        this.processCompetencyFrameworks();
+      },
+      (error: any) => {
+        console.error('Error fetching content data:', error);
+        // this.toasterService.error(this.resourceService.frmelmnts?.lbl?.failedToFetchFrameworkData || "Failed to fetch batches");
+      }
+    );
+  }
+  processCompetencyFrameworks(): void {
+    // const competencyEnrollments = this.userEnrollmentData.filter(enrollment =>
+    //     enrollment.activitytype === 'Competency Framework'
+    // );
+
+    // if (competencyEnrollments.length === 0) {
+    //   this.frameworks = [];
+    //    console.log(this.frameworks+"this.frameworks")
+    //   return;
+    // }
+    // const activityIds = [...new Set(competencyEnrollments.map(enrollment => enrollment.activityid))] as string[];
+    // this.frameworks = [];
+    // console.log(this.frameworks+"this.frameworks")
+
+    // this.fetchMultipleContentData(activityIds, competencyEnrollments);
+    const competencyEnrollments = this.userEnrollmentData
+      .filter(e => e.activitytype === 'Competency Framework');
+
+    if (!competencyEnrollments.length) {
+      this.frameworks = [];
+      this.frameworkSeen.clear();     // <— keep Set in sync when empty
+      return;
+    }
+
+    // ✅ CLEAR HERE (single source of truth for clearing before rebuild)
+    this.frameworks = [];
+    this.frameworkSeen.clear();       // <— ADD THIS
+
+    const activityIds = [...new Set(
+      competencyEnrollments.map(e => e.activityid)
+    )] as string[];
+
+    this.fetchMultipleContentData(activityIds, competencyEnrollments);
+  }
+
+  fetchMultipleContentData(activityIds: string[], frameworkEnrollments: any[]): void {
+    // STEP 5: wait for all child calls, then cache frameworks
+    const tasks = activityIds.map((activityId) =>
+      new Promise<void>((resolve) => {
+        this.fetchSingleContentData(activityId, frameworkEnrollments, () => resolve());
+      })
+    );
+
+    // Promise.all(tasks)
+    //   .then(async () => {
+    //     // optional: sort if you want stable order
+    //     // this.frameworks.sort((a, b) => a.frameworkName.localeCompare(b.frameworkName));
+    //     await this.saveFrameworksCache(this.frameworks);
+    //   })
+    //   .catch(async (e) => {
+    //     console.error('[FW] building frameworks failed:', e);
+    //     if (!this.frameworks?.length) {
+    //       await this.restoreFrameworksFromCacheIfAny();
+    //     }
+    //   });
+    Promise.all(tasks)
+      .then(async () => {
+        await this.saveFrameworksCache(this.frameworks); // good placement
+      })
+      .catch(async (e) => {
+        console.error('[FW] building frameworks failed:', e);
+        if (!this.frameworks?.length) {
+          await this.restoreFrameworksFromCacheIfAny();
+        }
+      });
+
+    let completedRequests = 0;
+    const totalRequests = activityIds.length;
+
+    activityIds.forEach(activityId => {
+      this.fetchSingleContentData(activityId, frameworkEnrollments, () => {
+        completedRequests++;
+      });
+    });
+  }
+
+  fetchSingleContentData(contentId: string, frameworkEnrollments: any[], onComplete?: () => void): void {
+    const hierarchyOptions = this.createRequest('GET', `/action/content/v3/hierarchy/${contentId}`);
+    const batchOptions = this.createRequest('GET', `/api/activity/v1/batch/list/${contentId}`);
+
+    Promise.all([
+        this.apiService.fetch(hierarchyOptions).toPromise(),
+        this.apiService.fetch(batchOptions).toPromise()
+    ]).then(([hierarchyResponse, batchResponse]) => {
+      const contentData = hierarchyResponse?.body.result?.content;
+      const batchList = batchResponse?.body.result?.response || [];
+      if (contentData) {
+        const frameworkSpecificEnrollments = frameworkEnrollments.filter(enrollment =>
+            enrollment.activityid === contentData.identifier
+        );
+        const allFrameworkEnrollments = frameworkSpecificEnrollments.filter(enrollment =>
+            enrollment.activityid === contentData.identifier
+        );
+        if (allFrameworkEnrollments.length > 0) {
+          allFrameworkEnrollments.forEach((enrollment, index) => {
+            const frameworkProgress = enrollment.progress || 0;
+            let batchInfo = 'Default Batch';
+            const enrollmentBatchId = enrollment.batchId;
+            let batchName = 'Unknown Batch';
+            let batchDate = '';
+            const matchingBatch = batchList.find(batch => batch.batchId === enrollmentBatchId);
+            if (matchingBatch) {
+              batchName = matchingBatch.name || matchingBatch.batchName || 'Unknown Batch';
+              const rawDate = matchingBatch.startDate || matchingBatch.createdDate || '';
+              if (rawDate) {
+                try {
+                  const dateObj = new Date(rawDate);
+                  if (!isNaN(dateObj.getTime())) {
+
+                    batchDate = dateObj.toISOString().split('T')[0];
+                  } else {
+                    batchDate = rawDate;
+                  }
+                } catch (error) {
+                  batchDate = rawDate;
+                }
+              }
+            } else {
+              if (contentData.children) {
+                contentData.children.forEach(level => {
+                  if (level.children) {
+                    level.children.forEach(course => {
+                      if (course.batches && course.batches.length > 0) {
+                        const hierarchyBatch = course.batches.find(batch => batch.batchId === enrollmentBatchId);
+                        if (hierarchyBatch) {
+                          batchName = hierarchyBatch.name || batchName;
+                          const rawDate = hierarchyBatch.startDate || '';
+                          if (rawDate) {
+                            try {
+                              const dateObj = new Date(rawDate);
+                              if (!isNaN(dateObj.getTime())) {
+                                batchDate = dateObj.toISOString().split('T')[0];
+                              } else {
+                                batchDate = rawDate;
+                              }
+                            } catch (error) {
+                              console.log('Error formatting hierarchy date:', error);
+                              batchDate = rawDate;
+                            }
+                          }
+                        }
+                      }
+                    });
+                  }
+                });
+              }
+            }
+            if (batchDate) {
+              batchInfo = `${batchName}_${batchDate}`;
+            } else {
+              batchInfo = batchName;
+            }
+            const batchRelatedEnrollments = this.userEnrollmentData.filter(e =>
+                e.batchId === enrollment.batchId || e.batchId?.startsWith(enrollment.batchId + ':')
+            );
+            const levels = this.processLevelsFromContent(contentData.children || [], batchRelatedEnrollments);
+            const frameworkCompletion = frameworkProgress > 0 ? frameworkProgress : this.calculateFrameworkCompletion(levels);
+            const frameworkData = {
+              frameworkId: `${contentData.identifier}_${enrollment.batchId}`,
+              frameworkName: `${contentData.name}`,
+              completion: frameworkCompletion,
+              downloadable: true,
+              batchName: batchInfo,
+              batchId: enrollment.batchId,
+              originalFrameworkId: contentData.identifier,
+              levels: levels
+            };
+            // this.frameworks.push(frameworkData);
+            this.pushFrameworkUnique(frameworkData);
+          });
+        } else {
+          // No enrollments found - create default entry without progress
+          const levels = this.processLevelsFromContent(contentData.children || [], this.userEnrollmentData);
+          const frameworkData = {
+            frameworkId: contentData.identifier,
+            frameworkName: contentData.name,
+            completion: 0,
+            downloadable: true,
+            batchName: 'No Enrollment',
+            levels: levels
+          };
+          // this.frameworks.push(frameworkData);
+          this.pushFrameworkUnique(frameworkData);
+        }
+      }
+
+      if (onComplete) {
+        onComplete();
+      }
+    }).catch((error: any) => {
+      console.error('Error fetching content or batch data for ID:', contentId, error);
+      // this.toasterService.error(this.resourceService.frmelmnts?.lbl?.failedToFetchFrameworkData || "Failed to fetch framework data");
+
+      if (onComplete) {
+        onComplete();
+      }
+    });
+  }
+onDownloadItem(ev: Event, item: any, kind: 'framework' | 'level' | 'course') {
+  // prevent accordion toggle when clicking button
+  ev.preventDefault();
+  ev.stopPropagation();
+
+  console.log('[Download clicked]', { kind, item });
+
+  return null; // nothing else happens
+}
+  processLevelsFromContent(children: any[], enrollments: any[]): any[] {
+    const levels = children.filter(child => child.primaryCategory === "Competency Level");
+    return levels.map(level => {
+      const levelEnrollment = this.findEnrollmentByBatchPattern(enrollments, level.identifier, 'Competency Level');
+      let levelProgress = 0;
+      if (levelEnrollment) {
+        levelProgress = levelEnrollment.progress || 0;
+      }
+      const courses = this.processCoursesFromLevel(level.children || [], enrollments);
+      const levelCompletion = levelProgress > 0 ? levelProgress : this.calculateLevelCompletion(courses);
+
+      const levelData = {
+        levelId: level.identifier,
+        levelName: level.name,
+        completion: levelCompletion,
+        downloadable: true,
+        courses: courses
+      };
+      return levelData;
+    });
+  }
+
+  processCoursesFromLevel(levelChildren: any[], enrollments: any[]): any[] {
+    const allCourses = [];
+    const courses = levelChildren.filter(child => child.primaryCategory === "Course");
+    courses.forEach(course => {
+      let completion = 0;
+      const courseEnrollmentFromLearner = this.userCourseEnrollments.find(enrollment =>
+          enrollment.contentId === course.identifier || enrollment.courseId === course.identifier
+      );
+
+      if (courseEnrollmentFromLearner) {
+        completion = courseEnrollmentFromLearner.completionPercentage || courseEnrollmentFromLearner.progress || 0;
+      } else {
+        const courseEnrollment = enrollments.find(enrollment => {
+          const isDirectMatch = enrollment.activityid === course.identifier;
+          const isBatchMatch = enrollment.batchId && enrollment.batchId.includes(course.identifier);
+
+          const match = isDirectMatch || isBatchMatch;
+          return match;
+        });
+
+        if (courseEnrollment) {
+          completion = courseEnrollment.progress || courseEnrollment.completionPercentage || courseEnrollment.completion || 0;
+        } else {
+          if (course.batches && course.batches.length > 0) {
+            const batchEnrollment = enrollments.find(enrollment => {
+              return course.batches.some(batch => enrollment.batchId === batch.batchId);
+            });
+
+            if (batchEnrollment) {
+              completion = batchEnrollment.progress || batchEnrollment.completionPercentage || batchEnrollment.completion || 0;
+            }
+          }
+        }
+      }
+
+      const courseData = {
+        courseId: course.identifier,
+        courseName: course.name,
+        completion: completion,
+        downloadable: true
+      };
+      allCourses.push(courseData);
+    });
+    return allCourses;
+  }
+
+  calculateFrameworkCompletion(levels: any[]): number {
+    if (!levels || levels.length === 0) return 0;
+
+    const totalCompletion = levels.reduce((sum, level) => sum + level.completion, 0);
+    return Math.round(totalCompletion / levels.length);
+  }
+
+  calculateLevelCompletion(courses: any[]): number {
+    if (!courses || courses.length === 0) return 0;
+
+    const totalCompletion = courses.reduce((sum, course) => sum + course.completion, 0);
+    return Math.round(totalCompletion / courses.length);
+  }
+
+  /**
+   * Helper method to find enrollment by batch ID patterns
+   * Handles both simple batchIds and compound batchIds like "frameworkBatchId:activityId"
+   */
+  findEnrollmentByBatchPattern(enrollments: any[], activityId: string, activityType: string): any {
+    return enrollments.find(enrollment => {
+      if (enrollment.activitytype !== activityType) {
+        return false;
+      }
+
+      // Direct activity ID match
+      if (enrollment.activityid === activityId) {
+        return true;
+      }
+
+      // Check if batchId contains the activity ID (for compound batch IDs)
+      if (enrollment.batchId && enrollment.batchId.includes(activityId)) {
+        return true;
+      }
+
+      return false;
+    });
+  }
+
+  async enrollementList(): Promise<void> {
+    // 1) First API: enrollments
+    const enrollReq = this.createRequest('POST', '/api/activity/v1/user/enrollment/list');
+
+    try {
+      const enrollRes: any = await this.apiService.fetch(enrollReq).toPromise();
+      const enrollments: any[] = enrollRes?.body?.result?.response?.enrollments ?? [];
+      console.log('first api response:', enrollments);
+
+      // Map progress by activity id (percentage assumed as 0-100 or 0-1; using raw value)
+      const progressById = new Map<string, number>();
+      for (const e of enrollments) {
+        if (e?.activityid != null) progressById.set(e.activityid, Number(e.progress ?? 0));
+      }
+
+      // Unique activity IDs to call hierarchy API
+      const activityIds: string[] = Array.from(
+        new Set(
+          enrollments.map((e: any) => e?.activityid).filter((id: any) => typeof id === 'string' && id.length > 0)
+        )
+      );
+      if (!activityIds.length) {
+        console.log('No activity IDs found.');
+        this.enrollTree = [];
+        return;
+      }
+
+      // 2) Second API for each id, then build rows
+      const calls = activityIds.map(async (id) => {
+        const req = new CsRequest.Builder()
+          .withHost('https://dev.maharat.fmps.ma')
+          .withType('GET')
+          .withPath(`/action/content/v3/hierarchy/${encodeURIComponent(id)}`)
+          .withBearerToken(true)
+          .withUserToken(true)
+          .build();
+
+        try {
+          const res: any = await this.apiService.fetch(req).toPromise();
+          const content = res?.body?.result?.content;
+          if (!content) return null;
+
+          // We only build the 3-level display when this node is a Framework (as per your spec)
+          const isFramework = (content.primaryCategory === 'Competency Framework') || (content.contentType === 'Resource' && content.name);
+          if (!isFramework) return null;
+
+          // Helper: date "YYYY-MM-DD" from createdOn
+          const toYMD = (iso: string) => {
+            // "2025-09-29T07:04:33.578+0000" → "2025-09-29"
+            if (!iso || typeof iso !== 'string') return '';
+            return iso.substring(0, 10);
+          };
+
+          // Parent row (Framework)
+          const parentId: string = content.identifier;
+          const parentName: string = content.name;
+          const parentCreatedOn: string = content.createdOn;
+          const parentDownload: string = content.downloadUrl || '';
+          const parentProgress: number = progressById.get(parentId) ?? 0;
+          const batchName = parentName && parentCreatedOn ? `${parentName}_${toYMD(parentCreatedOn)}` : '';
+
+          const parentRow = {
+            Framework: parentName,                       // column 1
+            Completion: parentProgress,                  // column 2 (percentage from first API, matched by identifier)
+            Actions: { downloadUrl: parentDownload },    // column 3
+            Batch: batchName,                            // column 4 (name_date)
+            children: [] as any[],
+          };
+
+          // Child Level (e.g., "L1")
+          const levelNode = Array.isArray(content.children)
+            ? content.children.find((c: any) =>
+              (c.primaryCategory === 'Competency Level') || (c.name && c.identifier && c.contentType === 'Collection')
+            )
+            : null;
+
+          if (levelNode) {
+            const levelId: string = levelNode.identifier;
+            const levelName: string = levelNode.name;
+            const levelDownload: string = levelNode.downloadUrl || '';
+            const levelProgress: number = progressById.get(levelId) ?? 0;
+
+            const levelRow = {
+              Framework: levelName,
+              Completion: levelProgress,
+              Actions: { downloadUrl: levelDownload },
+              Batch: '', // not requested for level; keep blank or compute if needed
+              children: [] as any[],
+            };
+
+            // Grandchild Course (e.g., "Course (E139)")
+            const courseNode = Array.isArray(levelNode.children)
+              ? levelNode.children.find((c: any) =>
+                (c.primaryCategory === 'Course' || c.contentType === 'Course') && c.name && c.identifier
+              )
+              : null;
+
+            if (courseNode) {
+              const courseId: string = courseNode.identifier;
+              const courseName: string = courseNode.name;
+              const courseDownload: string = courseNode.downloadUrl || '';
+              const courseProgress: number = progressById.get(courseId) ?? 0;
+
+              const courseRow = {
+                Framework: courseName,
+                Completion: courseProgress,
+                Actions: { downloadUrl: courseDownload },
+                Batch: '',
+              };
+
+              levelRow.children.push(courseRow);
+            }
+
+            parentRow.children.push(levelRow);
+          }
+
+          return parentRow;
+        } catch (err) {
+          console.error(`Hierarchy fetch failed for ${id}:`, err);
+          return null;
+        }
+      });
+
+      const built = await Promise.all(calls);
+      // Keep only non-null rows
+      this.enrollTree = built.filter(Boolean) as any[];
+
+      // PRINT final JSON
+      console.log('Final JSON:', JSON.stringify(this.enrollTree, null, 2));
+    } catch (e) {
+      console.error('Enrollment fetch failed:', e);
+      this.enrollTree = [];
+    }
+  }
+
+private pushFrameworkUnique(fw: { frameworkId: string } & any) {
+  if (this.frameworkSeen.has(fw.frameworkId)) {
+    return;                         // already added -> skip
+  }
+  this.frameworks.push(fw);
+  this.frameworkSeen.add(fw.frameworkId);
+}
+  private createRequest(method: string, url: string) {
+    return new CsRequest.Builder()
+        // .withHost('https://dev.maharat.fmps.ma')
+        .withType(method)
+        .withPath(url)
+        .withBearerToken(true)
+        .withUserToken(true)
+        .withBody({})
+        .build();
   }
 
   async ionViewWillEnter() {
@@ -641,7 +1191,9 @@ export class ProfilePage implements OnInit {
           await this.getEnrolledCourses(refresher);
           await this.searchContent();
           await this.getSelfDeclaredDetails();
+          await this.fetchUserEnrollments();
           this.getProjectsCertificate();
+          console.log('enrollTree in doRefresh', this.enrollTree);
         });
       })
       .catch(async error => {

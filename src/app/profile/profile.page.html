@@ -113,52 +113,77 @@
         </div>
     </div> -->
 
-    <!-- <ion-card class="full-card">
+   
+
+    <!-- Show this section ONLY if there are enrollments -->
+    <ion-card class="full-card enroll-card" *ngIf="(frameworks?.length ?? 0) > 0">
         <ion-card-header>
-            <ion-card-title class="Competency-info">{{'COMPETENCY_FRAMEWORKS' | translate}}</ion-card-title>
+            <ion-card-title class="Competency-info">
+                {{ 'COMPETENCY_FRAMEWORKS' | translate }}
+            </ion-card-title>
         </ion-card-header>
-    
-        <ion-card-content> 
+
+        <ion-card-content>
             <ion-accordion-group>
-                <ion-accordion *ngFor="let fw of competencyData.competencyFrameworks; let fi = index" [value]="fi">
-                    <ion-item slot="header">
-                        <ion-label>
-                            <h2>{{ fw.name }}</h2>
-                            <p>Batch: {{ fw.batchNumber }}</p>
-                        </ion-label>
-                        <ion-badge slot="end">{{ fw.percentage }}</ion-badge>
+                <!-- Frameworks -->
+                <ion-accordion *ngFor="let fw of frameworks; let fi = index" [value]="fi">
+                    <!-- Framework header (vertical stack) -->
+                    <ion-item slot="header" class="enroll-item stack-card">
+                        <div class="stack">
+                            <h2 class="title-clip ion-no-margin">{{ fw?.frameworkName }}</h2>
+
+                            <div>
+                                <div class="pct">{{ (fw?.completion ?? 0) }}%</div>
+                                <ion-progress-bar [value]="(fw?.completion || 0) / 100"></ion-progress-bar>
+                            </div>
+
+                            <ion-button class="download-btn" fill="outline" size="small"
+                                (click)="onDownloadItem('framework', fw)">
+                                <ion-icon name="download-outline" slot="start"></ion-icon>
+                                Download the badge
+                            </ion-button>
+
+                            <ion-chip class="batch-chip" *ngIf="fw?.batchName">{{ fw?.batchName }}</ion-chip>
+                        </div>
                     </ion-item>
-    
+
+                    <!-- Levels -->
                     <div slot="content" class="fw-content">
-                        <ion-accordion-group>
+                        <ion-accordion-group *ngIf="fw?.levels?.length">
                             <ion-accordion *ngFor="let lvl of fw.levels; let li = index" [value]="fi + '-' + li">
-                                <ion-item slot="header">
-                                    <ion-label>
-                                        <strong>{{ lvl.name }}</strong>
-                                        <p>{{ lvl.percentage }}</p>
-                                       
-                                    </ion-label>
-                                    <ion-button
-                                        fill="clear"
-                                        size="small"
-                                        slot="end"
-                                        (click)="$event.stopPropagation(); navigateToDownlaodCertificateView(lvl.certPayload)"
-                                    >
-                                        {{ lvl.action }}
-                                    </ion-button>
-                                    <ion-progress-bar style="width:160px"
-                                        [value]="toNum(lvl.percentage)"></ion-progress-bar>
-                                </ion-item>
-    
-                                <ion-list slot="content">
-                                    <ion-item *ngFor="let c of lvl.courses">
-                                        <ion-label>
-                                            <h3>{{ c.course }}</h3>
-                                            <p>Completion: {{ c.completion }}</p>
-                                        </ion-label>
-                                        <ion-button fill="clear" size="small" (click)="navigateToDownlaodCertificateView(c.certPayload)">
-                                            {{ c.action }}
+                                <ion-item slot="header" class="enroll-item stack-card level">
+                                    <div class="stack">
+                                        <strong class="title-clip">{{ lvl?.levelName }}</strong>
+
+                                        <div>
+                                            <div class="pct">{{ (lvl?.completion ?? 0) }}%</div>
+                                            <ion-progress-bar [value]="(lvl?.completion || 0) / 100"></ion-progress-bar>
+                                        </div>
+
+                                        <ion-button class="download-btn" fill="outline" size="small"
+                                            (click)="onDownloadItem('level', lvl)">
+                                            <ion-icon name="download-outline" slot="start"></ion-icon>
+                                            Download the badge
                                         </ion-button>
+                                    </div>
+                                </ion-item>
+
+                                <ion-list slot="content" class="course-list">
+                                    <ion-item *ngFor="let c of lvl?.courses" class="enroll-item stack-card course">
+                                        <div class="stack" style="width:100%">
+                                            <h3 class="title-clip ion-no-margin">{{ c?.courseName }}</h3>
+
+                                            <div>
+                                                <div class="pct">{{ (c?.completion ?? 0) }}%</div>
+                                                <ion-progress-bar [value]="(c?.completion || 0) / 100"></ion-progress-bar>
+                                            </div>
+
+                                            <ion-button class="download-btn" fill="outline" size="small"
+                                                (click)="onDownloadItem('course', c)">
+                                                <ion-icon name="download-outline" slot="start"></ion-icon>
+                                                Download the badge
+                                            </ion-button>
+                                        </div>
                                     </ion-item>
                                 </ion-list>
                             </ion-accordion>
@@ -167,7 +192,8 @@
                 </ion-accordion>
             </ion-accordion-group>
         </ion-card-content>
-    </ion-card> -->
+    </ion-card>
+
 
 
     <div class="self-declare-teacher-details" *ngIf="isCustodianOrgId &&  profile?.declarations?.length">
